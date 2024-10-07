@@ -7,6 +7,7 @@ import {
   Button,
   Container,
   FormControl,
+  Nav,
   Navbar,
 } from "react-bootstrap";
 import Calendar from "react-calendar";
@@ -15,7 +16,6 @@ import { FaBusinessTime } from "react-icons/fa";
 import AddUser from "./modals/AddUser";
 function App() {
   const [showAdd, setShowAdd] = useState(false);
-
   const handleCloseAdd = () => setShowAdd(false);
   const handleShowAdd = () => setShowAdd(true);
 
@@ -127,25 +127,6 @@ function App() {
       {elements && (
         <Container>
           <Button onClick={handleSave}>Save</Button>
-          <h1>Gestione Elementi</h1>
-          {/* Form per aggiungere un nuovo elemento */}
-          <FormControl
-            type="text"
-            placeholder="ID"
-            value={newElement.id}
-            onChange={(e) =>
-              setNewElement({ ...newElement, id: e.target.value })
-            }
-          />
-          <FormControl
-            type="text"
-            placeholder="Nome"
-            value={newElement.nome}
-            onChange={(e) =>
-              setNewElement({ ...newElement, nome: e.target.value })
-            }
-          />
-          <Button onClick={addElement}>Aggiungi Elemento</Button>
 
           <h2>Lista Elementi</h2>
 
@@ -155,9 +136,9 @@ function App() {
                 <Accordion.Header>{el.nome}</Accordion.Header>
                 <Accordion.Body className="d-flex">
                   <Calendar onChange={onChange} value={value} />
+                  <span> Ore Totali del Mese: 30</span>
                   <span>
-                    Ore Totali del Mese: Ore Totali Giustificate:{" "}
-                    {calculateTotalHours(el)}
+                    Ore Totali Giustificate: {calculateTotalHours(el)}
                   </span>
                 </Accordion.Body>
               </Accordion.Item>

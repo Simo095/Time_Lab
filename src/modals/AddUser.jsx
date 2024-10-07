@@ -1,4 +1,4 @@
-import { Modal } from "react-bootstrap";
+import { Button, FormControl, Modal } from "react-bootstrap";
 
 const AddUser = ({
   showAdd,
