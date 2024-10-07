@@ -5,13 +5,12 @@ export default async function updateFileHandler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
   const data = req.body;
-  console.log(data)
 
   try {
-    const filename = "agnese.json";
-    // const blob = await put(filename, JSON.stringify(data), {
-    //   access: "public",
-    // });
+    const filename = "Agnese/agnese.json";
+    const blob = await put(filename, JSON.stringify(data), {
+      access: "public",
+    });
 
     return res
       .status(200)

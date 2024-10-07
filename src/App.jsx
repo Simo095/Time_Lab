@@ -45,6 +45,28 @@ function App() {
     );
   };
 
+  const handleSave = async () => {
+    try {
+      const response = await fetch("https://agne-manger.vercel.app/api/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(elements), // Invia i dati come JSON
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        console.log("File salvato correttamente:", result.url); // L'URL del file salvato
+        alert("File salvato correttamente");
+      } else {
+        console.error("Errore nel salvataggio:", result.error);
+      }
+    } catch (error) {
+      console.error("Errore:", error);
+    }
+  };
+
   return (
     <Container>
       <div>
@@ -61,6 +83,7 @@ function App() {
             }
           }}
         ></Button>
+        <Button onClick={handleSave}>Save</Button>
         <h1>Gestione Elementi</h1>
         {/* Form per aggiungere un nuovo elemento */}
         <input
