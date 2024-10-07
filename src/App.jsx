@@ -72,16 +72,17 @@ function App() {
       <div>
         <Button
           onClick={async () => {
-            const data = await fetch(
+            const getFile = await fetch(
               `https://agne-manager.vercel.app/api/get`,
               {
                 method: "GET",
               }
             );
-            if (data.ok) {
-              console.log(await data.json());
-              const url = await data.json()[0].url;
-              const req = await fetch(url);
+            if (getFile.ok) {
+              console.log();
+              const objReq = await getFile.json();
+              const url = objReq[0].url;
+              const req = await fetch(`${url}`);
               if (req.ok) {
                 console.log(await req.json());
               }
