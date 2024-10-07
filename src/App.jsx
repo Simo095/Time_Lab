@@ -47,7 +47,7 @@ function App() {
 
   const handleSave = async () => {
     try {
-      const response = await fetch("https://agne-manger.vercel.app/api/post", {
+      const response = await fetch("https://agne-manager.vercel.app/api/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
