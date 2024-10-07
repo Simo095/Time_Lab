@@ -1,14 +1,5 @@
 import { list ,put} from "@vercel/blob";
 
-export const runtime = "edge";
-
-export async function GET(request) {
-  const { blobs } = await list();
-  return Response.json(blobs);
-}
-
-
-
 export default async function updateFileHandler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
