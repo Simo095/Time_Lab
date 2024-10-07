@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-calendar/dist/Calendar.css";
 import { Accordion, Button, Container } from "react-bootstrap";
 
 function App() {
   //
+  const [value, onChange] = useState < Value > new Date();
   const [elements, setElements] = useState([]);
   const [selectedElement, setSelectedElement] = useState(null);
   const [newElement, setNewElement] = useState({
@@ -119,25 +121,17 @@ function App() {
 
           <Accordion defaultActiveKey="0">
             {elements.map((el, i) => (
-              <Accordion.Item eventKey={i}>
+              <Accordion.Item eventKey={i} onClick={() => selectElement(el)}>
                 <Accordion.Header>{el.nome}</Accordion.Header>
-                <Accordion.Body></Accordion.Body>
+                <Accordion.Body>
+                  <Calendar onChange={onChange} value={value} />
+                  <span>
+                    Ore Totali Giustificate: {calculateTotalHours(el)}
+                  </span>
+                </Accordion.Body>
               </Accordion.Item>
             ))}
           </Accordion>
-          <ul>
-            {elements.map((el) => (
-              <li key={el.id}>
-                {el.nome} (ID: {el.id})
-                <button onClick={() => selectElement(el)}>Seleziona</button>
-                <span>
-                  {" "}
-                  - Ore Totali Giustificate: {calculateTotalHours(el)}
-                </span>
-                <span> - {JSON.stringify(el)}</span>
-              </li>
-            ))}
-          </ul>
 
           {selectedElement && (
             <div>
