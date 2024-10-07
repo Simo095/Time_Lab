@@ -1,4 +1,4 @@
-import { del ,put} from "@vercel/blob";
+import { del ,list,put} from "@vercel/blob";
 
 export default async function updateFileHandler(req, res) {
   if (req.method !== "POST") {
@@ -8,6 +8,9 @@ export default async function updateFileHandler(req, res) {
 
   try {
     const filename = "Agnese/agnese.json";
+    const { blobs } = await list();
+    const toDelete=blobs.filter(el=>el.pathname==="Agnese/agnese.json")
+    await del(toDelete.url)
     //await del(filename);
     const blob = await put(filename, JSON.stringify(data), {
       access: "public",
