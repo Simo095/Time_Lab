@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/api/get", "destination": "/api/get" },
+    { "source": "/api/get", "destination": "/api/get.js" },
     { "source": "/api/post", "destination": "/api/updateFile" }
   ]
 }
