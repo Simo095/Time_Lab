@@ -1,11 +1,9 @@
 import { useState } from "react";
 import "./App.css";
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 
 function App() {
-  // await fetch(`https://nome progetto.vercel.app/api/get`, {
-  //         method: "GET"
-  //       });
+  //
   const [elements, setElements] = useState([]);
   const [selectedElement, setSelectedElement] = useState(null);
   const [newElement, setNewElement] = useState({ id: "", nome: "" });
@@ -50,6 +48,19 @@ function App() {
   return (
     <Container>
       <div>
+        <Button
+          onClick={async () => {
+            const data = await fetch(
+              `https://agne-manager.vercel.app/api/get`,
+              {
+                method: "GET",
+              }
+            );
+            if (data.ok) {
+              console.log(await data.json());
+            }
+          }}
+        ></Button>
         <h1>Gestione Elementi</h1>
         {/* Form per aggiungere un nuovo elemento */}
         <input
