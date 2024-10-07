@@ -8,14 +8,14 @@ export default async function updateFileHandler(req, res) {
 
   try {
     const filename = "Agnese/agnese.json";
-    await del(filename);
+    //await del(filename);
     const blob = await put(filename, JSON.stringify(data), {
       access: "public",
     });
 
     return res
       .status(200)
-      .json({ message: "", data: blob });
+      .json({ message: "File Added", data: blob });
   } catch (error) {
     return res.status(500).json({ error: req });
   }
