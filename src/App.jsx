@@ -7,7 +7,7 @@ function App() {
   const [elements, setElements] = useState([]);
   const [selectedElement, setSelectedElement] = useState(null);
   const [newElement, setNewElement] = useState({
-    id: elements && elements.length + 1,
+    id: elements?.length + 1,
     nome: "",
   });
   const [dailyData, setDailyData] = useState({
@@ -20,7 +20,7 @@ function App() {
   // Aggiungi un nuovo elemento
   const addElement = () => {
     setElements([...elements, { ...newElement, dailyRecords: [] }]);
-    setNewElement({ id: elements && elements.length + 2, nome: "" }); //ATTENZIONE +2
+    setNewElement({ id: elements?.length + 2, nome: "" }); //ATTENZIONE +2
   };
 
   // Aggiungi record giornaliero all'elemento selezionato
