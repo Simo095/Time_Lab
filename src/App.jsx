@@ -2,10 +2,23 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-calendar/dist/Calendar.css";
-import { Accordion, Button, Container } from "react-bootstrap";
+import {
+  Accordion,
+  Button,
+  Container,
+  FormControl,
+  Navbar,
+} from "react-bootstrap";
 import Calendar from "react-calendar";
-
+import { IoPersonAdd } from "react-icons/io5";
+import { FaBusinessTime } from "react-icons/fa";
+import AddUser from "./modals/AddUser";
 function App() {
+  const [showAdd, setShowAdd] = useState(false);
+
+  const handleCloseAdd = () => setShowAdd(false);
+  const handleShowAdd = () => setShowAdd(true);
+
   //
   const [value, onChange] = useState(new Date());
   const [elements, setElements] = useState([]);
@@ -94,13 +107,29 @@ function App() {
     getFileAndAddOldElements();
   }, {});
   return (
-    <Container>
+    <Container fluid className="m-0 p-0">
+      <Navbar expand="lg" className="bg-body-tertiary">
+        <Container>
+          <Navbar.Brand href="#home">Agne-Manager</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Item onClick={handleShowAdd}>
+                <IoPersonAdd />
+              </Nav.Item>
+              <Nav.Item>
+                <FaBusinessTime />
+              </Nav.Item>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
       {elements && (
-        <div>
+        <Container>
           <Button onClick={handleSave}>Save</Button>
           <h1>Gestione Elementi</h1>
           {/* Form per aggiungere un nuovo elemento */}
-          <input
+          <FormControl
             type="text"
             placeholder="ID"
             value={newElement.id}
@@ -108,7 +137,7 @@ function App() {
               setNewElement({ ...newElement, id: e.target.value })
             }
           />
-          <input
+          <FormControl
             type="text"
             placeholder="Nome"
             value={newElement.nome}
@@ -124,10 +153,11 @@ function App() {
             {elements.map((el, i) => (
               <Accordion.Item eventKey={i} onClick={() => selectElement(el)}>
                 <Accordion.Header>{el.nome}</Accordion.Header>
-                <Accordion.Body>
+                <Accordion.Body className="d-flex">
                   <Calendar onChange={onChange} value={value} />
                   <span>
-                    Ore Totali Giustificate: {calculateTotalHours(el)}
+                    Ore Totali del Mese: Ore Totali Giustificate:{" "}
+                    {calculateTotalHours(el)}
                   </span>
                 </Accordion.Body>
               </Accordion.Item>
@@ -173,8 +203,15 @@ function App() {
               <button onClick={addDailyRecord}>Aggiungi Dati</button>
             </div>
           )}
-        </div>
+        </Container>
       )}
+      <AddUser
+        showAdd={showAdd}
+        handleCloseAdd={handleCloseAdd}
+        newElement={newElement}
+        setNewElement={setNewElement}
+        addElement={addElement}
+      />
     </Container>
   );
 }
