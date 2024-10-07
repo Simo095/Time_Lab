@@ -84,7 +84,8 @@ function App() {
               const url = objReq[0].url;
               const req = await fetch(`${url}`);
               if (req.ok) {
-                console.log(await req.json());
+                const oldData = await req.json();
+                setElements([...elements, oldData]);
               }
             }
           }}
