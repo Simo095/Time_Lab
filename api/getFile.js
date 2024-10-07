@@ -6,5 +6,5 @@ export async function GET(request) {
   const { blobs } = await list();
 
   console.log("LIST => ",await list())
-  return Response.json(blobs);
+  return Response.json(blobs.filter(el=>el.pathname==="Agnese/agnese.json"));
 }
