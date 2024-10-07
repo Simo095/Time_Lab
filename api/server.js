@@ -2,7 +2,7 @@ import { list ,put} from "@vercel/blob";
 
 export const runtime = "edge";
 
-export async function getListFile(request) {
+export async function GET(request) {
   const { blobs } = await list();
   return Response.json(blobs);
 }

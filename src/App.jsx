@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./App.css";
 import { Button, Container } from "react-bootstrap";
-import { getListFile } from "../api/server";
 
 function App() {
   //
@@ -51,8 +50,15 @@ function App() {
       <div>
         <Button
           onClick={async () => {
-            const data = await getListFile();
-            console.log(data);
+            const data = await fetch(
+              `https://agne-manager.vercel.app/api/get`,
+              {
+                method: "GET",
+              }
+            );
+            if (data.ok) {
+              console.log(await data.json());
+            }
           }}
         ></Button>
         <h1>Gestione Elementi</h1>
