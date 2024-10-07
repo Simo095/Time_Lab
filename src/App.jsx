@@ -3,10 +3,11 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-calendar/dist/Calendar.css";
 import { Accordion, Button, Container } from "react-bootstrap";
+import Calendar from "react-calendar";
 
 function App() {
   //
-  const [value, onChange] = useState < Value > new Date();
+  const [value, onChange] = useState(new Date());
   const [elements, setElements] = useState([]);
   const [selectedElement, setSelectedElement] = useState(null);
   const [newElement, setNewElement] = useState({
