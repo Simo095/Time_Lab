@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { Button, Container } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Accordion, Button, Container } from "react-bootstrap";
 
 function App() {
   //
@@ -112,9 +113,18 @@ function App() {
               setNewElement({ ...newElement, nome: e.target.value })
             }
           />
-          <button onClick={addElement}>Aggiungi Elemento</button>
+          <Button onClick={addElement}>Aggiungi Elemento</Button>
 
           <h2>Lista Elementi</h2>
+
+          <Accordion defaultActiveKey="0">
+            {elements.map((el, i) => (
+              <Accordion.Item eventKey={i}>
+                <Accordion.Header>{el.nome}</Accordion.Header>
+                <Accordion.Body></Accordion.Body>
+              </Accordion.Item>
+            ))}
+          </Accordion>
           <ul>
             {elements.map((el) => (
               <li key={el.id}>
