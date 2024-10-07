@@ -20,7 +20,7 @@ function App() {
   // Aggiungi un nuovo elemento
   const addElement = () => {
     setElements([...elements, { ...newElement, dailyRecords: [] }]);
-    setNewElement({ id: "", nome: "" });
+    setNewElement({ id: elements && elements.length + 1, nome: "" });
   };
 
   // Aggiungi record giornaliero all'elemento selezionato
