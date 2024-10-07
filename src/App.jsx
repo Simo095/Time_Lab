@@ -85,7 +85,14 @@ function App() {
               const req = await fetch(`${url}`);
               if (req.ok) {
                 const oldData = await req.json();
-                setElements([...elements, oldData]);
+                const updatedData = oldData.map((el) => ({
+                  ...el,
+                  dailyRecords: el.dailyRecords || [], // Imposta dailyRecords come array vuoto se non esiste
+                }));
+                oldData.forEach((element) =>
+                  setElements([...elements, element])
+                );
+                //setElements([...elements, oldData]);
               }
             }
           }}
