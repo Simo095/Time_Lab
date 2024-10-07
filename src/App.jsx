@@ -6,7 +6,10 @@ function App() {
   //
   const [elements, setElements] = useState([]);
   const [selectedElement, setSelectedElement] = useState(null);
-  const [newElement, setNewElement] = useState({ id: "", nome: "" });
+  const [newElement, setNewElement] = useState({
+    id: elements && elements.length + 1,
+    nome: "",
+  });
   const [dailyData, setDailyData] = useState({
     giorno: "",
     ingresso: "",
@@ -67,100 +70,106 @@ function App() {
     }
   };
 
+  const getFileAndAddOldElements = async () => {
+    const getFile = await fetch(`https://agne-manager.vercel.app/api/get`, {
+      method: "GET",
+    });
+    if (getFile.ok) {
+      const objReq = await getFile.json();
+      const url = objReq[0].url;
+      const req = await fetch(`${url}`);
+      if (req.ok) {
+        const oldData = await req.json();
+        setElements((prevElements) => [...prevElements, ...oldData]);
+      }
+    }
+  };
+  useEffect(() => {
+    console.log("LOOP IN APP");
+    getFileAndAddOldElements();
+  }, {});
   return (
     <Container>
-      <div>
-        <Button
-          onClick={async () => {
-            const getFile = await fetch(
-              `https://agne-manager.vercel.app/api/get`,
-              {
-                method: "GET",
-              }
-            );
-            if (getFile.ok) {
-              console.log();
-              const objReq = await getFile.json();
-              const url = objReq[0].url;
-              const req = await fetch(`${url}`);
-              if (req.ok) {
-                const oldData = await req.json();
-                setElements((prevElements) => [...prevElements, ...oldData]);
-              }
+      {elements && (
+        <div>
+          <Button>GET</Button>
+          <Button onClick={handleSave}>Save</Button>
+          <h1>Gestione Elementi</h1>
+          {/* Form per aggiungere un nuovo elemento */}
+          <input
+            type="text"
+            placeholder="ID"
+            value={newElement.id}
+            onChange={(e) =>
+              setNewElement({ ...newElement, id: e.target.value })
             }
-          }}
-        ></Button>
-        <Button onClick={handleSave}>Save</Button>
-        <h1>Gestione Elementi</h1>
-        {/* Form per aggiungere un nuovo elemento */}
-        <input
-          type="text"
-          placeholder="ID"
-          value={newElement.id}
-          onChange={(e) => setNewElement({ ...newElement, id: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Nome"
-          value={newElement.nome}
-          onChange={(e) =>
-            setNewElement({ ...newElement, nome: e.target.value })
-          }
-        />
-        <button onClick={addElement}>Aggiungi Elemento</button>
+          />
+          <input
+            type="text"
+            placeholder="Nome"
+            value={newElement.nome}
+            onChange={(e) =>
+              setNewElement({ ...newElement, nome: e.target.value })
+            }
+          />
+          <button onClick={addElement}>Aggiungi Elemento</button>
 
-        <h2>Lista Elementi</h2>
-        <ul>
-          {elements.map((el) => (
-            <li key={el.id}>
-              {el.nome} (ID: {el.id})
-              <button onClick={() => selectElement(el)}>Seleziona</button>
-              <span> - Ore Totali Giustificate: {calculateTotalHours(el)}</span>
-              <span> - {JSON.stringify(el)}</span>
-            </li>
-          ))}
-        </ul>
+          <h2>Lista Elementi</h2>
+          <ul>
+            {elements.map((el) => (
+              <li key={el.id}>
+                {el.nome} (ID: {el.id})
+                <button onClick={() => selectElement(el)}>Seleziona</button>
+                <span>
+                  {" "}
+                  - Ore Totali Giustificate: {calculateTotalHours(el)}
+                </span>
+                <span> - {JSON.stringify(el)}</span>
+              </li>
+            ))}
+          </ul>
 
-        {selectedElement && (
-          <div>
-            <h2>Aggiungi Dati Giornalieri per: {selectedElement.nome}</h2>
-            <input
-              type="date"
-              value={dailyData.date}
-              onChange={(e) =>
-                setDailyData({ ...dailyData, date: e.target.value })
-              }
-            />
-            <input
-              type="time"
-              value={dailyData.ingresso}
-              onChange={(e) =>
-                setDailyData({ ...dailyData, ingresso: e.target.value })
-              }
-            />
-            <input
-              type="number"
-              placeholder="Ore Giustificate"
-              value={dailyData.oreGiustificate}
-              onChange={(e) =>
-                setDailyData({
-                  ...dailyData,
-                  oreGiustificate: parseFloat(e.target.value),
-                })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Note"
-              value={dailyData.note}
-              onChange={(e) =>
-                setDailyData({ ...dailyData, note: e.target.value })
-              }
-            />
-            <button onClick={addDailyRecord}>Aggiungi Dati</button>
-          </div>
-        )}
-      </div>
+          {selectedElement && (
+            <div>
+              <h2>Aggiungi Dati Giornalieri per: {selectedElement.nome}</h2>
+              <input
+                type="date"
+                value={dailyData.date}
+                onChange={(e) =>
+                  setDailyData({ ...dailyData, date: e.target.value })
+                }
+              />
+              <input
+                type="time"
+                value={dailyData.ingresso}
+                onChange={(e) =>
+                  setDailyData({ ...dailyData, ingresso: e.target.value })
+                }
+              />
+              <input
+                type="number"
+                placeholder="Ore Giustificate"
+                value={dailyData.oreGiustificate}
+                onChange={(e) =>
+                  setDailyData({
+                    ...dailyData,
+                    oreGiustificate: parseFloat(e.target.value),
+                  })
+                }
+              />
+              <input
+                type="text"
+                placeholder="Note"
+                value={dailyData.note}
+                onChange={(e) =>
+                  setDailyData({ ...dailyData, note: e.target.value })
+                }
+              />
+              <button onClick={addDailyRecord}>Aggiungi Dati</button>
+            </div>
+          )}
+        </div>
+      )}
     </Container>
   );
 }

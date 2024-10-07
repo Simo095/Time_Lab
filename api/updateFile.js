@@ -8,19 +8,11 @@ export default async function updateFileHandler(req, res) {
 
   try {
     const filename = "Agnese/agnese.json";
-    
-    // Ottieni la lista dei file
     const { blobs } = await list();
-
-    // Trova il file da eliminare
     const toDelete = blobs.find(el => el.pathname === filename);
-    
     if (toDelete) {
-      // Elimina il file se esiste
       await del(toDelete.url);
     }
-
-    // Carica il nuovo file
     const blob = await put(filename, JSON.stringify(data), {
       access: "public",
     });
