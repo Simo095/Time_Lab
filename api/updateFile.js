@@ -1,3 +1,5 @@
+import { del, list, put } from "@vercel/blob";
+
 export default async function updateFileHandler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
