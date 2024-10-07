@@ -79,7 +79,12 @@ function App() {
               }
             );
             if (data.ok) {
-              console.log(await data.json());
+              console.log(await data.json()[0].url);
+              const url = await data.json()[0].url;
+              const req = await fetch(url);
+              if (req.ok) {
+                console.log(await req.json());
+              }
             }
           }}
         ></Button>
