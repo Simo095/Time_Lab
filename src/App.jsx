@@ -81,6 +81,7 @@ function App() {
       if (req.ok) {
         const oldData = await req.json();
         setElements((prevElements) => [...prevElements, ...oldData]);
+        setNewElement({ id: oldData.length + 1, nome: "" });
       }
     }
   };
@@ -92,7 +93,6 @@ function App() {
     <Container>
       {elements && (
         <div>
-          <Button>GET</Button>
           <Button onClick={handleSave}>Save</Button>
           <h1>Gestione Elementi</h1>
           {/* Form per aggiungere un nuovo elemento */}
