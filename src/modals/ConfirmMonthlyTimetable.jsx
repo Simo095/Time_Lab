@@ -12,29 +12,28 @@ const ConfirmMonthlyTimetable = ({
 }) => {
   const handleSave = async () => {
     const array = [...monthlyHours, ...hoursPerDay];
-    console.log(array);
-    // try {
-    //   const response = await fetch(
-    //     "https://agne-manager.vercel.app/api/postMT",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(hoursPerDay), // Invia i dati come JSON
-    //     }
-    //   );
+    try {
+      const response = await fetch(
+        "https://agne-manager.vercel.app/api/postMT",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(array),
+        }
+      );
 
-    //   const result = await response.json();
-    //   if (response.ok) {
-    //     console.log("File salvato correttamente:", result.url); // L'URL del file salvato
-    //     alert("File salvato correttamente");
-    //   } else {
-    //     console.error("Errore nel salvataggio:", result.error);
-    //   }
-    // } catch (error) {
-    //   console.error("Errore:", error);
-    // }
+      const result = await response.json();
+      if (response.ok) {
+        console.log("File salvato correttamente:", result.url);
+        alert("File salvato correttamente");
+      } else {
+        console.error("Errore nel salvataggio:", result.error);
+      }
+    } catch (error) {
+      console.error("Errore:", error);
+    }
   };
 
   return (
