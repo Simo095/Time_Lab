@@ -21,6 +21,8 @@ import AddUser from "./modals/AddUser";
 import AddMonthlyTimetable from "./modals/AddMonthlyTimetable";
 import { GiSave } from "react-icons/gi";
 import { VscSaveAs } from "react-icons/vsc";
+import { MdMenuBook } from "react-icons/md";
+import ShowOldMonthly from "./modals/ShowOldMonthly";
 
 function App() {
   // Array dei giorni della settimana
@@ -107,6 +109,10 @@ function App() {
   const handleCloseAddM = () => setShowAddM(false);
   const handleShowAddM = () => setShowAddM(true);
 
+  const [showS, setShowS] = useState(false);
+  const handleCloseS = () => setShowS(false);
+  const handleShowS = () => setShowS(true);
+
   const [value, onChange] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -115,6 +121,7 @@ function App() {
   };
 
   const [elements, setElements] = useState([]);
+  const [monthlyHours, setMonthlyHours] = useState([]);
   const [selectedElement, setSelectedElement] = useState(null);
   const [newElement, setNewElement] = useState({
     id: elements?.length + 1,
@@ -176,25 +183,41 @@ function App() {
     }
   };
 
-  // const getFileAndAddOldElements = async () => {
-  //   const getFile = await fetch(`https://agne-manager.vercel.app/api/get`, {
-  //     method: "GET",
-  //   });
-  //   if (getFile.ok) {
-  //     const objReq = await getFile.json();
-  //     const url = objReq[0].url;
-  //     const req = await fetch(`${url}`);
-  //     if (req.ok) {
-  //       const oldData = await req.json();
-  //       setElements((prevElements) => [...prevElements, ...oldData]);
-  //       setNewElement({ id: oldData.length + 1, nome: "" });
-  //     }
-  //   }
-  // };
+  const getFileAndAddOldElements = async () => {
+    const getFile = await fetch(`https://agne-manager.vercel.app/api/get`, {
+      method: "GET",
+    });
+    if (getFile.ok) {
+      const objReq = await getFile.json();
+      const url = objReq[0].url;
+      const req = await fetch(`${url}`);
+      if (req.ok) {
+        const oldData = await req.json();
+        setElements((prevElements) => [...prevElements, ...oldData]);
+        setNewElement({ id: oldData.length + 1, nome: "" });
+      }
+    }
+  };
+  const getFileMonthlyHours = async () => {
+    const getFile = await fetch(`https://agne-manager.vercel.app/api/getMT`, {
+      method: "GET",
+    });
+    if (getFile.ok) {
+      const objReq = await getFile.json();
+      const url = objReq[0].url;
+      const req = await fetch(`${url}`);
+      if (req.ok) {
+        const oldData = await req.json();
+        setMonthlyHours((prevElements) => [...prevElements, ...oldData]);
+      }
+    }
+  };
 
   useEffect(() => {
     console.log("LOOP IN APP");
-    //getFileAndAddOldElements();
+
+    getFileAndAddOldElements();
+    getFileMonthlyHours();
   }, []);
   return (
     <Container fluid className="m-0 p-0">
@@ -233,6 +256,17 @@ function App() {
               >
                 <Nav.Item onClick={handleSave}>
                   <GiSave size={30} />
+                </Nav.Item>
+              </OverlayTrigger>
+              <OverlayTrigger
+                placement="bottom"
+                delay={{ show: 100, hide: 200 }}
+                overlay={
+                  <Tooltip id="change-time">Storico Orari Mensili</Tooltip>
+                }
+              >
+                <Nav.Item onClick={handleShowS}>
+                  <MdMenuBook size={30} />
                 </Nav.Item>
               </OverlayTrigger>
             </Nav>
@@ -385,6 +419,11 @@ function App() {
         newElement={newElement}
         setNewElement={setNewElement}
         addElement={addElement}
+      />
+      <ShowOldMonthly
+        showS={showS}
+        handleCloseS={handleCloseS}
+        hoursPerDay={hoursPerDay}
       />
       <AddMonthlyTimetable
         showAddM={showAddM}
