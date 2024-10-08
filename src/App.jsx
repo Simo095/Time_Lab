@@ -434,6 +434,7 @@ function App() {
         handleHoursChange={handleHoursChange}
         setHoursPerDay={setHoursPerDay}
         currentMonth={currentMonth}
+        monthlyHours={monthlyHours}
       />
     </Container>
   );

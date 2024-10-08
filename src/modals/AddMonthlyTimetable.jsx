@@ -14,6 +14,7 @@ const AddMonthlyTimetable = ({
   handleHoursChange,
   setHoursPerDay,
   currentMonth,
+  monthlyHours,
 }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -77,6 +78,7 @@ const AddMonthlyTimetable = ({
         hoursPerDay={hoursPerDay}
         handleShowAddM={handleShowAddM}
         currentMonth={currentMonth}
+        monthlyHours={monthlyHours}
       />
     </>
   );
