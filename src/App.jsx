@@ -119,7 +119,7 @@ function App() {
               <Nav.Item onClick={handleShowAdd}>
                 <IoPersonAdd size={30} />
               </Nav.Item>
-              <Nav.Item>
+              <Nav.Item onClick={handleShowAddM}>
                 <FaBusinessTime size={30} />
               </Nav.Item>
             </Nav>
@@ -135,8 +135,8 @@ function App() {
           <Accordion defaultActiveKey="0">
             {elements.map((el, i) => (
               <Accordion.Item eventKey={i} onClick={() => selectElement(el)}>
-                <Accordion.Header className="d-flex justify-content-between">
-                  {el.nome} <TiUserDelete />
+                <Accordion.Header className="d-flex justify-content-between w-75">
+                  {el.nome} <TiUserDelete color="red" />
                 </Accordion.Header>
                 <Accordion.Body className="d-flex">
                   <Calendar onChange={onChange} value={value} />
