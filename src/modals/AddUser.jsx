@@ -29,7 +29,6 @@ const AddUser = ({
             type="text"
             placeholder="Nome"
             value={newElement.nome}
-            required
             onChange={(e) =>
               setNewElement({ ...newElement, nome: e.target.value })
             }

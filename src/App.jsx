@@ -5,10 +5,13 @@ import "react-calendar/dist/Calendar.css";
 import {
   Accordion,
   Button,
+  Col,
   Container,
-  FormControl,
   Nav,
   Navbar,
+  OverlayTrigger,
+  Row,
+  Tooltip,
 } from "react-bootstrap";
 import Calendar from "react-calendar";
 import { IoPersonAdd } from "react-icons/io5";
@@ -16,7 +19,70 @@ import { FaBusinessTime } from "react-icons/fa";
 import { TiUserDelete } from "react-icons/ti";
 import AddUser from "./modals/AddUser";
 import AddMonthlyTimetable from "./modals/AddMonthlyTimetable";
+import { GiSave } from "react-icons/gi";
+import { VscSaveAs } from "react-icons/vsc";
+
 function App() {
+  // Array dei giorni della settimana
+  const daysOfWeek = [
+    "lunedì",
+    "martedì",
+    "mercoledì",
+    "giovedì",
+    "venerdì",
+    "sabato",
+    "domenica",
+  ];
+
+  const handlerNameMonth = () => {
+    const date = new Date().getMonth();
+    return date === 0
+      ? "Gennaio"
+      : date === 1
+      ? "Febbraio"
+      : date === 2
+      ? "Marzo"
+      : date === 3
+      ? "Aprile"
+      : date === 4
+      ? "Maggio"
+      : date === 5
+      ? "Giugno"
+      : date === 6
+      ? "Luglui"
+      : date === 7
+      ? "Agosto"
+      : date === 8
+      ? "Settembre"
+      : date === 9
+      ? "Ottobre"
+      : date === 10
+      ? "Novembre"
+      : date === 11
+      ? "Dicembre"
+      : "";
+  };
+
+  // Stato per gestire le ore per ciascun giorno
+  const [hoursPerDay, setHoursPerDay] = useState({
+    mese: handlerNameMonth(),
+    lunedì: 0,
+    martedì: 0,
+    mercoledì: 0,
+    giovedì: 0,
+    venerdì: 0,
+    sabato: 0,
+    domenica: 0,
+  });
+
+  // Funzione per aggiornare le ore per ogni giorno
+  const handleHoursChange = (day, value) => {
+    setHoursPerDay((prevHours) => ({
+      ...prevHours,
+      [day]: value,
+    }));
+  };
+
   const [showAdd, setShowAdd] = useState(false);
   const handleCloseAdd = () => setShowAdd(false);
   const handleShowAdd = () => setShowAdd(true);
@@ -26,6 +92,11 @@ function App() {
   const handleShowAddM = () => setShowAddM(true);
 
   const [value, onChange] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const DateClick = (date) => {
+    setSelectedDate(date);
+  };
 
   const [elements, setElements] = useState([]);
   const [selectedElement, setSelectedElement] = useState(null);
@@ -89,57 +160,159 @@ function App() {
     }
   };
 
-  const getFileAndAddOldElements = async () => {
-    const getFile = await fetch(`https://agne-manager.vercel.app/api/get`, {
-      method: "GET",
-    });
-    if (getFile.ok) {
-      const objReq = await getFile.json();
-      const url = objReq[0].url;
-      const req = await fetch(`${url}`);
-      if (req.ok) {
-        const oldData = await req.json();
-        setElements((prevElements) => [...prevElements, ...oldData]);
-        setNewElement({ id: oldData.length + 1, nome: "" });
-      }
-    }
-  };
+  // const getFileAndAddOldElements = async () => {
+  //   const getFile = await fetch(`https://agne-manager.vercel.app/api/get`, {
+  //     method: "GET",
+  //   });
+  //   if (getFile.ok) {
+  //     const objReq = await getFile.json();
+  //     const url = objReq[0].url;
+  //     const req = await fetch(`${url}`);
+  //     if (req.ok) {
+  //       const oldData = await req.json();
+  //       setElements((prevElements) => [...prevElements, ...oldData]);
+  //       setNewElement({ id: oldData.length + 1, nome: "" });
+  //     }
+  //   }
+  // };
+
   useEffect(() => {
     console.log("LOOP IN APP");
-    getFileAndAddOldElements();
-  }, {});
+    //getFileAndAddOldElements();
+  }, []);
   return (
     <Container fluid className="m-0 p-0">
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
           <Navbar.Brand href="#home">Agne-Manager</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Item onClick={handleShowAdd}>
-                <IoPersonAdd size={30} />
-              </Nav.Item>
-              <Nav.Item onClick={handleShowAddM}>
-                <FaBusinessTime size={30} />
-              </Nav.Item>
+          <Navbar.Collapse id="basic-navbar-nav" className="text-center w-50">
+            <Nav className="d-flex gap-3">
+              <OverlayTrigger
+                placement="bottom"
+                delay={{ show: 100, hide: 200 }}
+                overlay={<Tooltip id="add-user">Aggiungi Utente</Tooltip>}
+              >
+                <Nav.Item onClick={handleShowAdd}>
+                  <IoPersonAdd size={30} />
+                </Nav.Item>
+              </OverlayTrigger>
+              <OverlayTrigger
+                placement="bottom"
+                delay={{ show: 100, hide: 200 }}
+                overlay={
+                  <Tooltip id="change-time">
+                    Modifica orario settimanale del mese
+                  </Tooltip>
+                }
+              >
+                <Nav.Item onClick={handleShowAddM}>
+                  <FaBusinessTime size={30} />
+                </Nav.Item>
+              </OverlayTrigger>
+              <OverlayTrigger
+                placement="bottom"
+                delay={{ show: 100, hide: 200 }}
+                overlay={<Tooltip id="change-time">Salva le modifiche</Tooltip>}
+              >
+                <Nav.Item onClick={handleSave}>
+                  <GiSave size={30} />
+                </Nav.Item>
+              </OverlayTrigger>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
       {elements && (
         <Container>
-          <Button onClick={handleSave}>Save</Button>
-
           <h2>Lista Elementi</h2>
-
           <Accordion defaultActiveKey="0">
             {elements.map((el, i) => (
-              <Accordion.Item eventKey={i} onClick={() => selectElement(el)}>
-                <Accordion.Header className="d-flex justify-content-between w-75">
-                  {el.nome} <TiUserDelete color="red" />
+              <Accordion.Item
+                eventKey={i}
+                onClick={() => selectElement(el)}
+                key={i}
+              >
+                <Accordion.Header>
+                  <Container className="d-flex justify-content-between">
+                    {el.nome}
+                    <TiUserDelete size={30} color="red" className="me-5" />
+                  </Container>
                 </Accordion.Header>
                 <Accordion.Body className="d-flex">
-                  <Calendar onChange={onChange} value={value} />
+                  <Calendar
+                    onChange={onChange}
+                    value={value}
+                    onClickDay={DateClick}
+                    tileClassName={({ date }) =>
+                      selectedDate &&
+                      date.toDateString() === selectedDate.toDateString()
+                        ? "selected"
+                        : null
+                        ? "event-marked"
+                        : ""
+                    }
+                    tileContent={({ date, view }) => {
+                      return view === "month";
+                    }}
+                  />
+                  <div className="event-container">
+                    {
+                      <>
+                        <div className="event-list">
+                          <div className="event-cards">
+                            {selectedDate &&
+                            selectedDate.toLocaleDateString("fr-CA") ? (
+                              <Row className="event-card d-flex flex-column gap-3">
+                                <Col className="event-card-header">
+                                  <Row className="d-flex flex-column gap-2">
+                                    <Col>
+                                      <span className="event-date">
+                                        {selectedDate.toLocaleDateString(
+                                          "fr-CA"
+                                        )}
+                                      </span>
+                                    </Col>
+                                    <Col className="event-card-body">
+                                      event card body
+                                    </Col>
+                                    <Col
+                                      style={{ zIndex: 9999999999 }}
+                                      className="d-flex justify-content-between"
+                                    >
+                                      ore
+                                      <OverlayTrigger
+                                        placement="left"
+                                        delay={{ show: 250, hide: 400 }}
+                                        overlay={
+                                          <Tooltip id="add-user">
+                                            Aggiungi Utente
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <Button
+                                          style={{
+                                            background: "#00000000",
+                                            border: "none",
+                                          }}
+                                        >
+                                          <VscSaveAs
+                                            color="black"
+                                            className="update-btn"
+                                          />
+                                        </Button>
+                                      </OverlayTrigger>
+                                    </Col>
+                                  </Row>
+                                </Col>
+                              </Row>
+                            ) : null}
+                          </div>
+                        </div>
+                      </>
+                    }
+                  </div>
+
                   <span> Ore Totali del Mese: 30</span>
                   <span>
                     Ore Totali Giustificate: {calculateTotalHours(el)}
@@ -169,7 +342,7 @@ function App() {
               <input
                 type="number"
                 placeholder="Ore Giustificate"
-                value={dailyData.oreGiustificate}
+                value={dailyData.giustificate}
                 onChange={(e) =>
                   setDailyData({
                     ...dailyData,
@@ -200,6 +373,11 @@ function App() {
       <AddMonthlyTimetable
         showAddM={showAddM}
         handleCloseAddM={handleCloseAddM}
+        handleShowAddM={handleShowAddM}
+        handlerNameMonth={handlerNameMonth}
+        daysOfWeek={daysOfWeek}
+        hoursPerDay={hoursPerDay}
+        handleHoursChange={handleHoursChange}
       />
     </Container>
   );
