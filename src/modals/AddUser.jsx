@@ -1,5 +1,6 @@
-import { Button, FormControl, Modal } from "react-bootstrap";
-
+import { FormControl, FormGroup, Modal } from "react-bootstrap";
+import { IoIosCloseCircle } from "react-icons/io";
+import { IoPersonAdd } from "react-icons/io5";
 const AddUser = ({
   showAdd,
   handleCloseAdd,
@@ -9,30 +10,35 @@ const AddUser = ({
 }) => {
   return (
     <Modal show={showAdd} onHide={handleCloseAdd}>
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>Aggiungi Utente</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <FormControl
-          type="text"
-          placeholder="ID"
-          value={newElement.id}
-          onChange={(e) => setNewElement({ ...newElement, id: e.target.value })}
-        />
-        <FormControl
-          type="text"
-          placeholder="Nome"
-          value={newElement.nome}
-          onChange={(e) =>
-            setNewElement({ ...newElement, nome: e.target.value })
-          }
-        />
+        <FormGroup>
+          <FormControl
+            className="mb-3"
+            type="text"
+            placeholder="ID"
+            required
+            value={newElement.id}
+            onChange={(e) =>
+              setNewElement({ ...newElement, id: e.target.value })
+            }
+          />
+          <FormControl
+            type="text"
+            placeholder="Nome"
+            value={newElement.nome}
+            required
+            onChange={(e) =>
+              setNewElement({ ...newElement, nome: e.target.value })
+            }
+          />
+        </FormGroup>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseAdd}>
-          Chiudi
-        </Button>
-        <Button onClick={addElement}>Aggiungi Elemento</Button>
+      <Modal.Footer className="d-flex justify-content-between">
+        <IoIosCloseCircle size={30} color="red" onClick={handleCloseAdd} />
+        <IoPersonAdd size={30} onClick={addElement} />
       </Modal.Footer>
     </Modal>
   );

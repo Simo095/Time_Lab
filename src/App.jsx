@@ -13,14 +13,20 @@ import {
 import Calendar from "react-calendar";
 import { IoPersonAdd } from "react-icons/io5";
 import { FaBusinessTime } from "react-icons/fa";
+import { TiUserDelete } from "react-icons/ti";
 import AddUser from "./modals/AddUser";
+import AddMonthlyTimetable from "./modals/AddMonthlyTimetable";
 function App() {
   const [showAdd, setShowAdd] = useState(false);
   const handleCloseAdd = () => setShowAdd(false);
   const handleShowAdd = () => setShowAdd(true);
 
-  //
+  const [showAddM, setShowAddM] = useState(false);
+  const handleCloseAddM = () => setShowAddM(false);
+  const handleShowAddM = () => setShowAddM(true);
+
   const [value, onChange] = useState(new Date());
+
   const [elements, setElements] = useState([]);
   const [selectedElement, setSelectedElement] = useState(null);
   const [newElement, setNewElement] = useState({
@@ -34,13 +40,11 @@ function App() {
     note: "",
   });
 
-  // Aggiungi un nuovo elemento
   const addElement = () => {
     setElements([...elements, { ...newElement, dailyRecords: [] }]);
-    setNewElement({ id: elements?.length + 2, nome: "" }); //ATTENZIONE +2
+    setNewElement({ id: elements?.length + 2, nome: "" });
   };
 
-  // Aggiungi record giornaliero all'elemento selezionato
   const addDailyRecord = () => {
     const updatedElements = elements.map((el) => {
       if (el.id === selectedElement.id) {
@@ -52,12 +56,10 @@ function App() {
     setDailyData({ date: "", ingresso: "", oreGiustificate: 0, note: "" });
   };
 
-  // Seleziona un elemento per aggiungere dati giornalieri
   const selectElement = (element) => {
     setSelectedElement(element);
   };
 
-  // Calcola la somma delle ore giustificate
   const calculateTotalHours = (element) => {
     return element.dailyRecords.reduce(
       (total, record) => total + record.oreGiustificate,
@@ -115,10 +117,10 @@ function App() {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Item onClick={handleShowAdd}>
-                <IoPersonAdd />
+                <IoPersonAdd size={30} />
               </Nav.Item>
               <Nav.Item>
-                <FaBusinessTime />
+                <FaBusinessTime size={30} />
               </Nav.Item>
             </Nav>
           </Navbar.Collapse>
@@ -133,7 +135,9 @@ function App() {
           <Accordion defaultActiveKey="0">
             {elements.map((el, i) => (
               <Accordion.Item eventKey={i} onClick={() => selectElement(el)}>
-                <Accordion.Header>{el.nome}</Accordion.Header>
+                <Accordion.Header className="d-flex justify-content-between">
+                  {el.nome} <TiUserDelete />
+                </Accordion.Header>
                 <Accordion.Body className="d-flex">
                   <Calendar onChange={onChange} value={value} />
                   <span> Ore Totali del Mese: 30</span>
@@ -192,6 +196,10 @@ function App() {
         newElement={newElement}
         setNewElement={setNewElement}
         addElement={addElement}
+      />
+      <AddMonthlyTimetable
+        showAddM={showAddM}
+        handleCloseAddM={handleCloseAddM}
       />
     </Container>
   );
