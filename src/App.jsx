@@ -215,7 +215,6 @@ function App() {
 
   useEffect(() => {
     console.log("LOOP IN APP");
-
     getFileAndAddOldElements();
     getFileMonthlyHours();
   }, []);
@@ -252,7 +251,7 @@ function App() {
               <OverlayTrigger
                 placement="bottom"
                 delay={{ show: 100, hide: 200 }}
-                overlay={<Tooltip id="change-time">Salva le modifiche</Tooltip>}
+                overlay={<Tooltip id="save">Salva le modifiche</Tooltip>}
               >
                 <Nav.Item onClick={handleSave}>
                   <GiSave size={30} />
@@ -262,7 +261,7 @@ function App() {
                 placement="bottom"
                 delay={{ show: 100, hide: 200 }}
                 overlay={
-                  <Tooltip id="change-time">Storico Orari Mensili</Tooltip>
+                  <Tooltip id="history-time">Storico Orari Mensili</Tooltip>
                 }
               >
                 <Nav.Item onClick={handleShowS}>
@@ -423,7 +422,7 @@ function App() {
       <ShowOldMonthly
         showS={showS}
         handleCloseS={handleCloseS}
-        hoursPerDay={hoursPerDay}
+        hoursPerDay={monthlyHours}
       />
       <AddMonthlyTimetable
         showAddM={showAddM}
