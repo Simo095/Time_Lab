@@ -63,24 +63,40 @@ function App() {
       : "";
   };
 
+  const currentMonth = handlerNameMonth();
+
   // Stato per gestire le ore per ciascun giorno
-  const [hoursPerDay, setHoursPerDay] = useState({
-    mese: handlerNameMonth(),
-    lunedì: 0,
-    martedì: 0,
-    mercoledì: 0,
-    giovedì: 0,
-    venerdì: 0,
-    sabato: 0,
-    domenica: 0,
-  });
+  const [hoursPerDay, setHoursPerDay] = useState([
+    {
+      mese: currentMonth,
+      giorni: {
+        lunedì: 0,
+        martedì: 0,
+        mercoledì: 0,
+        giovedì: 0,
+        venerdì: 0,
+        sabato: 0,
+        domenica: 0,
+      },
+    },
+  ]);
 
   // Funzione per aggiornare le ore per ogni giorno
   const handleHoursChange = (day, value) => {
-    setHoursPerDay((prevHours) => ({
-      ...prevHours,
-      [day]: value,
-    }));
+    setHoursPerDay((prevHours) => {
+      const updatedMonths = prevHours.map((item) =>
+        item.mese === currentMonth
+          ? {
+              ...item,
+              giorni: {
+                ...item.giorni,
+                [day]: value,
+              },
+            }
+          : item
+      );
+      return updatedMonths;
+    });
   };
 
   const [showAdd, setShowAdd] = useState(false);
@@ -378,6 +394,8 @@ function App() {
         daysOfWeek={daysOfWeek}
         hoursPerDay={hoursPerDay}
         handleHoursChange={handleHoursChange}
+        setHoursPerDay={setHoursPerDay}
+        currentMonth={currentMonth}
       />
     </Container>
   );

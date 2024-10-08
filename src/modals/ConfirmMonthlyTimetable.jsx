@@ -7,6 +7,7 @@ const ConfirmMonthlyTimetable = ({
   handleClose,
   hoursPerDay,
   handleShowAddM,
+  currentMonth,
 }) => {
   const handleSave = async () => {
     try {
@@ -39,7 +40,12 @@ const ConfirmMonthlyTimetable = ({
         <Modal.Title>Conferma Orari del Mese</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Mese: {hoursPerDay.mese}</p>
+        <p>
+          Mese:
+          {hoursPerDay.map((month) =>
+            month.mese === currentMonth ? month.mese : null
+          )}
+        </p>
         <Table striped bordered hover className="table">
           <thead>
             <tr>
@@ -48,13 +54,15 @@ const ConfirmMonthlyTimetable = ({
             </tr>
           </thead>
           <tbody>
-            {Object.keys(hoursPerDay).map((day) =>
-              day !== "mese" ? (
-                <tr key={day}>
-                  <td>{day}</td>
-                  <td>{hoursPerDay[day]}</td>
-                </tr>
-              ) : null
+            {hoursPerDay.map((month) =>
+              month.mese === currentMonth
+                ? Object.keys(month.giorni).map((day) => (
+                    <tr key={day}>
+                      <td>{day}</td>
+                      <td>{month.giorni[day]}</td>
+                    </tr>
+                  ))
+                : null
             )}
           </tbody>
         </Table>

@@ -12,6 +12,8 @@ const AddMonthlyTimetable = ({
   daysOfWeek,
   hoursPerDay,
   handleHoursChange,
+  setHoursPerDay,
+  currentMonth,
 }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -42,7 +44,13 @@ const AddMonthlyTimetable = ({
                     <input
                       type="number"
                       min="0"
-                      value={hoursPerDay[day]}
+                      //   value={hoursPerDay[day]}
+                      value={
+                        hoursPerDay[0]?.giorni[day]
+                          ? hoursPerDay[0]?.giorni[day]
+                          : 0
+                      }
+                      //   onChange={(e) => handleHoursChange(day, e.target.value)}
                       onChange={(e) => handleHoursChange(day, e.target.value)}
                       className="form-control"
                     />
@@ -68,6 +76,7 @@ const AddMonthlyTimetable = ({
         handleClose={handleClose}
         hoursPerDay={hoursPerDay}
         handleShowAddM={handleShowAddM}
+        currentMonth={currentMonth}
       />
     </>
   );
