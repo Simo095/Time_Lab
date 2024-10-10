@@ -26,9 +26,9 @@ const AccordionUser = ({ elements, setElements }) => {
                   ? "event-marked"
                   : ""
               }
-              tileContent={({ date, view }) => (
-                <TileContentCalendar view={view} el={el} date={date} />
-              )}
+              //   tileContent={({ date, view }) => (
+              //     <TileContentCalendar view={view} el={el} date={date} />
+              //   )}
             />
             <EventCardCalendar
               elements={elements}
