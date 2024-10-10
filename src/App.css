@@ -1,11 +1,9 @@
 .event-list {
   margin-top: 20px;
+  margin-left: 2rem;
 }
 
 .event-cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 
 .event-card {
@@ -17,7 +15,7 @@
 }
 
 .event-card:hover {
-  transform: translateY(-5px);
+  /* transform: translateY(-5px); */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
