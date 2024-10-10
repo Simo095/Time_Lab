@@ -63,7 +63,7 @@ const App = () => {
 
   useEffect(() => {
     console.log("LOOP IN APP");
-    //getFileAndAddOldElements();
+    getFileAndAddOldElements();
   }, []);
   return (
     <Container fluid className="App m-0 p-0">
