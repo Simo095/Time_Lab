@@ -8,8 +8,17 @@ import {
 import { GiSave } from "react-icons/gi";
 import { IoPersonAdd } from "react-icons/io5";
 import { MdMenuBook } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  modalAddUserChanger,
+  saveListUsersOnVercel,
+} from "../../redux/actions/usersAction";
 
-const HeaderBar = ({ handleShowAdd, handleSave }) => {
+const HeaderBar = () => {
+  const dispatch = useDispatch();
+
+  const users = useSelector((state) => state.users.usersList);
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -22,7 +31,11 @@ const HeaderBar = ({ handleShowAdd, handleSave }) => {
               delay={{ show: 100, hide: 200 }}
               overlay={<Tooltip id="add-user">Aggiungi Utente</Tooltip>}
             >
-              <Nav.Item onClick={handleShowAdd}>
+              <Nav.Item
+                onClick={() => {
+                  dispatch(modalAddUserChanger(true));
+                }}
+              >
                 <IoPersonAdd size={30} />
               </Nav.Item>
             </OverlayTrigger>
@@ -31,7 +44,11 @@ const HeaderBar = ({ handleShowAdd, handleSave }) => {
               delay={{ show: 100, hide: 200 }}
               overlay={<Tooltip id="save">Salva le modifiche</Tooltip>}
             >
-              <Nav.Item onClick={handleSave}>
+              <Nav.Item
+                onClick={() => {
+                  dispatch(saveListUsersOnVercel(users));
+                }}
+              >
                 <GiSave size={30} />
               </Nav.Item>
             </OverlayTrigger>

@@ -1,21 +1,23 @@
-import { Tooltip } from "bootstrap";
-import { Container, FormControl, OverlayTrigger } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import {
+  Container,
+  FormControl,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import { MdEdit } from "react-icons/md";
+import { updateUserSchedule } from "../../redux/actions/usersAction";
 
-const AbsenceNote = ({ event, i, el, setElements }) => {
-  const handleChangeNoteUser = (elementId, eventIndex, comment) => {
-    setElements((prevElements) =>
-      prevElements.map((el) =>
-        el.id === elementId
-          ? {
-              ...el,
-              schedule: el.schedule.map((event, i) =>
-                i === eventIndex ? { ...event, note: comment } : event
-              ),
-            }
-          : el
-      )
-    );
+const AbsenceNote = ({ event, i, el }) => {
+  const dispatch = useDispatch();
+  const handleChangeNoteUser = (eventIndex, comment) => {
+    const updatedUser = {
+      ...el,
+      schedule: el.schedule.map((ev, idx) =>
+        idx === eventIndex ? { ...ev, note: comment } : ev
+      ),
+    };
+    dispatch(updateUserSchedule(updatedUser));
   };
   return (
     <Container
@@ -30,7 +32,7 @@ const AbsenceNote = ({ event, i, el, setElements }) => {
 
       <Container fluid className="m-0 p-0">
         <OverlayTrigger
-          placement="bottom"
+          placement="top"
           delay={{
             show: 100,
             hide: 200,
@@ -42,7 +44,7 @@ const AbsenceNote = ({ event, i, el, setElements }) => {
         <FormControl
           type="input"
           value={event.note}
-          onChange={(e) => handleChangeNoteUser(el.id, i, e.target.value)}
+          onChange={(e) => handleChangeNoteUser(i, e.target.value)}
         />
       </Container>
     </Container>

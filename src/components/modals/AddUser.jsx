@@ -1,13 +1,41 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FormControl, FormGroup, Modal } from "react-bootstrap";
 import { IoIosCloseCircle } from "react-icons/io";
 import { IoPersonAdd } from "react-icons/io5";
-const AddUser = ({
-  showAdd,
-  handleCloseAdd,
-  newElement,
-  setNewElement,
-  addElement,
-}) => {
+import {
+  addUsersOnStore,
+  modalAddUserChanger,
+} from "../../redux/actions/usersAction";
+
+const AddUser = () => {
+  const dispatch = useDispatch();
+
+  const show = useSelector((state) => state.users.handleModalAddUsers);
+  const users = useSelector((state) => state.users.usersList);
+
+  const [localUser, setLocalUser] = useState({
+    id: users?.length + 1,
+    nome: "",
+  });
+
+  const handleLocalUserChange = (key, value) => {
+    setLocalUser((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSaveUser = () => {
+    const completeUser = {
+      ...localUser,
+      schedule: generateYearSchedule(),
+    };
+    const updatedUsersList = [...users, completeUser];
+    dispatch(addUsersOnStore(updatedUsersList));
+    setLocalUser({
+      id: users?.length + 2,
+      nome: "",
+    });
+  };
+
   const generateYearSchedule = () => {
     const schedule = [];
     const currentYear = new Date().getFullYear();
@@ -46,8 +74,18 @@ const AddUser = ({
     }
     return schedule;
   };
+
   return (
-    <Modal show={showAdd} onHide={handleCloseAdd}>
+    <Modal
+      show={show}
+      onHide={() => {
+        dispatch(modalAddUserChanger(false));
+        setLocalUser({
+          id: users?.length + 2,
+          nome: "",
+        });
+      }}
+    >
       <Modal.Header>
         <Modal.Title>Aggiungi Utente</Modal.Title>
       </Modal.Header>
@@ -58,28 +96,36 @@ const AddUser = ({
             type="text"
             placeholder="ID"
             required
-            value={newElement.id}
-            onChange={(e) =>
-              setNewElement({ ...newElement, id: e.target.value })
-            }
+            value={localUser.id}
+            onChange={(e) => handleLocalUserChange("id", e.target.value)}
           />
           <FormControl
             type="text"
             placeholder="Nome"
-            value={newElement.nome}
-            onChange={(e) =>
-              setNewElement({
-                ...newElement,
-                nome: e.target.value,
-                schedule: generateYearSchedule(),
-              })
-            }
+            value={localUser.nome}
+            onChange={(e) => handleLocalUserChange("nome", e.target.value)}
           />
         </FormGroup>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-between">
-        <IoIosCloseCircle size={30} color="red" onClick={handleCloseAdd} />
-        <IoPersonAdd size={30} onClick={addElement} />
+        <IoIosCloseCircle
+          size={30}
+          color="red"
+          onClick={() => {
+            dispatch(modalAddUserChanger(false));
+            setLocalUser({
+              id: users?.length + 2,
+              nome: "",
+            });
+          }}
+        />
+        <IoPersonAdd
+          size={30}
+          onClick={() => {
+            handleSaveUser();
+            dispatch(modalAddUserChanger(false));
+          }}
+        />
       </Modal.Footer>
     </Modal>
   );

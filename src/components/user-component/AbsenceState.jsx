@@ -1,21 +1,17 @@
 import { Container, FormCheck } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { updateUserSchedule } from "../../redux/actions/usersAction";
 
-const AbsenceState = ({ event, i, el, setElements }) => {
-  const handleChangeJustifyUser = (elementId, eventIndex) => {
-    setElements((prevElements) =>
-      prevElements.map((el) =>
-        el.id === elementId
-          ? {
-              ...el,
-              schedule: el.schedule.map((event, i) =>
-                i === eventIndex
-                  ? { ...event, giustificato: !event.giustificato }
-                  : event
-              ),
-            }
-          : el
-      )
-    );
+const AbsenceState = ({ event, i, el }) => {
+  const dispatch = useDispatch();
+  const handleChangeJustifyUser = (eventIndex) => {
+    const updatedUser = {
+      ...el,
+      schedule: el.schedule.map((ev, idx) =>
+        idx === eventIndex ? { ...ev, giustificato: !ev.giustificato } : ev
+      ),
+    };
+    dispatch(updateUserSchedule(updatedUser));
   };
 
   return (
@@ -25,7 +21,7 @@ const AbsenceState = ({ event, i, el, setElements }) => {
         id={toString(el.id) + "-justify"}
         label={event.giustificato === false ? "Giustificato" : "Ingiustificato"}
         checked={event.giustificato}
-        onChange={() => handleChangeJustifyUser(el.id, i)}
+        onChange={() => handleChangeJustifyUser(i)}
         className="fs-6 fw-lighter"
       />
     </Container>

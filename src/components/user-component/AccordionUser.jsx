@@ -1,15 +1,15 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Accordion } from "react-bootstrap";
 import AccordionHeader from "../header/AccordionHeader";
 import Calendar from "react-calendar";
 import TileContentCalendar from "./TileContentCalendar";
 import EventCardCalendar from "./EventCardCalendar";
-import { useState } from "react";
 
-const AccordionUser = ({ elements, setElements }) => {
+const AccordionUser = () => {
+  const elements = useSelector((state) => state.users.usersList);
   const [selectedDate, setSelectedDate] = useState(null);
-  const DateClick = (date) => {
-    setSelectedDate(date);
-  };
+
   return (
     <Accordion defaultActiveKey="0">
       {elements.map((el, i) => (
@@ -17,7 +17,9 @@ const AccordionUser = ({ elements, setElements }) => {
           <AccordionHeader el={el} />
           <Accordion.Body className="d-flex">
             <Calendar
-              onClickDay={DateClick}
+              onClickDay={(date) => {
+                setSelectedDate(date);
+              }}
               tileClassName={({ date }) =>
                 selectedDate &&
                 date.toDateString() === selectedDate.toDateString()
@@ -30,12 +32,7 @@ const AccordionUser = ({ elements, setElements }) => {
                 <TileContentCalendar view={view} el={el} date={date} />
               )}
             />
-            <EventCardCalendar
-              elements={elements}
-              selectedDate={selectedDate}
-              el={el}
-              setElements={setElements}
-            />
+            <EventCardCalendar selectedDate={selectedDate} el={el} />
           </Accordion.Body>
         </Accordion.Item>
       ))}

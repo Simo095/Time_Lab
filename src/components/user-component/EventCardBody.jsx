@@ -1,9 +1,10 @@
+import { useDispatch } from "react-redux";
 import { Container } from "react-bootstrap";
 import RangeTimeJustify from "./RangeTimeJustify";
 import AbsenceNote from "./AbsenceNote";
 import AbsenceState from "./AbsenceState";
 
-const EventCardBody = ({ event, i, el, setElements }) => {
+const EventCardBody = ({ event, i, el }) => {
   const getDayForEvent = (dateString) => {
     const [day, month, year] = dateString.split("/").map(Number);
     const date = new Date(year, month - 1, day);
@@ -52,19 +53,9 @@ const EventCardBody = ({ event, i, el, setElements }) => {
       <Container className="d-flex flex-column justify-content-between">
         {event.assente === false ? null : (
           <Container fluid className="m-0 p-0">
-            <AbsenceState
-              event={event}
-              el={el}
-              i={i}
-              setElements={setElements}
-            />
+            <AbsenceState event={event} el={el} i={i} />
             {event.giustificato === true ? <RangeTimeJustify /> : null}
-            <AbsenceNote
-              event={event}
-              el={el}
-              i={i}
-              setElements={setElements}
-            />
+            <AbsenceNote event={event} el={el} i={i} />
           </Container>
         )}
       </Container>
