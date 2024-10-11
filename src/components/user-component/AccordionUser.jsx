@@ -17,9 +17,10 @@ const AccordionUser = () => {
         <Accordion.Item eventKey={i} key={i}>
           <AccordionHeader el={el} />
           <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
+            <EventCardFooter el={el} />
             <Container fluid className="m-0 p-0 d-flex">
               <Calendar
-                className={"h-25"}
+                className={"h-25 event-container"}
                 onClickDay={(date) => {
                   setSelectedDate(date);
                 }}
@@ -41,7 +42,6 @@ const AccordionUser = () => {
                 setSelectedDate={setSelectedDate}
               />
             </Container>
-            <EventCardFooter el={el} />
           </Accordion.Body>
         </Accordion.Item>
       ))}

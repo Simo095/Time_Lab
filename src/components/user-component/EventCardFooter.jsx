@@ -1,7 +1,14 @@
 import { Container } from "react-bootstrap";
 import { TiUserDelete } from "react-icons/ti";
 import { useDispatch } from "react-redux";
-import { deleteUser } from "../../redux/actions/usersAction";
+import {
+  addReminder,
+  deleteUser,
+  modalStaticUserChanger,
+} from "../../redux/actions/usersAction";
+import { MdOutlineAutoAwesomeMotion } from "react-icons/md";
+import { PiBookBookmarkLight } from "react-icons/pi";
+import ShowHistory from "../modals/ShowHistory";
 
 const EventCardFooter = ({ el }) => {
   const dispatch = useDispatch();
@@ -13,6 +20,13 @@ const EventCardFooter = ({ el }) => {
       dispatch(deleteUser(userId));
     }
   };
+  const handleAddReminder = (userId) => {
+    const reminder = prompt("Inserisci il promemoria:");
+    if (reminder) {
+      dispatch(addReminder(userId, reminder)); // Aggiungi il promemoria
+    }
+  };
+
   return (
     <Container
       fluid
@@ -24,12 +38,37 @@ const EventCardFooter = ({ el }) => {
       >
         <TiUserDelete
           size={30}
-          color="red"
+          color="black"
           className=""
           onClick={() => handleDeleteUser(el.id)}
         />
         <p className="m-0 p-0 fw-lighter fs-6"> Elimina utente</p>
       </Container>
+      <Container
+        fluid
+        className="m-0 p-0 d-flex flex-column justify-content-center align-items-center"
+      >
+        <MdOutlineAutoAwesomeMotion
+          size={30}
+          color="black"
+          className=""
+          onClick={() => handleAddReminder(el.id)}
+        />
+        <p className="m-0 p-0 fw-lighter fs-6"> Aggiungi promemoria</p>
+      </Container>
+      <Container
+        fluid
+        className="m-0 p-0 d-flex flex-column justify-content-center align-items-center"
+      >
+        <PiBookBookmarkLight
+          size={30}
+          color="black"
+          className=""
+          onClick={() => dispatch(modalStaticUserChanger(true))}
+        />
+        <p className="m-0 p-0 fw-lighter fs-6"> Visualizza Statistiche</p>
+      </Container>
+      <ShowHistory el={el} />
     </Container>
   );
 };

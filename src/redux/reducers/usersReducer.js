@@ -1,22 +1,26 @@
 import {
   ADD_LIST_USERS,
   ADD_NEW_USER,
+  ADD_REMINDER,
+  DELETE_REMINDER,
   DELETE_USER,
   ERROR_FETCH_LIST_USERS,
   LOADING_LIST_USERS,
   MODAL_ADD_USER,
+  MODAL_STATIC_USER,
   RESET_NEW_USER,
   UPDATE_USER_SCHEDULE,
 } from "../actions/usersAction";
 
 const initialState = {
   usersList: [],
-  newUser: { id: 0, nome: "" },
+  newUser: { id: 1, nome: "" },
   errorFetchUsersList: false,
   errorSaveUsersList: false,
   errorMsg: false,
   loadingFetchUsersList: false,
   handleModalAddUsers: false,
+  handleModalStaticUsers: false,
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -25,6 +29,7 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         usersList: action.payload,
+        newUser: { id: state.newUser.id + 1, nome: "" },
       };
     case ERROR_FETCH_LIST_USERS:
       return {
@@ -47,6 +52,40 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         handleModalAddUsers: action.payload,
+      };
+    case MODAL_STATIC_USER:
+      return {
+        ...state,
+        handleModalStaticUsers: action.payload,
+      };
+
+    case ADD_REMINDER:
+      return {
+        ...state,
+        usersList: state.usersList.map((user) =>
+          user.id === action.payload.userId
+            ? {
+                ...user,
+                reminders: [...(user.reminders || []), action.payload.reminder],
+              }
+            : user
+        ),
+      };
+    case DELETE_REMINDER:
+      return {
+        ...state,
+        usersList: state.usersList.map((user) =>
+          user.id === action.payload.userId
+            ? {
+                ...user,
+                reminders: [
+                  ...user.reminders.filter(
+                    (rem) => rem !== action.payload.reminder
+                  ),
+                ],
+              }
+            : user
+        ),
       };
 
     case ADD_NEW_USER:

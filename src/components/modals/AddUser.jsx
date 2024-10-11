@@ -13,10 +13,10 @@ const AddUser = () => {
 
   const show = useSelector((state) => state.users.handleModalAddUsers);
   const users = useSelector((state) => state.users.usersList);
+  const newUser = useSelector((state) => state.users.newUser);
 
   const [localUser, setLocalUser] = useState({
-    id: users?.length + 1,
-    nome: "",
+    id: newUser.id,
   });
 
   const handleLocalUserChange = (key, value) => {
@@ -24,6 +24,10 @@ const AddUser = () => {
   };
 
   const handleSaveUser = () => {
+    const maxId = users.reduce(
+      (max, user) => (user.id > max ? user.id : max),
+      1
+    );
     const completeUser = {
       ...localUser,
       schedule: generateYearSchedule(),
@@ -31,7 +35,7 @@ const AddUser = () => {
     const updatedUsersList = [...users, completeUser];
     dispatch(addUsersOnStore(updatedUsersList));
     setLocalUser({
-      id: users?.length + 2,
+      id: newUser.id + 1,
       nome: "",
     });
   };
@@ -80,10 +84,6 @@ const AddUser = () => {
       show={show}
       onHide={() => {
         dispatch(modalAddUserChanger(false));
-        setLocalUser({
-          id: users?.length + 2,
-          nome: "",
-        });
       }}
     >
       <Modal.Header>
@@ -96,8 +96,7 @@ const AddUser = () => {
             type="text"
             placeholder="ID"
             required
-            value={localUser.id}
-            onChange={(e) => handleLocalUserChange("id", e.target.value)}
+            defaultValue={localUser.id}
           />
           <FormControl
             type="text"
@@ -113,10 +112,6 @@ const AddUser = () => {
           color="red"
           onClick={() => {
             dispatch(modalAddUserChanger(false));
-            setLocalUser({
-              id: users?.length + 2,
-              nome: "",
-            });
           }}
         />
         <IoPersonAdd

@@ -1,3 +1,28 @@
+*::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-track {
+  -webkit-box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: transparent !important;
+  display: none;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  display: block;
+  background-color: transparent !important;
+}
+
+.delete-memo {
+  color: red;
+  font-size: 20px !important;
+}
+
 .event-list {
   margin-top: 20px;
   margin-left: 2rem;
@@ -9,6 +34,9 @@
   cursor: pointer;
   transition: transform 2s, box-shadow 2s;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.event-container {
+  width: 50% !important;
 }
 
 .event-card:hover {

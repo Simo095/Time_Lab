@@ -3,6 +3,9 @@ export const ERROR_FETCH_LIST_USERS = "ERROR_FETCH_LIST_USERS";
 export const LOADING_LIST_USERS = "LOADING_LIST_USERS";
 export const UPDATE_USER_SCHEDULE = "UPDATE_USER_SCHEDULE";
 export const MODAL_ADD_USER = "MODAL_ADD_USER";
+export const MODAL_STATIC_USER = "MODAL_STATIC_USER";
+export const ADD_REMINDER = "ADD_REMINDER";
+export const DELETE_REMINDER = "DELETE_REMINDER";
 export const ADD_NEW_USER = "ADD_NEW_USER";
 export const RESET_NEW_USER = "RESET_NEW_USER";
 export const DELETE_USER = "DELETE_USER";
@@ -32,6 +35,10 @@ export const modalAddUserChanger = (condition) => ({
   type: MODAL_ADD_USER,
   payload: condition,
 });
+export const modalStaticUserChanger = (condition) => ({
+  type: MODAL_STATIC_USER,
+  payload: condition,
+});
 export const resetNewUserOnStore = () => ({
   type: RESET_NEW_USER,
 });
@@ -39,6 +46,15 @@ export const resetNewUserOnStore = () => ({
 export const deleteUser = (userId) => ({
   type: DELETE_USER,
   payload: userId,
+});
+
+export const addReminder = (userId, reminder) => ({
+  type: ADD_REMINDER,
+  payload: { userId, reminder },
+});
+export const deleteReminder = (userId, reminder) => ({
+  type: DELETE_REMINDER,
+  payload: { userId, reminder },
 });
 
 export const getFileAndAddOldElements = () => {
