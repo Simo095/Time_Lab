@@ -3,9 +3,6 @@
   margin-left: 2rem;
 }
 
-.event-cards {
-}
-
 .event-card {
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
@@ -15,7 +12,6 @@
 }
 
 .event-card:hover {
-  /* transform: translateY(-5px); */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 

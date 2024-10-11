@@ -5,6 +5,7 @@ export const UPDATE_USER_SCHEDULE = "UPDATE_USER_SCHEDULE";
 export const MODAL_ADD_USER = "MODAL_ADD_USER";
 export const ADD_NEW_USER = "ADD_NEW_USER";
 export const RESET_NEW_USER = "RESET_NEW_USER";
+export const DELETE_USER = "DELETE_USER";
 
 export const addUsersOnStore = (usersList) => ({
   type: ADD_LIST_USERS,
@@ -33,6 +34,11 @@ export const modalAddUserChanger = (condition) => ({
 });
 export const resetNewUserOnStore = () => ({
   type: RESET_NEW_USER,
+});
+
+export const deleteUser = (userId) => ({
+  type: DELETE_USER,
+  payload: userId,
 });
 
 export const getFileAndAddOldElements = () => {

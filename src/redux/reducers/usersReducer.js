@@ -1,6 +1,7 @@
 import {
   ADD_LIST_USERS,
   ADD_NEW_USER,
+  DELETE_USER,
   ERROR_FETCH_LIST_USERS,
   LOADING_LIST_USERS,
   MODAL_ADD_USER,
@@ -61,6 +62,13 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         newUser: { id: state.usersList.length, nome: "" },
       };
+
+    case DELETE_USER:
+      return {
+        ...state,
+        usersList: state.usersList.filter((user) => user.id !== action.payload),
+      };
+
     default:
       return state;
   }

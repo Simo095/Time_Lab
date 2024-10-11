@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { Container, FormCheck } from "react-bootstrap";
 import { updateUserSchedule } from "../../redux/actions/usersAction";
 
-const EventCardHeader = ({ event, el, i }) => {
+const EventCardHeader = ({ event, el, i, setSelectedDate }) => {
   const dispatch = useDispatch();
   const handleChangePresenceUser = (eventIndex) => {
     const updatedUser = {
@@ -15,6 +15,15 @@ const EventCardHeader = ({ event, el, i }) => {
   };
   return (
     <Container className="d-flex flex-column">
+      <div
+        style={{ color: "red", cursor: "pointer" }}
+        className="w-100 text-end m-0 p-0"
+        onClick={() => {
+          setSelectedDate(null);
+        }}
+      >
+        x
+      </div>
       <span className="event-date">{event.giorno}</span>
       <FormCheck
         type="switch"

@@ -1,13 +1,12 @@
 import { useSelector } from "react-redux";
 import { Col, Container, Row } from "react-bootstrap";
-import OverviewUser from "./OverviewUser";
 import EventCardBody from "./EventCardBody";
 import EventCardHeader from "../header/EventCardHeader";
 
-const EventCardCalendar = ({ selectedDate, el }) => {
+const EventCardCalendar = ({ selectedDate, el, setSelectedDate }) => {
   const elements = useSelector((state) => state.users.usersList);
   return (
-    <Container className="event-container">
+    <Container fluid className="m-0 p-0 event-container">
       {elements.length > 0 && selectedDate && (
         <Container>
           <Container className="event-list">
@@ -16,7 +15,12 @@ const EventCardCalendar = ({ selectedDate, el }) => {
                 event.giorno === selectedDate.toLocaleDateString("it-IT") ? (
                   <Row key={i} className="event-card d-flex flex-column gap-3">
                     <Col className="event-card-header">
-                      <EventCardHeader event={event} el={el} i={i} />
+                      <EventCardHeader
+                        event={event}
+                        el={el}
+                        i={i}
+                        setSelectedDate={setSelectedDate}
+                      />
                     </Col>
                     <Col className="event-card-body">
                       <EventCardBody event={event} i={i} el={el} />
@@ -29,8 +33,6 @@ const EventCardCalendar = ({ selectedDate, el }) => {
           </Container>
         </Container>
       )}
-
-      <OverviewUser />
     </Container>
   );
 };

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Container } from "react-bootstrap";
 import AccordionHeader from "../header/AccordionHeader";
 import Calendar from "react-calendar";
 import TileContentCalendar from "./TileContentCalendar";
 import EventCardCalendar from "./EventCardCalendar";
+import EventCardFooter from "./EventCardFooter";
 
 const AccordionUser = () => {
   const elements = useSelector((state) => state.users.usersList);
@@ -15,24 +16,32 @@ const AccordionUser = () => {
       {elements.map((el, i) => (
         <Accordion.Item eventKey={i} key={i}>
           <AccordionHeader el={el} />
-          <Accordion.Body className="d-flex">
-            <Calendar
-              onClickDay={(date) => {
-                setSelectedDate(date);
-              }}
-              tileClassName={({ date }) =>
-                selectedDate &&
-                date.toDateString() === selectedDate.toDateString()
-                  ? "selected"
-                  : ""
-                  ? "event-marked"
-                  : ""
-              }
-              tileContent={({ date, view }) => (
-                <TileContentCalendar view={view} el={el} date={date} />
-              )}
-            />
-            <EventCardCalendar selectedDate={selectedDate} el={el} />
+          <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
+            <Container fluid className="m-0 p-0 d-flex">
+              <Calendar
+                className={"h-25"}
+                onClickDay={(date) => {
+                  setSelectedDate(date);
+                }}
+                tileClassName={({ date }) =>
+                  selectedDate &&
+                  date.toDateString() === selectedDate.toDateString()
+                    ? "selected"
+                    : ""
+                    ? "event-marked"
+                    : ""
+                }
+                tileContent={({ date, view }) => (
+                  <TileContentCalendar view={view} el={el} date={date} />
+                )}
+              />
+              <EventCardCalendar
+                selectedDate={selectedDate}
+                el={el}
+                setSelectedDate={setSelectedDate}
+              />
+            </Container>
+            <EventCardFooter el={el} />
           </Accordion.Body>
         </Accordion.Item>
       ))}
