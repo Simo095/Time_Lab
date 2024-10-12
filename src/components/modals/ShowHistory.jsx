@@ -103,7 +103,8 @@ const ShowHistory = ({ el }) => {
         groupedByMonth[month].totalDays += 1;
         if (!entry.assente) groupedByMonth[month].presentDays += 1;
         if (entry.assente) groupedByMonth[month].absentDays += 1;
-        if (entry.giustificato) groupedByMonth[month].justifiedDays += 1;
+        if (entry.giustificato && entry.assente)
+          groupedByMonth[month].justifiedDays += 1;
       }
     });
 

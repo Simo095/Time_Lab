@@ -15,13 +15,13 @@ const RangeTimeJustify = ({ event, el, i }) => {
   const dispatch = useDispatch();
 
   const [startTimeMornign, setStartTimeMorning] = useState(
-    event?.orarioTeorico[0]
+    event?.orarioAssente[0]
   );
-  const [endTimeMornign, setEndTimeMorning] = useState(event?.orarioTeorico[1]);
+  const [endTimeMornign, setEndTimeMorning] = useState(event?.orarioAssente[1]);
   const [startTimeEvening, setStartTimeEvening] = useState(
-    event?.orarioTeorico[2]
+    event?.orarioAssente[2]
   );
-  const [endTimeEvening, setEndTimeEvening] = useState(event?.orarioTeorico[3]);
+  const [endTimeEvening, setEndTimeEvening] = useState(event?.orarioAssente[3]);
 
   const [errorAbsence, setErrorAbsence] = useState(
     startTimeMornign === "" && endTimeMornign === "" ? true : false
@@ -106,8 +106,8 @@ const RangeTimeJustify = ({ event, el, i }) => {
                 setStartTimeMorning("");
                 setEndTimeMorning("");
               } else {
-                setStartTimeMorning(event?.orarioTeorico[0]);
-                setEndTimeMorning(event?.orarioTeorico[1]);
+                setStartTimeMorning(event?.orarioAssente[0]);
+                setEndTimeMorning(event?.orarioAssente[1]);
               }
             }}
           />
@@ -141,8 +141,8 @@ const RangeTimeJustify = ({ event, el, i }) => {
                   setStartTimeEvening("");
                   setEndTimeEvening("");
                 } else {
-                  setStartTimeEvening(event?.orarioTeorico[2]);
-                  setEndTimeEvening(event?.orarioTeorico[3]);
+                  setStartTimeEvening(event?.orarioAssente[2]);
+                  setEndTimeEvening(event?.orarioAssente[3]);
                 }
               }}
             />
