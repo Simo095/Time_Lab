@@ -33,6 +33,7 @@ const ShowHistory = ({ el }) => {
       justifiedPercentage,
     };
   };
+
   const stats = calculateScheduleStatistics(el.schedule);
   return (
     <Modal

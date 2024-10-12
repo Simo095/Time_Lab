@@ -115,6 +115,8 @@ export const handleChangeTimeUser = (eventIndex, el, arrayAbsence) => {
 export const handleSaveUser = (localUser, setLocalUser, users, newUser) => {
   return async (dispatch) => {
     try {
+      const schedule = generateYearSchedule();
+      console.log(schedule);
       const completeUser = {
         ...localUser,
         schedule: generateYearSchedule(),
@@ -131,48 +133,46 @@ export const handleSaveUser = (localUser, setLocalUser, users, newUser) => {
   };
 };
 export const generateYearSchedule = () => {
-  return async (dispatch) => {
-    try {
-      const schedule = [];
-      const currentYear = new Date().getFullYear();
-      for (let month = new Date().getMonth(); month < 12; month++) {
-        const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
+  try {
+    const schedule = [];
+    const currentYear = new Date().getFullYear();
+    for (let month = new Date().getMonth(); month < 12; month++) {
+      const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
 
-        for (let day = 1; day <= daysInMonth; day++) {
-          const date = new Date(currentYear, month, day);
-          const dayOfWeek = date.getDay();
-          if (dayOfWeek === 0 || dayOfWeek === 6) {
-            schedule.push({
-              giorno: date.toLocaleDateString("it-IT"),
-            });
-          } else if (dayOfWeek === 2 || dayOfWeek === 4) {
-            schedule.push({
-              giorno: date.toLocaleDateString("it-IT"),
-              orarioLavorato: ["08:30", "12:30", "14:30", "16:00"],
-              orarioTeorico: ["08:30", "12:30", "14:30", "16:00"],
-              giustificato: true,
-              assente: false,
-              orarioAssente: [],
-              oreGiustificate: 0,
-              note: "",
-            });
-          } else {
-            schedule.push({
-              giorno: date.toLocaleDateString("it-IT"),
-              orarioLavorato: ["08:30", "12:30"],
-              orarioTeorico: ["08:30", "12:30"],
-              giustificato: true,
-              assente: false,
-              orarioAssente: [],
-              oreGiustificate: 0,
-              note: "",
-            });
-          }
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(currentYear, month, day);
+        const dayOfWeek = date.getDay();
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+          schedule.push({
+            giorno: date.toLocaleDateString("it-IT"),
+          });
+        } else if (dayOfWeek === 2 || dayOfWeek === 4) {
+          schedule.push({
+            giorno: date.toLocaleDateString("it-IT"),
+            orarioLavorato: ["08:30", "12:30", "14:30", "16:00"],
+            orarioTeorico: ["08:30", "12:30", "14:30", "16:00"],
+            giustificato: true,
+            assente: false,
+            orarioAssente: [],
+            oreGiustificate: 0,
+            note: "",
+          });
+        } else {
+          schedule.push({
+            giorno: date.toLocaleDateString("it-IT"),
+            orarioLavorato: ["08:30", "12:30"],
+            orarioTeorico: ["08:30", "12:30"],
+            giustificato: true,
+            assente: false,
+            orarioAssente: [],
+            oreGiustificate: 0,
+            note: "",
+          });
         }
       }
-      return schedule;
-    } catch (error) {
-      console.log(error);
     }
-  };
+    return schedule;
+  } catch (error) {
+    console.log(error);
+  }
 };
