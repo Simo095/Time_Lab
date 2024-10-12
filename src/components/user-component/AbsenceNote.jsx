@@ -6,19 +6,11 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { MdEdit } from "react-icons/md";
-import { updateUserSchedule } from "../../redux/actions/usersAction";
+import { handleChangeNoteUser } from "../../asset/handler&method";
 
 const AbsenceNote = ({ event, i, el }) => {
   const dispatch = useDispatch();
-  const handleChangeNoteUser = (eventIndex, comment) => {
-    const updatedUser = {
-      ...el,
-      schedule: el.schedule.map((ev, idx) =>
-        idx === eventIndex ? { ...ev, note: comment } : ev
-      ),
-    };
-    dispatch(updateUserSchedule(updatedUser));
-  };
+
   return (
     <Container
       fluid
@@ -44,7 +36,9 @@ const AbsenceNote = ({ event, i, el }) => {
         <FormControl
           type="input"
           value={event.note}
-          onChange={(e) => handleChangeNoteUser(i, e.target.value)}
+          onChange={(e) =>
+            dispatch(handleChangeNoteUser(i, e.target.value, el))
+          }
         />
       </Container>
     </Container>

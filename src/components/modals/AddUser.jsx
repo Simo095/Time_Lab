@@ -3,10 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { FormControl, FormGroup, Modal } from "react-bootstrap";
 import { IoIosCloseCircle } from "react-icons/io";
 import { IoPersonAdd } from "react-icons/io5";
-import {
-  addUsersOnStore,
-  modalAddUserChanger,
-} from "../../redux/actions/usersAction";
+import { modalAddUserChanger } from "../../redux/actions/usersAction";
+import { handleSaveUser } from "../../asset/handler&method";
 
 const AddUser = () => {
   const dispatch = useDispatch();
@@ -21,64 +19,6 @@ const AddUser = () => {
 
   const handleLocalUserChange = (key, value) => {
     setLocalUser((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const handleSaveUser = () => {
-    const maxId = users.reduce(
-      (max, user) => (user.id > max ? user.id : max),
-      1
-    );
-    const completeUser = {
-      ...localUser,
-      schedule: generateYearSchedule(),
-    };
-    const updatedUsersList = [...users, completeUser];
-    dispatch(addUsersOnStore(updatedUsersList));
-    setLocalUser({
-      id: newUser.id + 1,
-      nome: "",
-    });
-  };
-
-  const generateYearSchedule = () => {
-    const schedule = [];
-    const currentYear = new Date().getFullYear();
-    for (let month = new Date().getMonth(); month < 12; month++) {
-      const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
-
-      for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(currentYear, month, day);
-        const dayOfWeek = date.getDay();
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-          schedule.push({
-            giorno: date.toLocaleDateString("it-IT"),
-          });
-        } else if (dayOfWeek === 2 || dayOfWeek === 4) {
-          schedule.push({
-            giorno: date.toLocaleDateString("it-IT"),
-            orarioLavorato: ["08:30", "12:30", "14:30", "16:00"],
-            orarioTeorico: ["08:30", "12:30", "14:30", "16:00"],
-            giustificato: true,
-            assente: false,
-            orarioAssente: [],
-            oreGiustificate: 0,
-            note: "",
-          });
-        } else {
-          schedule.push({
-            giorno: date.toLocaleDateString("it-IT"),
-            orarioLavorato: ["08:30", "12:30"],
-            orarioTeorico: ["08:30", "12:30"],
-            giustificato: true,
-            assente: false,
-            orarioAssente: [],
-            oreGiustificate: 0,
-            note: "",
-          });
-        }
-      }
-    }
-    return schedule;
   };
 
   return (
@@ -119,7 +59,7 @@ const AddUser = () => {
         <IoPersonAdd
           size={30}
           onClick={() => {
-            handleSaveUser();
+            dispatch(handleSaveUser(localUser, setLocalUser, users, newUser));
             dispatch(modalAddUserChanger(false));
           }}
         />

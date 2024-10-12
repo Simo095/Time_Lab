@@ -5,14 +5,10 @@ import AbsenceState from "./AbsenceState";
 import { CiTrash } from "react-icons/ci";
 import { useDispatch } from "react-redux";
 import { deleteReminder } from "../../redux/actions/usersAction";
+import { getDayForEvent } from "../../asset/handler&method";
 
 const EventCardBody = ({ event, i, el }) => {
   const dispatch = useDispatch();
-  const getDayForEvent = (dateString) => {
-    const [day, month, year] = dateString.split("/").map(Number);
-    const date = new Date(year, month - 1, day);
-    return date.getDay();
-  };
 
   return (
     <Container fluid className="m-0 p-0">
@@ -29,8 +25,8 @@ const EventCardBody = ({ event, i, el }) => {
           </p>
           <p>{event.orarioLavorato.join(" - ")}</p>
         </Container>
-      ) : getDayForEvent(event.giorno) === 0 ||
-        getDayForEvent(event.giorno) === 6 ? (
+      ) : dispatch(getDayForEvent(event.giorno)) === 0 ||
+        dispatch(getDayForEvent(event.giorno)) === 6 ? (
         <p
           key={i}
           style={{

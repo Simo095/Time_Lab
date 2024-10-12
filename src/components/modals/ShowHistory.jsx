@@ -1,5 +1,4 @@
-import { Modal, Table, Tabs, Tab, Container } from "react-bootstrap";
-import { useState } from "react";
+import { Modal, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { modalStaticUserChanger } from "../../redux/actions/usersAction";
 

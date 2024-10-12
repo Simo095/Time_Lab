@@ -8,11 +8,12 @@ import {
 } from "react-bootstrap";
 import { CiTrash } from "react-icons/ci";
 import { FaBusinessTime } from "react-icons/fa";
-import { updateUserSchedule } from "../../redux/actions/usersAction";
 import { useDispatch } from "react-redux";
+import { handleChangeTimeUser } from "../../asset/handler&method";
 
 const RangeTimeJustify = ({ event, el, i }) => {
   const dispatch = useDispatch();
+
   const [startTimeMornign, setStartTimeMorning] = useState(
     event?.orarioTeorico[0]
   );
@@ -22,6 +23,9 @@ const RangeTimeJustify = ({ event, el, i }) => {
   );
   const [endTimeEvening, setEndTimeEvening] = useState(event?.orarioTeorico[3]);
 
+  const [errorAbsence, setErrorAbsence] = useState(
+    startTimeMornign === "" && endTimeMornign === "" ? true : false
+  );
   const handleStartTimeMorningChange = (e) => {
     setStartTimeMorning(e.target.value);
   };
@@ -79,30 +83,25 @@ const RangeTimeJustify = ({ event, el, i }) => {
   const absenceHours = Math.floor(absenceDuration / 60);
   const absenceMinutes = absenceDuration % 60;
 
-  const handleChangeTimeUser = (eventIndex) => {
-    if (startTimeMornign === "" || endTimeMornign === "") return;
-    const arrayAbsence = [
-      startTimeMornign,
-      endTimeMornign,
-      startTimeEvening && startTimeEvening,
-      endTimeEvening && endTimeEvening,
-    ];
-    const updatedUser = {
-      ...el,
-      schedule: el.schedule.map((ev, idx) =>
-        idx === eventIndex ? { ...ev, orarioAssente: arrayAbsence } : ev
-      ),
-    };
-    dispatch(updateUserSchedule(updatedUser));
-  };
-
   return (
     <Container fluid className="m-0 p-0">
+      {errorAbsence && (
+        <p
+          className="m-0 p-0 fw-lighter"
+          style={{
+            fontSize: "0.9em",
+            color: "red",
+          }}
+        >
+          Inserire almeno un orario di assenza
+        </p>
+      )}
       <FormGroup controlId="formTimeRange">
         <FormLabel className="m-0 p-0 mt-3 fw-lighter">Mattina</FormLabel>
         <Container className="m-0 p-0 d-flex align-items-center gap-2">
           <FormCheck
             onClick={(e) => {
+              setErrorAbsence(false);
               if (e.target.checked) {
                 setStartTimeMorning("");
                 setEndTimeMorning("");
@@ -137,6 +136,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
           <Container className="m-0 p-0 d-flex align-items-center gap-2">
             <FormCheck
               onClick={(e) => {
+                setErrorAbsence(false);
                 if (e.target.checked) {
                   setStartTimeEvening("");
                   setEndTimeEvening("");
@@ -174,7 +174,24 @@ const RangeTimeJustify = ({ event, el, i }) => {
         <FaBusinessTime
           size={20}
           onClick={() => {
-            handleChangeTimeUser(i);
+            if (startTimeMornign === "" && endTimeMornign === "") {
+              if (startTimeEvening === "" && endTimeEvening === "") {
+                setErrorAbsence(true);
+                return;
+              } else {
+                const arrayAbsence = ["", "", startTimeEvening, endTimeEvening];
+                setErrorAbsence(false);
+                console.log(arrayAbsence);
+                dispatch(handleChangeTimeUser(i, el, arrayAbsence));
+              }
+            } else {
+              const arrayAbsence = [startTimeMornign, endTimeMornign];
+              setErrorAbsence(false);
+              if (startTimeEvening !== "" && endTimeEvening !== "")
+                arrayAbsence.push(startTimeEvening, endTimeEvening);
+
+              dispatch(handleChangeTimeUser(i, el, arrayAbsence));
+            }
           }}
         />
         <CiTrash color="red" size={20} />
