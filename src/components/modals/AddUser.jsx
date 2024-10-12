@@ -52,24 +52,26 @@ const AddUser = () => {
         if (dayOfWeek === 0 || dayOfWeek === 6) {
           schedule.push({
             giorno: date.toLocaleDateString("it-IT"),
-            assente: true,
-            giustificato: true,
           });
         } else if (dayOfWeek === 2 || dayOfWeek === 4) {
           schedule.push({
             giorno: date.toLocaleDateString("it-IT"),
-            orario: ["08:30", "12:30", "14:30", "16"],
-            giustificato: false,
+            orarioLavorato: ["08:30", "12:30", "14:30", "16:00"],
+            orarioTeorico: ["08:30", "12:30", "14:30", "16:00"],
+            giustificato: true,
             assente: false,
+            orarioAssente: [],
             oreGiustificate: 0,
             note: "",
           });
         } else {
           schedule.push({
             giorno: date.toLocaleDateString("it-IT"),
-            orario: ["08:30", "12:30"],
-            giustificato: false,
+            orarioLavorato: ["08:30", "12:30"],
+            orarioTeorico: ["08:30", "12:30"],
+            giustificato: true,
             assente: false,
+            orarioAssente: [],
             oreGiustificate: 0,
             note: "",
           });

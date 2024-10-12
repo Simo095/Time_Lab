@@ -19,7 +19,7 @@ const AbsenceState = ({ event, i, el }) => {
       <FormCheck
         type="switch"
         id={toString(el.id) + "-justify"}
-        label={event.giustificato === false ? "Giustificato" : "Ingiustificato"}
+        label={event.giustificato === true ? "Giustificato" : "Ingiustificato"}
         checked={event.giustificato}
         onChange={() => handleChangeJustifyUser(i)}
         className="fs-6 fw-lighter"

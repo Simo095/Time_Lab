@@ -10,7 +10,7 @@ import { MdOutlineAutoAwesomeMotion } from "react-icons/md";
 import { PiBookBookmarkLight } from "react-icons/pi";
 import ShowHistory from "../modals/ShowHistory";
 
-const EventCardFooter = ({ el }) => {
+const EventAccordionHeader = ({ el }) => {
   const dispatch = useDispatch();
   const handleDeleteUser = (userId) => {
     const confirmed = window.confirm(
@@ -22,8 +22,17 @@ const EventCardFooter = ({ el }) => {
   };
   const handleAddReminder = (userId) => {
     const reminder = prompt("Inserisci il promemoria:");
+    const options = {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    };
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString("it-IT", options);
     if (reminder) {
-      dispatch(addReminder(userId, reminder)); // Aggiungi il promemoria
+      dispatch(
+        addReminder(userId, formattedDate + " hai scritto:\n" + reminder)
+      );
     }
   };
 
@@ -73,4 +82,4 @@ const EventCardFooter = ({ el }) => {
   );
 };
 
-export default EventCardFooter;
+export default EventAccordionHeader;

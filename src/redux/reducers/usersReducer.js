@@ -9,6 +9,7 @@ import {
   MODAL_ADD_USER,
   MODAL_STATIC_USER,
   RESET_NEW_USER,
+  UPDATE_USER_ABSENCE_SCHEDULE,
   UPDATE_USER_SCHEDULE,
 } from "../actions/usersAction";
 
@@ -46,6 +47,18 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         usersList: state.usersList.map((user) =>
           user.id === action.payload.id ? action.payload : user
+        ),
+      };
+    case UPDATE_USER_ABSENCE_SCHEDULE:
+      return {
+        ...state,
+        usersList: state.usersList.map((user) =>
+          user.id === action.payload.id
+            ? {
+                ...user,
+                orarioAssente: [...action.payload.orarioAssente],
+              }
+            : user
         ),
       };
     case MODAL_ADD_USER:

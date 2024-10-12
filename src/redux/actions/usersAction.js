@@ -2,6 +2,7 @@ export const ADD_LIST_USERS = "ADD_LIST_USERS";
 export const ERROR_FETCH_LIST_USERS = "ERROR_FETCH_LIST_USERS";
 export const LOADING_LIST_USERS = "LOADING_LIST_USERS";
 export const UPDATE_USER_SCHEDULE = "UPDATE_USER_SCHEDULE";
+export const UPDATE_USER_ABSENCE_SCHEDULE = "UPDATE_USER_ABSENCE_SCHEDULE";
 export const MODAL_ADD_USER = "MODAL_ADD_USER";
 export const MODAL_STATIC_USER = "MODAL_STATIC_USER";
 export const ADD_REMINDER = "ADD_REMINDER";
@@ -27,6 +28,11 @@ export const updateUserSchedule = (updatedUser) => ({
   type: UPDATE_USER_SCHEDULE,
   payload: updatedUser,
 });
+export const updateUserAbsenceSchedule = (updatedUser) => ({
+  type: UPDATE_USER_ABSENCE_SCHEDULE,
+  payload: updatedUser,
+});
+
 export const addNewUserOnStore = (user) => ({
   type: ADD_NEW_USER,
   payload: user,

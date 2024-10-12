@@ -5,7 +5,7 @@ import AccordionHeader from "../header/AccordionHeader";
 import Calendar from "react-calendar";
 import TileContentCalendar from "./TileContentCalendar";
 import EventCardCalendar from "./EventCardCalendar";
-import EventCardFooter from "./EventCardFooter";
+import EventAccordionHeader from "../header/EventAccordionHeader";
 
 const AccordionUser = () => {
   const elements = useSelector((state) => state.users.usersList);
@@ -17,7 +17,7 @@ const AccordionUser = () => {
         <Accordion.Item eventKey={i} key={i}>
           <AccordionHeader el={el} />
           <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
-            <EventCardFooter el={el} />
+            <EventAccordionHeader el={el} />
             <Container fluid className="m-0 p-0 d-flex">
               <Calendar
                 className={"h-25 event-container"}

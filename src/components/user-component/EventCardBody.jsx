@@ -27,7 +27,7 @@ const EventCardBody = ({ event, i, el }) => {
           >
             Presente
           </p>
-          <p>{event.orario.join(" - ")}</p>
+          <p>{event.orarioLavorato.join(" - ")}</p>
         </Container>
       ) : getDayForEvent(event.giorno) === 0 ||
         getDayForEvent(event.giorno) === 6 ? (
@@ -41,52 +41,64 @@ const EventCardBody = ({ event, i, el }) => {
           Chiuso
         </p>
       ) : (
-        <Container fluid className="m-0 p-0">
-          <p
-            style={{
-              fontSize: "0.8em",
-              color: "red",
-            }}
+        <Container>
+          <Container fluid className="m-0 p-0">
+            <p
+              className="m-0 p-0 fw-lighter"
+              style={{
+                fontSize: "0.9em",
+                color: "red",
+              }}
+            >
+              Inserisci l'orario di assenza
+            </p>
+            <RangeTimeJustify event={event} el={el} i={i} />
+          </Container>
+
+          <Container
+            fluid
+            className="d-flex flex-column justify-content-between m-0 p-0"
           >
-            Assente
-          </p>
+            {event.assente === false ? null : (
+              <Container fluid className="m-0 p-0">
+                <AbsenceState event={event} el={el} i={i} />
+                {event.giustificato === true ? null : null}
+                <AbsenceNote event={event} el={el} i={i} />
+              </Container>
+            )}
+          </Container>
+
+          <Container className="">
+            <h6 className="fw-lighter">Promemoria per {el.nome}</h6>
+            {el.reminders &&
+              el.reminders.map((reminder, i) => (
+                <Container
+                  fluid
+                  className="m-0 p-0 d-flex align-items-center justify-content-between"
+                >
+                  <p> {i + 1}-</p>
+                  <p
+                    key={i}
+                    className="reminder m-0 p-0 fw-lighter overflow-x-scroll w-75"
+                  >
+                    {reminder.split("\n").map((line, index) => (
+                      <span key={index}>
+                        {line}
+                        {index < reminder.split("\n").length - 1 && <br />}
+                      </span>
+                    ))}
+                  </p>
+                  <CiTrash
+                    className="delete-memo"
+                    onClick={() => {
+                      dispatch(deleteReminder(el.id, reminder));
+                    }}
+                  />
+                </Container>
+              ))}
+          </Container>
         </Container>
       )}
-
-      <Container className="d-flex flex-column justify-content-between">
-        {event.assente === false ? null : (
-          <Container fluid className="m-0 p-0">
-            <AbsenceState event={event} el={el} i={i} />
-            {event.giustificato === true ? <RangeTimeJustify /> : null}
-            <AbsenceNote event={event} el={el} i={i} />
-          </Container>
-        )}
-      </Container>
-      <Container className="">
-        <h6 className="fw-lighter">Promemoria per {el.nome}</h6>
-
-        {el.reminders &&
-          el.reminders.map((reminder, i) => (
-            <Container
-              fluid
-              className="m-0 p-0 d-flex align-items-center justify-content-between"
-            >
-              <p> {i + 1}-</p>
-              <p
-                key={i}
-                className="reminder m-0 p-0 fw-lighter overflow-x-scroll w-75"
-              >
-                {reminder}
-              </p>
-              <CiTrash
-                className="delete-memo"
-                onClick={() => {
-                  dispatch(deleteReminder(el.id, reminder));
-                }}
-              />
-            </Container>
-          ))}
-      </Container>
     </Container>
   );
 };
