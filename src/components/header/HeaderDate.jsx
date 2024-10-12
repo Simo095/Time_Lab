@@ -31,7 +31,7 @@ const HeaderDate = () => {
   };
 
   return (
-    <Container fluid className="m-0 p-0">
+    <Container fluid className="m-0 p-0 sticky-top bg-success text-white">
       {" "}
       <p className="m-0 p-0">Oggi è </p>
       <h2>

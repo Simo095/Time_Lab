@@ -1,5 +1,5 @@
 *::-webkit-scrollbar {
-  width: 12px;
+  width: 0px;
   background-color: transparent;
 }
 
@@ -23,15 +23,9 @@
   font-size: 20px !important;
 }
 
-.event-list {
-  margin-top: 20px;
-  margin-left: 2rem;
-}
-
 .event-card {
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
-  cursor: pointer;
   transition: transform 2s, box-shadow 2s;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -43,41 +37,15 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.event-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
 .event-date {
   color: #f07809;
 }
-.event-form {
-  margin-bottom: 20px;
-}
 
-.event-form h2 {
-  margin-bottom: 10px;
-  color: #007bff;
-}
-
-.event-form p {
-  font-size: 1.2rem;
-  color: #1403f6;
-}
-
-.event-form input {
-  padding: 8px;
-  font-size: 1rem;
-  margin-right: 10px;
-}
 .selected {
   background-color: #40c3ff !important;
   color: rgb(0, 0, 0);
 }
-
-.event-marked {
-  background-color: #ff4081;
+.react-calendar__tile--active {
+  background-color: #40c3ff !important;
   color: rgb(0, 0, 0);
 }

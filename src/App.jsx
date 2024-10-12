@@ -20,8 +20,8 @@ const App = () => {
   return (
     <Container fluid className="App m-0 p-0">
       <HeaderBar />
-      <Container>
-        <HeaderDate />
+      <HeaderDate />
+      <Container className="">
         <AccordionUser />
       </Container>
       <AddUser />

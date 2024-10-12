@@ -15,7 +15,6 @@ const EventCardBody = ({ event, i, el }) => {
       {event.assente === false ? (
         <Container fluid className="m-0 p-0">
           <p
-            key={i}
             style={{
               fontSize: "0.8em",
               color: "green",
@@ -28,7 +27,6 @@ const EventCardBody = ({ event, i, el }) => {
       ) : dispatch(getDayForEvent(event.giorno)) === 0 ||
         dispatch(getDayForEvent(event.giorno)) === 6 ? (
         <p
-          key={i}
           style={{
             fontSize: "0.8em",
             color: "black",
@@ -40,7 +38,7 @@ const EventCardBody = ({ event, i, el }) => {
         <Container>
           <Container fluid className="m-0 p-0">
             <p
-              className="m-0 p-0 fw-lighter"
+              className="m-0 p-0 mt-2 fw-light"
               style={{
                 fontSize: "0.9em",
                 color: "red",
@@ -64,15 +62,16 @@ const EventCardBody = ({ event, i, el }) => {
             )}
           </Container>
 
-          <Container className="">
-            <h6 className="fw-lighter">Promemoria per {el.nome}</h6>
-            {el.reminders &&
+          <Container fluid className="m-0 p-0">
+            <p className="m-0 p-0 fw-light">Promemoria per {el.nome}</p>
+            {el.reminders && el.reminders.length !== 0 ? (
               el.reminders.map((reminder, i) => (
                 <Container
                   fluid
                   className="m-0 p-0 d-flex align-items-center justify-content-between"
                 >
                   <p> {i + 1}-</p>
+
                   <p
                     key={i}
                     className="reminder m-0 p-0 fw-lighter overflow-x-scroll w-75"
@@ -91,7 +90,10 @@ const EventCardBody = ({ event, i, el }) => {
                     }}
                   />
                 </Container>
-              ))}
+              ))
+            ) : (
+              <p className="m-0 p-0 fw-lighter">Nessun promemoria</p>
+            )}
           </Container>
         </Container>
       )}

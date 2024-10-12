@@ -75,10 +75,10 @@ const RangeTimeJustify = ({ event, el, i }) => {
   };
 
   const absenceDuration = calculateAbsenceHours(
-    event.orarioAssente[0],
-    event.orarioAssente[1],
-    event.orarioAssente[2],
-    event.orarioAssente[3]
+    event?.orarioAssente[0],
+    event?.orarioAssente[1],
+    event?.orarioAssente[2],
+    event?.orarioAssente[3]
   );
   const absenceHours = Math.floor(absenceDuration / 60);
   const absenceMinutes = absenceDuration % 60;
@@ -96,8 +96,8 @@ const RangeTimeJustify = ({ event, el, i }) => {
           Inserire almeno un orario di assenza
         </p>
       )}
-      <FormGroup controlId="formTimeRange">
-        <FormLabel className="m-0 p-0 mt-3 fw-lighter">Mattina</FormLabel>
+      <FormGroup className="" controlId="formTimeRange">
+        <FormLabel className="m-0 p-0 fw-lighter">Mattina</FormLabel>
         <Container className="m-0 p-0 d-flex align-items-center gap-2">
           <FormCheck
             onClick={(e) => {
@@ -131,7 +131,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
       </FormGroup>
       {event?.orarioTeorico[2] && (
         <FormGroup controlId="formTimeRange">
-          <FormLabel className="m-0 p-0 mt-3 fw-lighter">Pomeriggio</FormLabel>
+          <FormLabel className="m-0 p-0 fw-lighter">Pomeriggio</FormLabel>
 
           <Container className="m-0 p-0 d-flex align-items-center gap-2">
             <FormCheck
@@ -166,8 +166,10 @@ const RangeTimeJustify = ({ event, el, i }) => {
         </FormGroup>
       )}
 
-      <div className="d-flex justify-content-between">
-        orario di assenza: <br />
+      <div className="m-0 p-0 my-1 d-flex justify-content-between">
+        <p style={{ fontSize: "0.9em" }} className="fw-lighter m-0 p-0 ">
+          orario di assenza:
+        </p>
         <span>
           ({absenceHours}h {absenceMinutes}m)
         </span>

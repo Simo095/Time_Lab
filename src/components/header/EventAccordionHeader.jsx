@@ -22,19 +22,6 @@ const EventAccordionHeader = ({ el }) => {
         fluid
         className="m-0 p-0 d-flex flex-column justify-content-center align-items-center"
       >
-        <TiUserDelete
-          size={30}
-          color="black"
-          cursor={"pointer"}
-          className=""
-          onClick={() => dispatch(handleDeleteUser(el))}
-        />
-        <p className="m-0 p-0 fw-lighter fs-6"> Elimina utente</p>
-      </Container>
-      <Container
-        fluid
-        className="m-0 p-0 d-flex flex-column justify-content-center align-items-center"
-      >
         <MdOutlineAutoAwesomeMotion
           size={30}
           color="black"
@@ -54,6 +41,19 @@ const EventAccordionHeader = ({ el }) => {
           onClick={() => dispatch(modalStaticUserChanger(true))}
         />
         <p className="m-0 p-0 fw-lighter fs-6"> Visualizza Statistiche</p>
+      </Container>
+      <Container
+        fluid
+        className="m-0 p-0 d-flex flex-column justify-content-center align-items-center"
+      >
+        <TiUserDelete
+          size={30}
+          color="black"
+          cursor={"pointer"}
+          className=""
+          onClick={() => dispatch(handleDeleteUser(el))}
+        />
+        <p className="m-0 p-0 fw-lighter fs-6"> Elimina utente</p>
       </Container>
       <ShowHistory el={el} />
     </Container>

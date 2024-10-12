@@ -14,7 +14,7 @@ const AccordionUser = () => {
   return (
     <Accordion defaultActiveKey="0">
       {elements.map((el, i) => (
-        <Accordion.Item eventKey={i} key={i}>
+        <Accordion.Item eventKey={i} key={el.id}>
           <AccordionHeader el={el} />
           <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
             <EventAccordionHeader el={el} />
@@ -28,8 +28,6 @@ const AccordionUser = () => {
                   selectedDate &&
                   date.toDateString() === selectedDate.toDateString()
                     ? "selected"
-                    : ""
-                    ? "event-marked"
                     : ""
                 }
                 tileContent={({ date, view }) => (
