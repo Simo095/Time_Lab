@@ -7,14 +7,14 @@ import {
 } from "react-bootstrap";
 import { GiSave } from "react-icons/gi";
 import { IoPersonAdd } from "react-icons/io5";
-import { MdMenuBook } from "react-icons/md";
+import { MdMenuBook, MdOutlineLogout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
   modalAddUserChanger,
   saveListUsersOnVercel,
 } from "../../redux/actions/usersAction";
 
-const HeaderBar = () => {
+const HeaderBar = ({ setPw }) => {
   const dispatch = useDispatch();
 
   const users = useSelector((state) => state.users.usersList);
@@ -59,6 +59,15 @@ const HeaderBar = () => {
             >
               <Nav.Item>
                 <MdMenuBook size={30} />
+              </Nav.Item>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="bottom"
+              delay={{ show: 100, hide: 200 }}
+              overlay={<Tooltip id="history-time">Esci</Tooltip>}
+            >
+              <Nav.Item>
+                <MdOutlineLogout onClick={() => setPw("")} size={30} />
               </Nav.Item>
             </OverlayTrigger>
           </Nav>

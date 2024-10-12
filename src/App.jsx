@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Container } from "react-bootstrap";
 import AddUser from "./components/modals/AddUser";
@@ -12,6 +12,8 @@ import "react-calendar/dist/Calendar.css";
 
 const App = () => {
   const dispatch = useDispatch();
+  const password = "03011997";
+  const [pw, setPw] = useState("");
 
   useEffect(() => {
     console.log("LOOP IN APP");
@@ -19,12 +21,46 @@ const App = () => {
   }, []);
   return (
     <Container fluid className="App m-0 p-0">
-      <HeaderBar />
-      <HeaderDate />
-      <Container className="">
-        <AccordionUser />
-      </Container>
-      <AddUser />
+      {pw === password ? (
+        <>
+          <HeaderBar setPw={setPw} />
+          <HeaderDate />
+          <Container className="">
+            <AccordionUser />
+          </Container>
+          <AddUser />
+        </>
+      ) : (
+        <Container
+          style={{ height: "100vh" }}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <div className="group">
+            <svg
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon"
+            >
+              <path
+                d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+              ></path>
+            </svg>
+            <input
+              class="input"
+              type="password"
+              placeholder="password"
+              value={pw}
+              onChange={(e) => {
+                setPw(e.target.value);
+              }}
+            />
+          </div>
+        </Container>
+      )}
     </Container>
   );
 };
