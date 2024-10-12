@@ -50,7 +50,7 @@ const App = () => {
               ></path>
             </svg>
             <input
-              class="input"
+              className="input"
               type="password"
               placeholder="password"
               value={pw}
