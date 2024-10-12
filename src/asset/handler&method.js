@@ -142,7 +142,9 @@ export const generateYearSchedule = () => {
       for (let day = 1; day <= daysInMonth; day++) {
         const date = new Date(currentYear, month, day);
         const dayOfWeek = date.getDay();
-        if (dayOfWeek === 2 || dayOfWeek === 4) {
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+          continue;
+        } else if (dayOfWeek === 2 || dayOfWeek === 4) {
           schedule.push({
             giorno: date.toLocaleDateString("it-IT"),
             orarioLavorato: ["08:30", "12:30", "14:30", "16:00"],
