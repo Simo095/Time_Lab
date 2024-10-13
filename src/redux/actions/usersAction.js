@@ -48,9 +48,12 @@ export const modalStaticUserChanger = (condition) => ({
 export const getFileAndAddOldElements = () => {
   return async (dispatch) => {
     try {
-      const getFile = await fetch(`https://agne-manager.vercel.app/api/get`, {
-        method: "GET",
-      });
+      const getFile = await fetch(
+        `https://employees-manager-communty..vercel.app/api/get`,
+        {
+          method: "GET",
+        }
+      );
       if (getFile.ok) {
         const objReq = await getFile.json();
         const url = objReq[0].url;
@@ -69,13 +72,16 @@ export const getFileAndAddOldElements = () => {
 export const saveListUsersOnVercel = (elements) => {
   return async (dispatch) => {
     try {
-      const response = await fetch("https://agne-manager.vercel.app/api/post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(elements),
-      });
+      const response = await fetch(
+        "https://employees-manager-communty..vercel.app/api/post",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(elements),
+        }
+      );
 
       const result = await response.json();
       if (response.ok) {

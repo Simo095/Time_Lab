@@ -1,8 +1,6 @@
 {
   "rewrites": [
     { "source": "/api/get", "destination": "/api/getFile" },
-    { "source": "/api/post", "destination": "/api/updateFile" },
-    { "source": "/api/getMT", "destination": "/api/getMonthlyTimetable" },
-    { "source": "/api/postMT", "destination": "/api/updateMonthlyTimetable" }
+    { "source": "/api/post", "destination": "/api/updateFile" }
   ]
 }
