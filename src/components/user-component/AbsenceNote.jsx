@@ -1,10 +1,5 @@
 import { useDispatch } from "react-redux";
-import {
-  Container,
-  FormControl,
-  OverlayTrigger,
-  Tooltip,
-} from "react-bootstrap";
+import { Container, FormControl } from "react-bootstrap";
 import { MdEdit, MdSave } from "react-icons/md";
 import { handleChangeNoteUser } from "../../asset/handler&method";
 import { useState } from "react";

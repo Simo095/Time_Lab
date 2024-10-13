@@ -112,6 +112,22 @@ export const handleChangeTimeUser = (eventIndex, el, arrayAbsence) => {
     }
   };
 };
+export const handleDeleteTimeUser = (eventIndex, el) => {
+  return async (dispatch) => {
+    try {
+      const updatedUser = {
+        ...el,
+        schedule: el.schedule.map((ev, idx) =>
+          idx === eventIndex ? { ...ev, orarioAssente: [] } : ev
+        ),
+      };
+
+      dispatch(updateUserSchedule(updatedUser));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 export const handleSaveUser = (localUser, setLocalUser, users, newUser) => {
   return async (dispatch) => {
     try {

@@ -18,7 +18,7 @@ const App = () => {
   useEffect(() => {
     console.log("LOOP IN APP");
     dispatch(getFileAndAddOldElements());
-  }, []);
+  }, [dispatch]);
   return (
     <Container fluid className="App m-0 p-0">
       {pw === password ? (
@@ -38,15 +38,15 @@ const App = () => {
           <div className="group">
             <svg
               stroke="currentColor"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
-              class="icon"
+              className="icon"
             >
               <path
                 d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-                stroke-linejoin="round"
-                stroke-linecap="round"
+                strokeLinejoin="round"
+                strokeLinecap="round"
               ></path>
             </svg>
             <input

@@ -9,7 +9,10 @@ import {
 import { CiTrash } from "react-icons/ci";
 import { FaBusinessTime } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { handleChangeTimeUser } from "../../asset/handler&method";
+import {
+  handleChangeTimeUser,
+  handleDeleteTimeUser,
+} from "../../asset/handler&method";
 
 const RangeTimeJustify = ({ event, el, i }) => {
   const dispatch = useDispatch();
@@ -183,7 +186,6 @@ const RangeTimeJustify = ({ event, el, i }) => {
               } else {
                 const arrayAbsence = ["", "", startTimeEvening, endTimeEvening];
                 setErrorAbsence(false);
-                console.log(arrayAbsence);
                 dispatch(handleChangeTimeUser(i, el, arrayAbsence));
               }
             } else {
@@ -196,7 +198,13 @@ const RangeTimeJustify = ({ event, el, i }) => {
             }
           }}
         />
-        <CiTrash color="red" size={20} />
+        <CiTrash
+          color="red"
+          size={20}
+          onClick={() => {
+            dispatch(handleDeleteTimeUser(i, el));
+          }}
+        />
       </div>
     </Container>
   );

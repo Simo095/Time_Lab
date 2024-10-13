@@ -63,28 +63,28 @@ const EventCardBody = ({ event, i, el }) => {
           </Container>
 
           <Container fluid className="m-0 p-0">
-            <p className="m-0 p-0 fw-light">Promemoria per {el.nome}</p>
+            <p className="m-0 p-0 my-1 fw-light">Promemoria per {el.nome}</p>
             {el.reminders && el.reminders.length !== 0 ? (
               el.reminders.map((reminder, i) => (
                 <Container
                   fluid
-                  className="m-0 p-0 d-flex align-items-center justify-content-between"
+                  className="m-0 p-0 d-flex justify-content-between"
                 >
-                  <p> {i + 1}-</p>
+                  <p className="m-0 p-0"> {i + 1}-</p>
 
                   <p
                     key={i}
                     className="reminder m-0 p-0 fw-lighter overflow-x-scroll w-75"
                   >
                     {reminder.split("\n").map((line, index) => (
-                      <span key={index}>
+                      <span key={index} className="m-0 p-0">
                         {line}
                         {index < reminder.split("\n").length - 1 && <br />}
                       </span>
                     ))}
                   </p>
                   <CiTrash
-                    className="delete-memo"
+                    className="delete-memo m-0 p-0"
                     onClick={() => {
                       dispatch(deleteReminder(el.id, reminder));
                     }}
