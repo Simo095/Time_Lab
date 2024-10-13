@@ -49,7 +49,7 @@ export const getFileAndAddOldElements = () => {
   return async (dispatch) => {
     try {
       const getFile = await fetch(
-        `https://employees-manager-communty..vercel.app/api/get`,
+        `https://employees-manager-communty.vercel.app/api/get`,
         {
           method: "GET",
         }
@@ -73,7 +73,7 @@ export const saveListUsersOnVercel = (elements) => {
   return async (dispatch) => {
     try {
       const response = await fetch(
-        "https://employees-manager-communty..vercel.app/api/post",
+        "https://employees-manager-communty.vercel.app/api/post",
         {
           method: "POST",
           headers: {
