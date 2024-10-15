@@ -4,8 +4,8 @@ import { Accordion, Container } from "react-bootstrap";
 import AccordionHeader from "../header/AccordionHeader";
 import Calendar from "react-calendar";
 import TileContentCalendar from "./TileContentCalendar";
-import EventCardCalendar from "./EventCardCalendar";
-import EventAccordionHeader from "../header/EventAccordionHeader";
+import DetailsDate from "./DetalisDate";
+import UserTools from "../header/UserTools";
 
 const AccordionUser = () => {
   const elements = useSelector((state) => state.users.usersList);
@@ -17,7 +17,7 @@ const AccordionUser = () => {
         <Accordion.Item eventKey={i} key={el.id}>
           <AccordionHeader el={el} />
           <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
-            <EventAccordionHeader el={el} />
+            <UserTools el={el} />
             <Container fluid className="m-0 p-0 d-flex">
               <Calendar
                 className={"h-25 event-container"}
@@ -34,7 +34,7 @@ const AccordionUser = () => {
                   <TileContentCalendar view={view} el={el} date={date} />
                 )}
               />
-              <EventCardCalendar
+              <DetailsDate
                 selectedDate={selectedDate}
                 el={el}
                 setSelectedDate={setSelectedDate}

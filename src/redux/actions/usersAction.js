@@ -4,6 +4,7 @@ export const LOADING_LIST_USERS = "LOADING_LIST_USERS";
 export const UPDATE_USER_SCHEDULE = "UPDATE_USER_SCHEDULE";
 export const MODAL_ADD_USER = "MODAL_ADD_USER";
 export const MODAL_STATIC_USER = "MODAL_STATIC_USER";
+export const MODAL_STATIC_USERS = "MODAL_STATIC_USERS";
 export const ADD_REMINDER = "ADD_REMINDER";
 export const DELETE_REMINDER = "DELETE_REMINDER";
 export const DELETE_USER = "DELETE_USER";
@@ -44,19 +45,20 @@ export const modalStaticUserChanger = (condition) => ({
   type: MODAL_STATIC_USER,
   payload: condition,
 });
+export const modalStaticUsersChanger = (condition) => ({
+  type: MODAL_STATIC_USERS,
+  payload: condition,
+});
 
 export const getFileAndAddOldElements = () => {
   return async (dispatch) => {
     try {
-      const getFile = await fetch(
-        `https://employees-manager-communty.vercel.app/api/get`,
-        {
-          method: "GET",
-        }
+      const reqGetFile = await fetch(
+        `https://employees-manager-communty.vercel.app/api/get`
       );
-      if (getFile.ok) {
-        const objReq = await getFile.json();
-        const url = objReq[0].url;
+      if (reqGetFile.ok) {
+        const files = await reqGetFile.json();
+        const url = files[0].url;
         const req = await fetch(`${url}`);
         if (req.ok) {
           const oldData = await req.json();
@@ -69,31 +71,29 @@ export const getFileAndAddOldElements = () => {
   };
 };
 
-export const saveListUsersOnVercel = (elements) => {
-  return async (dispatch) => {
-    try {
-      const response = await fetch(
-        "https://employees-manager-communty.vercel.app/api/post",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(elements),
-        }
-      );
-
-      const result = await response.json();
-      if (response.ok) {
-        console.log("File salvato correttamente:", result.url);
-
-        return true;
-      } else {
-        console.error("Errore nel salvataggio:", result.error);
-        return false;
+export const saveListUsersOnVercel = async (elements) => {
+  try {
+    const response = await fetch(
+      "https://employees-manager-communty.vercel.app/api/post",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(elements),
       }
-    } catch (error) {
-      console.error("Errore:", error);
+    );
+
+    const result = await response.json();
+    if (response.ok) {
+      console.log("File salvato correttamente:", result.url);
+
+      return true;
+    } else {
+      console.error("Errore nel salvataggio:", result.error);
+      return false;
     }
-  };
+  } catch (error) {
+    console.error("Errore:", error);
+  }
 };

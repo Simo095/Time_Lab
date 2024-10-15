@@ -11,6 +11,7 @@ import { MdMenuBook, MdOutlineLogout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
   modalAddUserChanger,
+  modalStaticUsersChanger,
   saveListUsersOnVercel,
 } from "../../redux/actions/usersAction";
 
@@ -58,7 +59,12 @@ const HeaderBar = ({ setPw }) => {
               overlay={<Tooltip id="history-time">Un po' di Dati</Tooltip>}
             >
               <Nav.Item>
-                <MdMenuBook size={30} />
+                <MdMenuBook
+                  onClick={() => {
+                    dispatch(modalStaticUsersChanger(true));
+                  }}
+                  size={30}
+                />
               </Nav.Item>
             </OverlayTrigger>
             <OverlayTrigger

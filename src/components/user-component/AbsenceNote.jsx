@@ -19,7 +19,7 @@ const AbsenceNote = ({ event, i, el }) => {
     >
       <Container fluid className="m-0 p-0 d-flex justify-content-between">
         <p className="m-0 p-0 fw-light" style={{ fontSize: "1em" }}>
-          Motivi Assenza:
+          Motivi Assenza / Ritardo:
         </p>
         {isEdit ? (
           <MdSave size={20} onClick={handleEditClick} />

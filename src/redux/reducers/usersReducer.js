@@ -7,17 +7,26 @@ import {
   LOADING_LIST_USERS,
   MODAL_ADD_USER,
   MODAL_STATIC_USER,
+  MODAL_STATIC_USERS,
   UPDATE_USER_SCHEDULE,
 } from "../actions/usersAction";
 
 const initialState = {
   usersList: [],
-  newUser: { id: 1, nome: "" },
+  newUser: {
+    id: 1,
+    nome: "",
+    oreGiustificate: 0,
+    totaleAssenze: 0,
+    totalePresenze: 0,
+    totaleRitardi: 0,
+  },
   errorFetchUsersList: false,
   errorSaveUsersList: false,
   errorMsg: false,
   loadingFetchUsersList: false,
   handleModalAddUsers: false,
+  handleModalStaticUser: false,
   handleModalStaticUsers: false,
 };
 
@@ -79,12 +88,18 @@ const usersReducer = (state = initialState, action) => {
             : user
         ),
       };
+
     case MODAL_ADD_USER:
       return {
         ...state,
         handleModalAddUsers: action.payload,
       };
     case MODAL_STATIC_USER:
+      return {
+        ...state,
+        handleModalStaticUser: action.payload,
+      };
+    case MODAL_STATIC_USERS:
       return {
         ...state,
         handleModalStaticUsers: action.payload,

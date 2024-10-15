@@ -4,13 +4,13 @@ import { useDispatch } from "react-redux";
 import { modalStaticUserChanger } from "../../redux/actions/usersAction";
 import { MdOutlineAutoAwesomeMotion } from "react-icons/md";
 import { PiBookBookmarkLight } from "react-icons/pi";
-import ShowHistory from "../modals/ShowHistory";
+import OverviewUser from "../modals/OverviewUser";
 import {
   handleAddReminder,
   handleDeleteUser,
 } from "../../asset/handler&method";
 
-const EventAccordionHeader = ({ el }) => {
+const UserTools = ({ el }) => {
   const dispatch = useDispatch();
 
   return (
@@ -55,9 +55,9 @@ const EventAccordionHeader = ({ el }) => {
         />
         <p className="m-0 p-0 fw-lighter fs-6"> Elimina utente</p>
       </Container>
-      <ShowHistory el={el} />
+      <OverviewUser el={el} />
     </Container>
   );
 };
 
-export default EventAccordionHeader;
+export default UserTools;

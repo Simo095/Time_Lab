@@ -15,6 +15,13 @@ const AddUser = () => {
 
   const [localUser, setLocalUser] = useState({
     id: newUser.id,
+    nome: "",
+    totaleAssenze: 0,
+    totalePresenze: 0,
+    totaleRitardi: 0,
+    totaleRitardiAssenzeGiustificati: 0,
+    totaleAssenzeGiustificati: 0,
+    totaleRitardiGiustificati: 0,
   });
 
   const handleLocalUserChange = (key, value) => {

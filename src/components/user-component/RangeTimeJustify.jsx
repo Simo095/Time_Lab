@@ -10,6 +10,7 @@ import { CiTrash } from "react-icons/ci";
 import { FaBusinessTime } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import {
+  handleChangePresenceUser,
   handleChangeTimeUser,
   handleDeleteTimeUser,
 } from "../../asset/handler&method";
@@ -18,16 +19,16 @@ const RangeTimeJustify = ({ event, el, i }) => {
   const dispatch = useDispatch();
 
   const [startTimeMornign, setStartTimeMorning] = useState(
-    event?.orarioAssente[0]
+    event?.orarioLavorato[0]
   );
-  const [endTimeMornign, setEndTimeMorning] = useState(event?.orarioAssente[1]);
+  const [endTimeMornign, setEndTimeMorning] = useState(
+    event?.orarioLavorato[1]
+  );
   const [startTimeEvening, setStartTimeEvening] = useState(
-    event?.orarioAssente[2]
+    event?.orarioLavorato[2]
   );
-  const [endTimeEvening, setEndTimeEvening] = useState(event?.orarioAssente[3]);
-
-  const [errorAbsence, setErrorAbsence] = useState(
-    startTimeMornign === "" && endTimeMornign === "" ? true : false
+  const [endTimeEvening, setEndTimeEvening] = useState(
+    event?.orarioLavorato[3]
   );
   const handleStartTimeMorningChange = (e) => {
     setStartTimeMorning(e.target.value);
@@ -43,89 +44,99 @@ const RangeTimeJustify = ({ event, el, i }) => {
     setEndTimeEvening(e.target.value);
   };
 
-  const calculateAbsenceHours = (
-    startTimeM,
-    endTimeM,
-    startTimeE,
-    endTimeE
-  ) => {
-    if ((!startTimeM || !endTimeM) && (!startTimeE || !endTimeE)) {
-      return 0;
-    } else if (!startTimeE || !endTimeE) {
-      const startParts = startTimeM.split(":");
-      const endParts = endTimeM.split(":");
-      const startMinutes =
-        parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
-      const endMinutes = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
-      return Math.max(endMinutes - startMinutes, 0);
-    } else {
-      const startPartsM = startTimeM.split(":");
-      const endPartsM = endTimeM.split(":");
-      const startPartsE = startTimeE.split(":");
-      const endPartsE = endTimeE.split(":");
-      const startMinutes =
-        parseInt(startPartsM[0]) * 60 +
-        parseInt(startPartsM[1]) +
-        parseInt(startPartsE[0]) * 60 +
-        parseInt(startPartsE[1]);
-      const endMinutes =
-        parseInt(endPartsM[0]) * 60 +
-        parseInt(endPartsM[1]) +
-        parseInt(endPartsE[0]) * 60 +
-        parseInt(endPartsE[1]);
-      return Math.max(endMinutes - startMinutes, 0);
-    }
-  };
-
-  const absenceDuration = calculateAbsenceHours(
-    event?.orarioAssente[0],
-    event?.orarioAssente[1],
-    event?.orarioAssente[2],
-    event?.orarioAssente[3]
+  const [errorAbsenceMorning, setErrorAbsenceMorning] = useState(
+    (startTimeMornign === "" && endTimeMornign === "") ||
+      (startTimeMornign === undefined && endTimeMornign === undefined)
+      ? true
+      : false
   );
-  const absenceHours = Math.floor(absenceDuration / 60);
-  const absenceMinutes = absenceDuration % 60;
+  const [errorAbsenceEvening, setErrorAbsenceEvening] = useState(
+    (startTimeEvening === "" && endTimeEvening === "") ||
+      (startTimeEvening === undefined && endTimeEvening === undefined)
+      ? true
+      : false
+  );
 
+  const calculateLate = () => {
+    const orarioTeorico = event.orarioTeorico;
+    const arrayPresenceEffective = [
+      startTimeMornign,
+      endTimeMornign,
+      startTimeEvening,
+      endTimeEvening,
+    ];
+    const morningLate = [
+      orarioTeorico[0],
+      startTimeMornign && startTimeMornign !== ""
+        ? startTimeMornign > orarioTeorico[0]
+          ? startTimeMornign
+          : orarioTeorico[0]
+        : orarioTeorico[1],
+      orarioTeorico[1],
+      endTimeMornign && endTimeMornign !== ""
+        ? endTimeMornign < orarioTeorico[1]
+          ? endTimeMornign
+          : orarioTeorico[1]
+        : "",
+    ];
+    const eveningLate = orarioTeorico[2]
+      ? [
+          orarioTeorico[2],
+          startTimeEvening && startTimeEvening !== ""
+            ? startTimeEvening > orarioTeorico[2]
+              ? startTimeEvening
+              : orarioTeorico[2]
+            : orarioTeorico[3],
+          orarioTeorico[3],
+          endTimeEvening && endTimeEvening !== ""
+            ? endTimeEvening < orarioTeorico[3]
+              ? endTimeEvening
+              : orarioTeorico[3]
+            : "",
+        ]
+      : [];
+    const arrayLate = morningLate.concat(eveningLate);
+
+    dispatch(handleChangeTimeUser(i, el, arrayPresenceEffective, arrayLate));
+  };
   return (
     <Container fluid className="m-0 p-0">
-      {errorAbsence && (
-        <p
-          className="m-0 p-0 fw-lighter"
-          style={{
-            fontSize: "0.9em",
-            color: "red",
-          }}
-        >
-          Inserire almeno un orario di assenza
-        </p>
-      )}
       <FormGroup className="" controlId="formTimeRange">
-        <FormLabel className="m-0 p-0 fw-lighter">Mattina</FormLabel>
+        <FormLabel className="m-0 p-0 fw-lighter d-flex align-items-center gap-3">
+          Mattina
+        </FormLabel>
         <Container className="m-0 p-0 d-flex align-items-center gap-2">
           <FormCheck
+            value={errorAbsenceMorning}
+            style={{
+              fontSize: "0.7em",
+              fontWeight: "lighter",
+            }}
+            label="assente?"
             onClick={(e) => {
-              setErrorAbsence(false);
+              setErrorAbsenceMorning(e.target.checked);
               if (e.target.checked) {
                 setStartTimeMorning("");
                 setEndTimeMorning("");
               } else {
-                setStartTimeMorning(event?.orarioAssente[0]);
-                setEndTimeMorning(event?.orarioAssente[1]);
+                setStartTimeMorning(event?.orarioTeorico[0]);
+                setEndTimeMorning(event?.orarioTeorico[1]);
+              }
+              if (!event?.orarioTeorico[2] && e.target.checked) {
+                dispatch(handleChangePresenceUser(i, el));
               }
             }}
           />
-          <p style={{ fontSize: "0.7em" }} className="fw-lighter m-0 p-0">
-            0 Ore
-          </p>
         </Container>
         <Container fluid className="m-0 p-0 d-flex align-items-center gap-2">
           <FormControl
+            size="sm"
             type="time"
             value={startTimeMornign}
             onChange={handleStartTimeMorningChange}
           />
-          <span> - </span>
           <FormControl
+            size="sm"
             type="time"
             value={endTimeMornign}
             onChange={handleEndTimeMorningChange}
@@ -134,33 +145,43 @@ const RangeTimeJustify = ({ event, el, i }) => {
       </FormGroup>
       {event?.orarioTeorico[2] && (
         <FormGroup controlId="formTimeRange">
-          <FormLabel className="m-0 p-0 fw-lighter">Pomeriggio</FormLabel>
+          <FormLabel className="m-0 p-0 fw-lighter d-flex align-items-center gap-3">
+            Pomeriggio
+          </FormLabel>
 
           <Container className="m-0 p-0 d-flex align-items-center gap-2">
             <FormCheck
+              value={errorAbsenceEvening}
+              style={{
+                fontSize: "0.7em",
+                fontWeight: "lighter",
+              }}
+              label="assente?"
               onClick={(e) => {
-                setErrorAbsence(false);
+                setErrorAbsenceEvening(e.target.checked);
                 if (e.target.checked) {
                   setStartTimeEvening("");
                   setEndTimeEvening("");
                 } else {
-                  setStartTimeEvening(event?.orarioAssente[2]);
-                  setEndTimeEvening(event?.orarioAssente[3]);
+                  setStartTimeEvening(event?.orarioTeorico[2]);
+                  setEndTimeEvening(event?.orarioTeorico[3]);
+                }
+                if (errorAbsenceMorning && e.target.checked) {
+                  dispatch(handleChangePresenceUser(i, el));
                 }
               }}
             />
-            <p style={{ fontSize: "0.7em" }} className="fw-lighter m-0 p-0">
-              0 Ore
-            </p>
           </Container>
           <Container fluid className="m-0 p-0 d-flex align-items-center gap-2">
             <FormControl
+              size="sm"
               type="time"
               value={startTimeEvening}
               onChange={handleStartTimeEveningChange}
             />
             <span> - </span>
             <FormControl
+              size="sm"
               type="time"
               value={endTimeEvening}
               onChange={handleEndTimeEveningChange}
@@ -169,35 +190,8 @@ const RangeTimeJustify = ({ event, el, i }) => {
         </FormGroup>
       )}
 
-      <div className="m-0 p-0 my-1 d-flex justify-content-between">
-        <p style={{ fontSize: "0.9em" }} className="fw-lighter m-0 p-0 ">
-          orario di assenza:
-        </p>
-        <span>
-          ({absenceHours}h {absenceMinutes}m)
-        </span>
-        <FaBusinessTime
-          size={20}
-          onClick={() => {
-            if (startTimeMornign === "" && endTimeMornign === "") {
-              if (startTimeEvening === "" && endTimeEvening === "") {
-                setErrorAbsence(true);
-                return;
-              } else {
-                const arrayAbsence = ["", "", startTimeEvening, endTimeEvening];
-                setErrorAbsence(false);
-                dispatch(handleChangeTimeUser(i, el, arrayAbsence));
-              }
-            } else {
-              const arrayAbsence = [startTimeMornign, endTimeMornign];
-              setErrorAbsence(false);
-              if (startTimeEvening !== "" && endTimeEvening !== "")
-                arrayAbsence.push(startTimeEvening, endTimeEvening);
-
-              dispatch(handleChangeTimeUser(i, el, arrayAbsence));
-            }
-          }}
-        />
+      <Container className="m-0 p-0 my-1 d-flex justify-content-end gap-3">
+        <FaBusinessTime size={20} onClick={calculateLate} />
         <CiTrash
           color="red"
           size={20}
@@ -205,7 +199,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
             dispatch(handleDeleteTimeUser(i, el));
           }}
         />
-      </div>
+      </Container>
     </Container>
   );
 };
