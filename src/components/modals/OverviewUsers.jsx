@@ -4,6 +4,7 @@ import { modalStaticUsersChanger } from "../../redux/actions/usersAction";
 import {
   calculateMonthlyStatisticsForAllUser,
   calculatePercentage,
+  convertToHours,
 } from "../../asset/handler&method";
 
 const OverviewUsers = () => {
@@ -65,7 +66,9 @@ const OverviewUsers = () => {
                   return (
                     <tr>
                       <td></td>
-                      <td>{stats.totalTheoreticalHours}</td>
+                      <td>
+                        {convertToHours(stats.totalTheoreticalHours).toFixed(2)}
+                      </td>
                       <td>
                         {calculatePercentage(
                           stats.totalWorkedHours,
