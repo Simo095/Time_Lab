@@ -16,7 +16,7 @@ const OverviewUser = ({ el }) => {
     <Modal
       show={show}
       autoFocus
-      fullscreen
+      size="lg"
       onHide={() => {
         dispatch(modalStaticUserChanger(false));
       }}
@@ -37,6 +37,7 @@ const OverviewUser = ({ el }) => {
                 <th>Ore di assenza giustificata</th>
                 <th>Ore di ritardo</th>
                 <th>Ore di ritardo giustificato</th>
+                <th>Ore assenza e ritardo giustificati</th>
               </tr>
             </thead>
             <tbody>
@@ -49,28 +50,26 @@ const OverviewUser = ({ el }) => {
                   <td>{(stats.justifiedAbsenceTime / 60).toFixed(2)}</td>
                   <td>{(stats.totalLateTime / 60).toFixed(2)}</td>
                   <td>{(stats.justifiedLateTime / 60).toFixed(2)}</td>
+                  <td>
+                    {(
+                      (stats.justifiedLateTime + stats.justifiedAbsenceTime) /
+                      60
+                    ).toFixed(2)}
+                  </td>
                 </tr>
               ))}
+              <tr>
+                <td></td>
+                <td></td>
+                <td>{totalStats.presentPercentage}%</td>
+                <td>{totalStats.absentPercentage}%</td>
+                <td></td>
+                <td>{totalStats.latePercentage}%</td>
+                <td></td>
+                <td>{totalStats.justifiedPercentage}%</td>
+              </tr>
             </tbody>
           </Table>
-
-          <h5>Totali generali fino ad oggi:</h5>
-          <ul>
-            <li>Tempo totale: {totalStats.totalTheoreticalTime}</li>
-            <li>
-              Tempo di presenza: {totalStats.presentDays} (
-              {totalStats.presentPercentage}
-              %)
-            </li>
-            <li>
-              Tempo di assenza: {totalStats.absentDays} (
-              {totalStats.absentPercentage}%)
-            </li>
-            <li>
-              Tempo assenza e ritardo giustificati: {totalStats.justifiedDays} (
-              {totalStats.justifiedPercentage}%)
-            </li>
-          </ul>
         </Container>
       </Modal.Body>
     </Modal>

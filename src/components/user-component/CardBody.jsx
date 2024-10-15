@@ -1,14 +1,11 @@
-import { Container, FormCheck } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import RangeTimeJustify from "./RangeTimeJustify";
 import AbsenceNote from "./AbsenceNote";
 import LateState from "./LateState";
 import { CiTrash } from "react-icons/ci";
 import { useDispatch } from "react-redux";
 import { deleteReminder } from "../../redux/actions/usersAction";
-import {
-  calculateAbsenceHours,
-  getDayForEvent,
-} from "../../asset/handler&method";
+import { calculateAbsenceHours } from "../../asset/handler&method";
 import JustifyState from "./JustifyState";
 import AbsenceState from "./AsenceState";
 
@@ -57,9 +54,9 @@ const CardBody = ({ event, i, el }) => {
                     ({absenceHours}h {absenceMinutes}m)
                   </span>
                 </p>
+                <RangeTimeJustify event={event} el={el} i={i} />
               </Container>
             )}
-            <RangeTimeJustify event={event} el={el} i={i} />
           </Container>
         </>
       ) : (

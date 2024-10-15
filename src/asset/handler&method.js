@@ -404,12 +404,18 @@ export const calculateTotals = (monthlyStats) => {
   let totalTheoreticalTime = 0,
     presentDays = 0,
     absentDays = 0,
+    lateDays = 0,
+    absentDaysJustify = 0,
+    lateDaysJustify = 0,
     justifiedDays = 0;
 
   Object.values(monthlyStats).forEach((monthStats) => {
     totalTheoreticalTime += monthStats.totalTheoreticalTime;
     presentDays += monthStats.totalWorkedTime;
     absentDays += monthStats.totalAbsenceTime;
+    lateDays += monthStats.totalLateTime;
+    absentDaysJustify += monthStats.justifiedAbsenceTime;
+    lateDaysJustify += monthStats.justifiedLateTime;
     justifiedDays +=
       monthStats.justifiedLateTime + monthStats.justifiedAbsenceTime;
   });
@@ -422,6 +428,10 @@ export const calculateTotals = (monthlyStats) => {
     totalTheoreticalTime > 0
       ? ((absentDays / totalTheoreticalTime) * 100).toFixed(2)
       : 0;
+  const latePercentage =
+    totalTheoreticalTime > 0
+      ? ((lateDays / totalTheoreticalTime) * 100).toFixed(2)
+      : 0;
   const justifiedPercentage =
     totalTheoreticalTime > 0
       ? ((justifiedDays / totalTheoreticalTime) * 100).toFixed(2)
@@ -431,10 +441,13 @@ export const calculateTotals = (monthlyStats) => {
     totalTheoreticalTime,
     presentDays,
     absentDays,
+    latePercentage,
     justifiedDays,
     presentPercentage,
     absentPercentage,
     justifiedPercentage,
+    absentDaysJustify,
+    lateDaysJustify,
   };
 };
 
@@ -479,3 +492,67 @@ export const calculateAbsenceHours = (
     return Math.max(endMinutes - startMinutes, 0);
   }
 };
+export const calculateMonthlyStatisticsForAllUser = (users) => {
+  const statsByMonth = {};
+  users.forEach((user) => {
+    const monthlyStatPerUser = calculateMonthlyStatistics(user.schedule);
+    const month = new Date().toLocaleString("default", {
+      month: "long",
+      year: "numeric",
+    });
+    if (!statsByMonth[month]) {
+      statsByMonth[month] = {
+        totalTheoreticalHours: 0,
+        totalWorkedHours: 0,
+        totalAbsenceHours: 0,
+        totalLateHours: 0,
+        totalJustifiedAbsenceHours: 0,
+        totalJustifiedLateHours: 0,
+      };
+    }
+    const totalTeoricoInMinutes =
+      (monthlyStatPerUser[month].totalTheoreticalTime || 0) * 60;
+
+    const totalPresenzeInMinutes =
+      (monthlyStatPerUser[month].totalWorkedTime || 0) * 60;
+
+    const totalAssenzeInMinutes =
+      (monthlyStatPerUser[month].totalAbsenceTime || 0) * 60;
+
+    const totalRitardiInMinutes =
+      (monthlyStatPerUser[month].totalLateTime || 0) * 60;
+
+    const totalAssenzeGiustificateInMinutes =
+      (monthlyStatPerUser[month].justifiedAbsenceTime || 0) * 60;
+
+    const totalRitardiGiustificateInMinutes =
+      (monthlyStatPerUser[month].justifiedLateTime || 0) * 60;
+
+    statsByMonth[month].totalTheoreticalHours += convertToHours(
+      totalTeoricoInMinutes
+    );
+    statsByMonth[month].totalWorkedHours += convertToHours(
+      totalPresenzeInMinutes
+    );
+
+    statsByMonth[month].totalAbsenceHours += convertToHours(
+      totalAssenzeInMinutes
+    );
+    statsByMonth[month].totalLateHours += convertToHours(totalRitardiInMinutes);
+    statsByMonth[month].totalJustifiedAbsenceHours += convertToHours(
+      totalAssenzeGiustificateInMinutes
+    );
+
+    statsByMonth[month].totalJustifiedLateHours += convertToHours(
+      totalRitardiGiustificateInMinutes
+    );
+  });
+
+  return statsByMonth;
+};
+
+export const convertToHours = (totalMinutes) =>
+  totalMinutes ? totalMinutes / 60 : 0;
+
+export const calculatePercentage = (part, total) =>
+  total > 0 ? ((part / total) * 100).toFixed(2) : 0;
