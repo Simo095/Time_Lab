@@ -72,28 +72,30 @@ export const getFileAndAddOldElements = () => {
 };
 
 export const saveListUsersOnVercel = async (elements) => {
-  try {
-    const response = await fetch(
-      "https://employees-manager-communty.vercel.app/api/post",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(elements),
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        "https://employees-manager-communty.vercel.app/api/post",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(elements),
+        }
+      );
+
+      const result = await response.json();
+      if (response.ok) {
+        console.log("File salvato correttamente:", result.url);
+
+        return true;
+      } else {
+        console.error("Errore nel salvataggio:", result.error);
+        return false;
       }
-    );
-
-    const result = await response.json();
-    if (response.ok) {
-      console.log("File salvato correttamente:", result.url);
-
-      return true;
-    } else {
-      console.error("Errore nel salvataggio:", result.error);
-      return false;
+    } catch (error) {
+      console.error("Errore:", error);
     }
-  } catch (error) {
-    console.error("Errore:", error);
-  }
+  };
 };

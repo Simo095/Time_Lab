@@ -5,7 +5,7 @@ import AddUser from "./components/modals/AddUser";
 import HeaderBar from "./components/header/HeaderBar";
 import HeaderDate from "./components/header/HeaderDate";
 import AccordionUser from "./components/user-component/AccordionUser";
-//import { getFileAndAddOldElements } from "./redux/actions/usersAction";
+import { getFileAndAddOldElements } from "./redux/actions/usersAction";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-calendar/dist/Calendar.css";
@@ -18,8 +18,7 @@ const App = () => {
   const [pw, setPw] = useState("");
 
   useEffect(() => {
-    // console.log("LOOP IN APP");
-    // dispatch(getFileAndAddOldElements());
+    dispatch(getFileAndAddOldElements());
   }, [dispatch]);
   return (
     <Container fluid className="App m-0 p-0">
