@@ -35,11 +35,16 @@ const CardBody = ({ event, i, el }) => {
           >
             <p className="m-0 p-0">{event.orarioTeorico.join(" - ")}</p>
           </Container>
-          <LateState event={event} el={el} i={i} />
+          <Container
+            fluid
+            className="m-0 p-0 d-flex justify-content-start gap-5"
+          >
+            <LateState event={event} el={el} i={i} />
+            {event.ritardo && <JustifyState event={event} i={i} el={el} />}
+          </Container>
           <Container className="m-0 p-0 fw-lighter">
             {event.ritardo && (
               <Container fluid className="m-0 p-0 ">
-                <JustifyState event={event} i={i} el={el} />
                 <p className="m-0 p-0">
                   {event.orarioLavorato.length > 0
                     ? event.orarioLavorato.join(" - ")

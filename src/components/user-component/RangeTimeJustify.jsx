@@ -101,11 +101,11 @@ const RangeTimeJustify = ({ event, el, i }) => {
   };
   return (
     <Container fluid className="m-0 p-0">
-      <FormGroup className="" controlId="formTimeRangeMorning">
-        <FormLabel className="m-0 p-0 fw-lighter d-flex align-items-center gap-3">
-          Mattina
-        </FormLabel>
-        <Container className="m-0 p-0 d-flex align-items-center gap-2">
+      <FormGroup controlId="formTimeRangeMorning">
+        <Container className="m-0 p-0 d-flex align-items-center gap-3 mt-2">
+          <FormLabel className="m-0 p-0 fw-lighter d-flex align-items-center">
+            Mattina
+          </FormLabel>
           <FormCheck
             value={errorAbsenceMorning}
             style={{
@@ -113,6 +113,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
               fontWeight: "lighter",
             }}
             label="assente?"
+            className="d-flex align-items-center m-0 gap-1"
             onClick={(e) => {
               const checked = e.target.checked;
               if (checked && errorAbsenceEvening) {
@@ -132,7 +133,10 @@ const RangeTimeJustify = ({ event, el, i }) => {
             }}
           />
         </Container>
-        <Container fluid className="m-0 p-0 d-flex align-items-center gap-2">
+        <Container
+          fluid
+          className="m-0 p-0 mb-3 d-flex align-items-center gap-2"
+        >
           <FormControl
             size="sm"
             type="time"
@@ -149,12 +153,12 @@ const RangeTimeJustify = ({ event, el, i }) => {
       </FormGroup>
       {event?.orarioTeorico[2] && (
         <FormGroup controlId="formTimeRangeEvening">
-          <FormLabel className="m-0 p-0 fw-lighter d-flex align-items-center gap-3">
-            Pomeriggio
-          </FormLabel>
-
-          <Container className="m-0 p-0 d-flex align-items-center gap-2">
+          <Container className="m-0 p-0 d-flex align-items-center gap-3">
+            <FormLabel className="m-0 p-0 fw-lighter d-flex align-items-center">
+              Pomeriggio
+            </FormLabel>
             <FormCheck
+              className="d-flex align-items-center m-0 gap-1"
               value={errorAbsenceEvening}
               style={{
                 fontSize: "0.7em",
@@ -198,7 +202,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
         </FormGroup>
       )}
 
-      <Container className="m-0 p-0 my-1 d-flex justify-content-end gap-3">
+      <Container className="m-0 p-0 my-1 d-flex justify-content-start gap-3">
         <FaBusinessTime size={20} onClick={calculateLate} />
         <CiTrash
           color="red"

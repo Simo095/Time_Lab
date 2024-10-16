@@ -215,11 +215,16 @@ export const handleChangeTimeUser = (
 export const handleDeleteTimeUser = (eventIndex, el) => {
   return async (dispatch) => {
     try {
+      console.log(el);
       const updatedUser = {
         ...el,
         schedule: el.schedule.map((ev, idx) =>
           idx === eventIndex
-            ? { ...ev, orarioLavorato: [], orarioRitardo: [] }
+            ? {
+                ...ev,
+                orarioLavorato: [...ev.orarioTeorico],
+                orarioRitardo: [],
+              }
             : ev
         ),
       };
