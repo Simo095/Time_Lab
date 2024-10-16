@@ -14,7 +14,7 @@ import InputPassword from "./components/InputPassword";
 
 const App = () => {
   const dispatch = useDispatch();
-  const password = "";
+  const password = "1234";
   const [pw, setPw] = useState("");
 
   useEffect(() => {

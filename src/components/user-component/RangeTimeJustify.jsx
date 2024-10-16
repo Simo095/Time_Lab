@@ -191,7 +191,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
               value={startTimeEvening}
               onChange={handleStartTimeEveningChange}
             />
-            <span> - </span>
+
             <FormControl
               size="sm"
               type="time"
