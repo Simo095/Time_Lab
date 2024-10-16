@@ -64,7 +64,7 @@ const OverviewUsers = () => {
                     stats.totalTheoreticalHours
                   );
                   return (
-                    <tr>
+                    <tr key={month}>
                       <td></td>
                       <td>
                         {convertToHours(stats.totalTheoreticalHours).toFixed(2)}

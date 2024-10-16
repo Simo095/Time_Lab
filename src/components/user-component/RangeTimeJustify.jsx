@@ -101,7 +101,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
   };
   return (
     <Container fluid className="m-0 p-0">
-      <FormGroup className="" controlId="formTimeRange">
+      <FormGroup className="" controlId="formTimeRangeMorning">
         <FormLabel className="m-0 p-0 fw-lighter d-flex align-items-center gap-3">
           Mattina
         </FormLabel>
@@ -113,17 +113,21 @@ const RangeTimeJustify = ({ event, el, i }) => {
               fontWeight: "lighter",
             }}
             label="assente?"
+            onClick={(e) => {
+              const checked = e.target.checked;
+              if (checked && errorAbsenceEvening) {
+                dispatch(handleChangePresenceUser(i, el));
+              }
+            }}
             onChange={(e) => {
-              setErrorAbsenceMorning(e.target.checked);
-              if (e.target.checked) {
+              const checked = e.target.checked;
+              setErrorAbsenceMorning(checked);
+              if (checked) {
                 setStartTimeMorning("");
                 setEndTimeMorning("");
               } else {
                 setStartTimeMorning(event?.orarioTeorico[0]);
                 setEndTimeMorning(event?.orarioTeorico[1]);
-              }
-              if (errorAbsenceMorning && errorAbsenceEvening) {
-                dispatch(handleChangePresenceUser(i, el));
               }
             }}
           />
@@ -144,7 +148,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
         </Container>
       </FormGroup>
       {event?.orarioTeorico[2] && (
-        <FormGroup controlId="formTimeRange">
+        <FormGroup controlId="formTimeRangeEvening">
           <FormLabel className="m-0 p-0 fw-lighter d-flex align-items-center gap-3">
             Pomeriggio
           </FormLabel>
@@ -157,17 +161,21 @@ const RangeTimeJustify = ({ event, el, i }) => {
                 fontWeight: "lighter",
               }}
               label="assente?"
+              onClick={(e) => {
+                const checked = e.target.checked;
+                if (errorAbsenceMorning && checked) {
+                  dispatch(handleChangePresenceUser(i, el));
+                }
+              }}
               onChange={(e) => {
-                setErrorAbsenceEvening(e.target.checked);
-                if (e.target.checked) {
+                const checked = e.target.checked;
+                setErrorAbsenceEvening(checked);
+                if (checked) {
                   setStartTimeEvening("");
                   setEndTimeEvening("");
                 } else {
                   setStartTimeEvening(event?.orarioTeorico[2]);
                   setEndTimeEvening(event?.orarioTeorico[3]);
-                }
-                if (errorAbsenceMorning && errorAbsenceEvening) {
-                  dispatch(handleChangePresenceUser(i, el));
                 }
               }}
             />

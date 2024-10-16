@@ -26,9 +26,7 @@ const App = () => {
         <>
           <HeaderBar setPw={setPw} />
           <HeaderDate />
-          <Container className="">
-            <AccordionUser />
-          </Container>
+          <AccordionUser />
           <AddUser />
           <OverviewUsers />
         </>
