@@ -113,7 +113,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
               fontWeight: "lighter",
             }}
             label="assente?"
-            onClick={(e) => {
+            onChange={(e) => {
               setErrorAbsenceMorning(e.target.checked);
               if (e.target.checked) {
                 setStartTimeMorning("");
@@ -122,7 +122,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
                 setStartTimeMorning(event?.orarioTeorico[0]);
                 setEndTimeMorning(event?.orarioTeorico[1]);
               }
-              if (!event?.orarioTeorico[2] && e.target.checked) {
+              if (errorAbsenceMorning && errorAbsenceEvening) {
                 dispatch(handleChangePresenceUser(i, el));
               }
             }}
@@ -157,7 +157,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
                 fontWeight: "lighter",
               }}
               label="assente?"
-              onClick={(e) => {
+              onChange={(e) => {
                 setErrorAbsenceEvening(e.target.checked);
                 if (e.target.checked) {
                   setStartTimeEvening("");
@@ -166,7 +166,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
                   setStartTimeEvening(event?.orarioTeorico[2]);
                   setEndTimeEvening(event?.orarioTeorico[3]);
                 }
-                if (errorAbsenceMorning && e.target.checked) {
+                if (errorAbsenceMorning && errorAbsenceEvening) {
                   dispatch(handleChangePresenceUser(i, el));
                 }
               }}

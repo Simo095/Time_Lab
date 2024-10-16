@@ -71,7 +71,7 @@ export const getFileAndAddOldElements = () => {
   };
 };
 
-export const saveListUsersOnVercel = async (elements) => {
+export const saveListUsersOnVercel = (elements) => {
   return async (dispatch) => {
     try {
       const response = await fetch(
