@@ -23,7 +23,7 @@ const HeaderBar = ({ setPw }) => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="#home">Utenti</Navbar.Brand>
+        <Navbar.Brand href="#home">Employees Manager</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="text-center w-50">
           <Nav className="d-flex gap-3">
