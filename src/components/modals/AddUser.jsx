@@ -14,7 +14,7 @@ const AddUser = () => {
   const newUser = useSelector((state) => state.users.newUser);
 
   const [localUser, setLocalUser] = useState({
-    id: newUser.id,
+    id: users.lenght + 1,
     nome: "",
     totaleAssenze: 0,
     totalePresenze: 0,
