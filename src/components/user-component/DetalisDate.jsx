@@ -1,18 +1,14 @@
 import { Container } from "react-bootstrap";
 import CardBody from "./CardBody";
 import CardHeader from "../header/CardHeader";
-import { useEffect } from "react";
 
 const DetailsDate = ({ selectedDate, el, setSelectedDate }) => {
-  useEffect(() => {
-    console.log("looop");
-    window.addEventListener("resize", () => setSelectedDate(null));
-  }, [setSelectedDate]);
   return (
     <Container
       className="event-container position-relative"
       style={{
-        bottom: window.innerWidth < 570 ? "300px" : "inherit",
+        bottom: window.innerWidth < 575 ? "300px" : "inherit",
+        left: window.innerWidth < 575 ? "-34px" : "inherit",
       }}
     >
       {selectedDate &&
