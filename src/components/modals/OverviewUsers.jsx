@@ -4,7 +4,6 @@ import { modalStaticUsersChanger } from "../../redux/actions/usersAction";
 import {
   calculateMonthlyStatisticsForAllUser,
   calculatePercentage,
-  convertToHours,
 } from "../../asset/handler&method";
 
 const OverviewUsers = () => {
@@ -47,22 +46,6 @@ const OverviewUsers = () => {
             </thead>
             <tbody>
               {Object.entries(calculateMonthlyStatisticsForAllUser(users)).map(
-                ([month, stats]) => (
-                  <tr key={month}>
-                    <td>{month}</td>
-                    <td>{(stats.totalTheoreticalHours / 60).toFixed(2)}</td>
-                    <td>{(stats.totalWorkedHours / 60).toFixed(2)}</td>
-                    <td>{(stats.totalAbsenceHours / 60).toFixed(2)}</td>
-                    <td>
-                      {(stats.totalJustifiedAbsenceHours / 60).toFixed(2)}
-                    </td>
-                    <td>{(stats.totalLateHours / 60).toFixed(2)}</td>
-                    <td>{(stats.totalJustifiedLateHours / 60).toFixed(2)}</td>
-                    <td></td>
-                  </tr>
-                )
-              )}
-              {Object.entries(calculateMonthlyStatisticsForAllUser(users)).map(
                 ([month, stats]) => {
                   const tot = calculatePercentage(
                     stats.totalLateHours + stats.totalAbsenceHours,
@@ -70,11 +53,10 @@ const OverviewUsers = () => {
                   );
                   return (
                     <tr key={month}>
-                      <td></td>
+                      <td>{month}</td>
+                      <td>{(stats.totalTheoreticalHours / 60).toFixed(2)}</td>
                       <td>
-                        {convertToHours(stats.totalTheoreticalHours).toFixed(2)}
-                      </td>
-                      <td>
+                        {(stats.totalWorkedHours / 60).toFixed(2)} <br />{" "}
                         {calculatePercentage(
                           stats.totalWorkedHours,
                           stats.totalTheoreticalHours
@@ -82,21 +64,27 @@ const OverviewUsers = () => {
                         %
                       </td>
                       <td>
+                        {(stats.totalAbsenceHours / 60).toFixed(2)}
+                        <br />{" "}
                         {calculatePercentage(
                           stats.totalAbsenceHours,
                           stats.totalTheoreticalHours
                         )}
                         %
                       </td>
-                      <td></td>
                       <td>
+                        {(stats.totalJustifiedAbsenceHours / 60).toFixed(2)}
+                      </td>
+                      <td>{(stats.totalLateHours / 60).toFixed(2)}</td>
+                      <td>
+                        {(stats.totalJustifiedLateHours / 60).toFixed(2)}
+                        <br />
                         {calculatePercentage(
                           stats.totalLateHours,
                           stats.totalTheoreticalHours
                         )}
                         %
                       </td>
-                      <td></td>
                       <td>
                         {calculatePercentage(
                           stats.totalJustifiedAbsenceHours +

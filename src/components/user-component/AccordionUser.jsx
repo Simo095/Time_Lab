@@ -5,7 +5,6 @@ import AccordionHeader from "../header/AccordionHeader";
 import Calendar from "react-calendar";
 import TileContentCalendar from "./TileContentCalendar";
 import DetailsDate from "./DetalisDate";
-import UserTools from "../header/UserTools";
 
 const AccordionUser = () => {
   const elements = useSelector((state) => state.users.usersList);
