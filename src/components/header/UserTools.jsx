@@ -22,13 +22,26 @@ const UserTools = ({ el }) => {
         fluid
         className="m-0 p-0 d-flex flex-column justify-content-center align-items-center"
       >
+        <TiUserDelete
+          size={30}
+          color="black"
+          cursor={"pointer"}
+          className=""
+          onClick={() => dispatch(handleDeleteUser(el))}
+        />
+        <p className="m-0 p-0 fw-lighter fs-6">Elimina</p>
+      </Container>
+      <Container
+        fluid
+        className="m-0 p-0 d-flex flex-column justify-content-center align-items-center"
+      >
         <MdOutlineAutoAwesomeMotion
           size={30}
           color="black"
           className=""
           onClick={() => dispatch(handleAddReminder(el))}
         />
-        <p className="m-0 p-0 fw-lighter fs-6"> Aggiungi promemoria</p>
+        <p className="m-0 p-0 fw-lighter fs-6">Prome</p>
       </Container>
       <Container
         fluid
@@ -40,21 +53,9 @@ const UserTools = ({ el }) => {
           className=""
           onClick={() => dispatch(modalStaticUserChanger(el.id))}
         />
-        <p className="m-0 p-0 fw-lighter fs-6"> Visualizza Statistiche</p>
+        <p className="m-0 p-0 fw-lighter fs-6">Stats</p>
       </Container>
-      <Container
-        fluid
-        className="m-0 p-0 d-flex flex-column justify-content-center align-items-center"
-      >
-        <TiUserDelete
-          size={30}
-          color="black"
-          cursor={"pointer"}
-          className=""
-          onClick={() => dispatch(handleDeleteUser(el))}
-        />
-        <p className="m-0 p-0 fw-lighter fs-6"> Elimina utente</p>
-      </Container>
+
       <OverviewUser el={el} />
     </Container>
   );

@@ -523,60 +523,132 @@ export const calculateAbsenceHours = (
     return Math.max(endMinutes - startMinutes, 0);
   }
 };
+// export const calculateMonthlyStatisticsForAllUser = (users) => {
+//   const statsByMonth = {};
+//   users.forEach((user) => {
+//     const monthlyStatPerUser = calculateMonthlyStatistics(user.schedule);
+//     const month = new Date().toLocaleString("default", {
+//       month: "long",
+//       year: "numeric",
+//     });
+//     if (!statsByMonth[month]) {
+//       statsByMonth[month] = {
+//         totalTheoreticalHours: 0,
+//         totalWorkedHours: 0,
+//         totalAbsenceHours: 0,
+//         totalLateHours: 0,
+//         totalJustifiedAbsenceHours: 0,
+//         totalJustifiedLateHours: 0,
+//       };
+//     }
+//     const totalTeoricoInMinutes =
+//       (monthlyStatPerUser[month].totalTheoreticalTime || 0) * 60;
+
+//     const totalPresenzeInMinutes =
+//       (monthlyStatPerUser[month].totalWorkedTime || 0) * 60;
+
+//     const totalAssenzeInMinutes =
+//       (monthlyStatPerUser[month].totalAbsenceTime || 0) * 60;
+
+//     const totalRitardiInMinutes =
+//       (monthlyStatPerUser[month].totalLateTime || 0) * 60;
+
+//     const totalAssenzeGiustificateInMinutes =
+//       (monthlyStatPerUser[month].justifiedAbsenceTime || 0) * 60;
+
+//     const totalRitardiGiustificateInMinutes =
+//       (monthlyStatPerUser[month].justifiedLateTime || 0) * 60;
+
+//     statsByMonth[month].totalTheoreticalHours += convertToHours(
+//       totalTeoricoInMinutes
+//     );
+//     statsByMonth[month].totalWorkedHours += convertToHours(
+//       totalPresenzeInMinutes
+//     );
+
+//     statsByMonth[month].totalAbsenceHours += convertToHours(
+//       totalAssenzeInMinutes
+//     );
+//     statsByMonth[month].totalLateHours += convertToHours(totalRitardiInMinutes);
+//     statsByMonth[month].totalJustifiedAbsenceHours += convertToHours(
+//       totalAssenzeGiustificateInMinutes
+//     );
+
+//     statsByMonth[month].totalJustifiedLateHours += convertToHours(
+//       totalRitardiGiustificateInMinutes
+//     );
+//   });
+
+//   return statsByMonth;
+// };
+
 export const calculateMonthlyStatisticsForAllUser = (users) => {
   const statsByMonth = {};
+  const allMonths = [];
+
+  // Passa attraverso gli utenti per ottenere tutti i mesi
   users.forEach((user) => {
     const monthlyStatPerUser = calculateMonthlyStatistics(user.schedule);
-    const month = new Date().toLocaleString("default", {
-      month: "long",
-      year: "numeric",
+    Object.keys(monthlyStatPerUser).forEach((month) => {
+      if (!allMonths.includes(month)) {
+        allMonths.push(month); // Aggiungi il mese se non è già presente
+      }
     });
-    if (!statsByMonth[month]) {
-      statsByMonth[month] = {
-        totalTheoreticalHours: 0,
-        totalWorkedHours: 0,
-        totalAbsenceHours: 0,
-        totalLateHours: 0,
-        totalJustifiedAbsenceHours: 0,
-        totalJustifiedLateHours: 0,
-      };
+  });
+
+  // Inizializza le statistiche per ogni mese trovato
+  allMonths.forEach((month) => {
+    statsByMonth[month] = {
+      totalTheoreticalHours: 0,
+      totalWorkedHours: 0,
+      totalAbsenceHours: 0,
+      totalLateHours: 0,
+      totalJustifiedAbsenceHours: 0,
+      totalJustifiedLateHours: 0,
+    };
+  });
+
+  // Ora accumula le statistiche per ogni utente e per ogni mese
+  users.forEach((user) => {
+    const monthlyStatPerUser = calculateMonthlyStatistics(user.schedule);
+    for (const month of allMonths) {
+      const totalTeoricoInMinutes =
+        (monthlyStatPerUser[month]?.totalTheoreticalTime || 0) * 60;
+
+      const totalPresenzeInMinutes =
+        (monthlyStatPerUser[month]?.totalWorkedTime || 0) * 60;
+
+      const totalAssenzeInMinutes =
+        (monthlyStatPerUser[month]?.totalAbsenceTime || 0) * 60;
+
+      const totalRitardiInMinutes =
+        (monthlyStatPerUser[month]?.totalLateTime || 0) * 60;
+
+      const totalAssenzeGiustificateInMinutes =
+        (monthlyStatPerUser[month]?.justifiedAbsenceTime || 0) * 60;
+
+      const totalRitardiGiustificateInMinutes =
+        (monthlyStatPerUser[month]?.justifiedLateTime || 0) * 60;
+
+      statsByMonth[month].totalTheoreticalHours += convertToHours(
+        totalTeoricoInMinutes
+      );
+      statsByMonth[month].totalWorkedHours += convertToHours(
+        totalPresenzeInMinutes
+      );
+      statsByMonth[month].totalAbsenceHours += convertToHours(
+        totalAssenzeInMinutes
+      );
+      statsByMonth[month].totalLateHours += convertToHours(
+        totalRitardiInMinutes
+      );
+      statsByMonth[month].totalJustifiedAbsenceHours += convertToHours(
+        totalAssenzeGiustificateInMinutes
+      );
+      statsByMonth[month].totalJustifiedLateHours += convertToHours(
+        totalRitardiGiustificateInMinutes
+      );
     }
-    const totalTeoricoInMinutes =
-      (monthlyStatPerUser[month].totalTheoreticalTime || 0) * 60;
-
-    const totalPresenzeInMinutes =
-      (monthlyStatPerUser[month].totalWorkedTime || 0) * 60;
-
-    const totalAssenzeInMinutes =
-      (monthlyStatPerUser[month].totalAbsenceTime || 0) * 60;
-
-    const totalRitardiInMinutes =
-      (monthlyStatPerUser[month].totalLateTime || 0) * 60;
-
-    const totalAssenzeGiustificateInMinutes =
-      (monthlyStatPerUser[month].justifiedAbsenceTime || 0) * 60;
-
-    const totalRitardiGiustificateInMinutes =
-      (monthlyStatPerUser[month].justifiedLateTime || 0) * 60;
-
-    statsByMonth[month].totalTheoreticalHours += convertToHours(
-      totalTeoricoInMinutes
-    );
-    statsByMonth[month].totalWorkedHours += convertToHours(
-      totalPresenzeInMinutes
-    );
-
-    statsByMonth[month].totalAbsenceHours += convertToHours(
-      totalAssenzeInMinutes
-    );
-    statsByMonth[month].totalLateHours += convertToHours(totalRitardiInMinutes);
-    statsByMonth[month].totalJustifiedAbsenceHours += convertToHours(
-      totalAssenzeGiustificateInMinutes
-    );
-
-    statsByMonth[month].totalJustifiedLateHours += convertToHours(
-      totalRitardiGiustificateInMinutes
-    );
   });
 
   return statsByMonth;

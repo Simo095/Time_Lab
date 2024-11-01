@@ -1,4 +1,5 @@
 import { Accordion, Container } from "react-bootstrap";
+import UserTools from "./UserTools";
 
 const AccordionHeader = ({ el }) => {
   return (
@@ -14,6 +15,7 @@ const AccordionHeader = ({ el }) => {
             <span className="fw-bold">{el.nome}</span>
           </div>
         </Container>
+        <UserTools el={el} />
       </Container>
     </Accordion.Header>
   );
