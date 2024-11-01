@@ -8,7 +8,7 @@ const DetailsDate = ({ selectedDate, el, setSelectedDate }) => {
       className="event-container position-relative"
       style={{
         bottom: window.innerWidth < 575 ? "300px" : "inherit",
-        left: window.innerWidth < 575 ? "-34px" : "inherit",
+        left: window.innerWidth < 575 ? "-37px" : "inherit",
       }}
     >
       {selectedDate &&

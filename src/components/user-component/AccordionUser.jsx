@@ -71,10 +71,10 @@ const AccordionUser = () => {
   );
 
   const renderUserItem = useCallback(
-    ({ index, style }) => {
+    ({ index }) => {
       const el = elements[index];
       return (
-        <div style={style} key={el.id}>
+        <div key={el.id}>
           <Accordion.Item eventKey={index.toString()}>
             <AccordionHeader el={el} />
             <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
@@ -87,6 +87,7 @@ const AccordionUser = () => {
                 >
                   <Calendar
                     className={"h-25 event-container position-relative"}
+                    value={selectedDate || new Date()}
                     onClickDay={(date) => setSelectedDate(date)}
                     tileClassName={({ date }) =>
                       selectedDate &&
