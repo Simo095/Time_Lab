@@ -24,7 +24,7 @@ const CardHeader = ({ event, setSelectedDate }) => {
             setSelectedDate(null);
           }}
           color="red"
-          size={20}
+          size={30}
         />
       </Container>
     </Container>

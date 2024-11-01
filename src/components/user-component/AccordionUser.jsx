@@ -18,7 +18,7 @@ const AccordionUser = () => {
           <AccordionHeader el={el} />
           <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
             <UserTools el={el} />
-            <Container fluid className="m-0 p-0 d-sm-flex overflow-x-scroll">
+            <Container fluid className="container-calendarDetails">
               <Calendar
                 className={"h-25 event-container position-relative"}
                 onClickDay={(date) => {

@@ -4,13 +4,7 @@ import CardHeader from "../header/CardHeader";
 
 const DetailsDate = ({ selectedDate, el, setSelectedDate }) => {
   return (
-    <Container
-      className="event-container position-relative"
-      style={{
-        bottom: window.innerWidth < 575 ? "300px" : "inherit",
-        left: window.innerWidth < 575 ? "-30px" : "inherit",
-      }}
-    >
+    <Container className="event-container m-0 p-0 calendarDetails">
       {selectedDate &&
         el.schedule.map(
           (event, i) =>
