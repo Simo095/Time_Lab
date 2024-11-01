@@ -17,7 +17,11 @@ const OverviewUser = ({ el }) => {
     <Modal
       show={show}
       autoFocus
-      fullscreen="sm-down"
+      centered
+      scrollable
+      keyboard
+      backdrop
+      fullscreen="md-down"
       size="lg"
       onHide={() => {
         dispatch(modalStaticUserChanger(false));

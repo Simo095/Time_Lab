@@ -32,6 +32,11 @@ const AddUser = () => {
   return (
     <Modal
       show={show}
+      centered
+      autoFocus
+      scrollable
+      backdrop
+      keyboard
       onHide={() => {
         dispatch(modalAddUserChanger(false));
       }}
