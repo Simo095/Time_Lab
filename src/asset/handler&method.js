@@ -329,7 +329,7 @@ export const generateYearSchedule = () => {
   try {
     const schedule = [];
     const currentYear = new Date().getFullYear();
-    for (let month = new Date().getMonth(); month < 12; month++) {
+    for (let month = new Date().getMonth() - 1; month < 12; month++) {
       const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
 
       for (let day = 1; day <= daysInMonth; day++) {

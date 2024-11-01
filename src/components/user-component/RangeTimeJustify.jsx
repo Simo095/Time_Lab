@@ -14,6 +14,7 @@ import {
   handleChangeTimeUser,
   handleDeleteTimeUser,
 } from "../../asset/handler&method";
+import { MdSave } from "react-icons/md";
 
 const RangeTimeJustify = ({ event, el, i }) => {
   const dispatch = useDispatch();
@@ -101,6 +102,16 @@ const RangeTimeJustify = ({ event, el, i }) => {
   };
   return (
     <Container fluid className="m-0 p-0">
+      <Container className="m-0 p-0 my-1 d-flex justify-content-evenly gap-3">
+        <MdSave size={20} onClick={calculateLate} />
+        <CiTrash
+          color="red"
+          size={20}
+          onClick={() => {
+            dispatch(handleDeleteTimeUser(i, el));
+          }}
+        />
+      </Container>
       <FormGroup controlId="formTimeRangeMorning">
         <Container className="m-0 p-0 d-flex align-items-center gap-3 mt-2">
           <FormLabel className="m-0 p-0 fw-lighter d-flex align-items-center">
@@ -201,17 +212,6 @@ const RangeTimeJustify = ({ event, el, i }) => {
           </Container>
         </FormGroup>
       )}
-
-      <Container className="m-0 p-0 my-1 d-flex justify-content-start gap-3">
-        <FaBusinessTime size={20} onClick={calculateLate} />
-        <CiTrash
-          color="red"
-          size={20}
-          onClick={() => {
-            dispatch(handleDeleteTimeUser(i, el));
-          }}
-        />
-      </Container>
     </Container>
   );
 };

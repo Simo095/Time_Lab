@@ -55,8 +55,21 @@ const CardBody = ({ event, i, el }) => {
                   className="fw-lighter m-0 p-0 "
                 >
                   Effettivo{" "}
-                  <span className="d-inline">
+                  <span
+                    className="d-inline"
+                    style={{
+                      color:
+                        absenceHours === 0 && absenceMinutes === 0
+                          ? "red"
+                          : "black",
+                    }}
+                  >
                     ({absenceHours}h {absenceMinutes}m)
+                  </span>
+                  <span style={{ color: "red" }}>
+                    {absenceHours === 0 && absenceMinutes === 0
+                      ? "Ricorda di salvare i dati "
+                      : ""}
                   </span>
                 </p>
                 <RangeTimeJustify event={event} el={el} i={i} />
