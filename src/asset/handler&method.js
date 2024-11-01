@@ -211,14 +211,55 @@ export const handleChangeLateUser = (index, user) => {
   };
 };
 
+// export const handleChangeTimeUser = (
+//   eventIndex,
+//   el,
+//   arrayPresenceEffective,
+//   arrayLate
+// ) => {
+//   return async (dispatch) => {
+//     try {
+//       const updatedUser = {
+//         ...el,
+//         schedule: el.schedule.map((ev, idx) =>
+//           idx === eventIndex
+//             ? {
+//                 ...ev,
+//                 orarioLavorato: arrayPresenceEffective,
+//                 orarioRitardo: arrayLate,
+//               }
+//             : ev
+//         ),
+//       };
+
+//       dispatch(updateUserSchedule(updatedUser));
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// };
 export const handleChangeTimeUser = (
   eventIndex,
   el,
   arrayPresenceEffective,
   arrayLate
 ) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
+      const currentUser = getState().users.usersList.find(
+        (user) => user.id === el.id
+      );
+
+      // Controlla se gli orari sono effettivamente cambiati prima di fare l'aggiornamento
+      if (
+        JSON.stringify(currentUser.schedule[eventIndex].orarioLavorato) ===
+          JSON.stringify(arrayPresenceEffective) &&
+        JSON.stringify(currentUser.schedule[eventIndex].orarioRitardo) ===
+          JSON.stringify(arrayLate)
+      ) {
+        return; // Nessun cambiamento, quindi non fare nulla
+      }
+
       const updatedUser = {
         ...el,
         schedule: el.schedule.map((ev, idx) =>
@@ -238,6 +279,7 @@ export const handleChangeTimeUser = (
     }
   };
 };
+
 export const handleDeleteTimeUser = (eventIndex, el) => {
   return async (dispatch) => {
     try {
