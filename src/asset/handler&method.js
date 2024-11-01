@@ -65,34 +65,60 @@ export const handleDeleteUser = (el) => {
   };
 };
 
+// export const handleChangePresenceUser = (index, user) => {
+//   return async (dispatch, getState) => {
+//     try {
+//       const updatedSchedule = user.schedule.map((day, i) =>
+//         i === index ? { ...day, assente: !day.assente } : day
+//       );
+//       const {
+//         totaleAssenze,
+//         totalePresenze,
+//         totaleRitardi,
+//         totaleRitardiAssenzeGiustificati,
+//         totaleAssenzeGiustificati,
+//         totaleRitardiGiustificati,
+//       } = calculateUserStats(updatedSchedule);
+//       const updatedUser = {
+//         ...user,
+//         schedule: updatedSchedule,
+//         totaleAssenze,
+//         totalePresenze,
+//         totaleRitardi,
+//         totaleRitardiAssenzeGiustificati,
+//         totaleAssenzeGiustificati,
+//         totaleRitardiGiustificati,
+//       };
+//       const usersList = getState().users.usersList;
+//       const updatedUsersList = usersList.map((u) =>
+//         u.id === user.id ? updatedUser : u
+//       );
+//       dispatch(addUsersOnStore(updatedUsersList));
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// };
+
 export const handleChangePresenceUser = (index, user) => {
   return async (dispatch, getState) => {
     try {
       const updatedSchedule = user.schedule.map((day, i) =>
         i === index ? { ...day, assente: !day.assente } : day
       );
-      const {
-        totaleAssenze,
-        totalePresenze,
-        totaleRitardi,
-        totaleRitardiAssenzeGiustificati,
-        totaleAssenzeGiustificati,
-        totaleRitardiGiustificati,
-      } = calculateUserStats(updatedSchedule);
-      const updatedUser = {
-        ...user,
-        schedule: updatedSchedule,
-        totaleAssenze,
-        totalePresenze,
-        totaleRitardi,
-        totaleRitardiAssenzeGiustificati,
-        totaleAssenzeGiustificati,
-        totaleRitardiGiustificati,
-      };
+
+      if (JSON.stringify(updatedSchedule) === JSON.stringify(user.schedule)) {
+        return;
+      }
+
+      const stats = calculateUserStats(updatedSchedule);
+      const updatedUser = { ...user, schedule: updatedSchedule, ...stats };
+
       const usersList = getState().users.usersList;
       const updatedUsersList = usersList.map((u) =>
         u.id === user.id ? updatedUser : u
       );
+
       dispatch(addUsersOnStore(updatedUsersList));
     } catch (error) {
       console.log(error);
