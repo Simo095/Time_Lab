@@ -5,24 +5,14 @@ import { useEffect } from "react";
 
 const DetailsDate = ({ selectedDate, el, setSelectedDate }) => {
   useEffect(() => {
-    console.log("LOOOOOOP");
-    const handleResize = () => {
-      if (window.innerWidth >= 600 && selectedDate !== null) {
-        setSelectedDate(null);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, [selectedDate, setSelectedDate]);
+    console.log("looop");
+    window.addEventListener("resize", () => setSelectedDate(null));
+  }, [setSelectedDate]);
   return (
     <Container
       className="event-container position-relative"
       style={{
         bottom: window.innerWidth < 570 ? "300px" : "inherit",
-        left: window.innerWidth < 570 ? "-70px" : "inherit",
-        backgroundColor: window.innerWidth < 570 ? "#198753" : "inherit",
       }}
     >
       {selectedDate &&
