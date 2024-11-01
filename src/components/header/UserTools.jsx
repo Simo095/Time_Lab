@@ -38,7 +38,7 @@ const UserTools = ({ el }) => {
           size={30}
           color="black"
           className=""
-          onClick={() => dispatch(modalStaticUserChanger(true))}
+          onClick={() => dispatch(modalStaticUserChanger(el.id))}
         />
         <p className="m-0 p-0 fw-lighter fs-6"> Visualizza Statistiche</p>
       </Container>

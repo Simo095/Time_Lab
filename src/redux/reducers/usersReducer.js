@@ -26,7 +26,7 @@ const initialState = {
   errorMsg: false,
   loadingFetchUsersList: false,
   handleModalAddUsers: false,
-  handleModalStaticUser: false,
+  handleModalStaticUserId: 0,
   handleModalStaticUsers: false,
 };
 
@@ -97,7 +97,7 @@ const usersReducer = (state = initialState, action) => {
     case MODAL_STATIC_USER:
       return {
         ...state,
-        handleModalStaticUser: action.payload,
+        handleModalStaticUserId: action.payload,
       };
     case MODAL_STATIC_USERS:
       return {

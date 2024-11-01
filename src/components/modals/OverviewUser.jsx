@@ -8,7 +8,8 @@ import {
 
 const OverviewUser = ({ el }) => {
   const dispatch = useDispatch();
-  const show = useSelector((state) => state.users.handleModalStaticUser);
+  const show =
+    useSelector((state) => state.users.handleModalStaticUserId) === el.id;
   const monthlyStats = calculateMonthlyStatistics(el.schedule);
   const totalStats = calculateTotals(monthlyStats);
 

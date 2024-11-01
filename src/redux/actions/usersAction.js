@@ -41,9 +41,9 @@ export const modalAddUserChanger = (condition) => ({
   type: MODAL_ADD_USER,
   payload: condition,
 });
-export const modalStaticUserChanger = (condition) => ({
+export const modalStaticUserChanger = (id) => ({
   type: MODAL_STATIC_USER,
-  payload: condition,
+  payload: id,
 });
 export const modalStaticUsersChanger = (condition) => ({
   type: MODAL_STATIC_USERS,
