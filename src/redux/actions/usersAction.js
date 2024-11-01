@@ -87,8 +87,8 @@ export const saveListUsersOnVercel = (elements) => {
 
       const result = await response.json();
       if (response.ok) {
+        console.log(result);
         console.log("File salvato correttamente:", result.url);
-
         return true;
       } else {
         console.error("Errore nel salvataggio:", result.error);

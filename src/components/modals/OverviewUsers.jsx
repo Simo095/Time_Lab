@@ -16,6 +16,7 @@ const OverviewUsers = () => {
     <Modal
       show={show}
       autoFocus
+      fullscreen="sm"
       size="lg"
       onHide={() => {
         dispatch(modalStaticUsersChanger(false));

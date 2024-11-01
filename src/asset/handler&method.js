@@ -30,10 +30,9 @@ export const handleSaveUser = (localUser, setLocalUser, users, newUser) => {
         totaleAssenzeGiustificati,
         totaleRitardiGiustificati,
       };
-      console.log("users nel savataggio => ", users);
+
       const updatedUsersList = [...users, completeUser];
       dispatch(addUsersOnStore(updatedUsersList));
-      console.log("users nel savataggio post update => ", users);
 
       setLocalUser({
         id: updatedUsersList.length + 1,
