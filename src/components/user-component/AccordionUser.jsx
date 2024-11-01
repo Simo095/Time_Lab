@@ -81,6 +81,7 @@ const AccordionUser = () => {
               <UserTools el={el} />
               {activeKey === index.toString() && (
                 <Container
+                  style={{ zIndex: "99999999999999999999999999" }}
                   fluid
                   className="m-0 p-0 d-sm-flex overflow-x-scroll"
                 >
