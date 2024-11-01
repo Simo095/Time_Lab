@@ -33,9 +33,10 @@ export const handleSaveUser = (localUser, setLocalUser, users, newUser) => {
       console.log("users nel savataggio => ", users);
       const updatedUsersList = [...users, completeUser];
       dispatch(addUsersOnStore(updatedUsersList));
+      console.log("users nel savataggio post update => ", users);
 
       setLocalUser({
-        id: newUser.id + 1,
+        id: updatedUsersList.length + 1,
         nome: "",
         totaleAssenze: 0,
         totalePresenze: 0,

@@ -12,6 +12,7 @@ const AddUser = () => {
   const show = useSelector((state) => state.users.handleModalAddUsers);
   const users = useSelector((state) => state.users.usersList);
   const newUser = useSelector((state) => state.users.newUser);
+  const maxId = users.length > 0 ? Math.max(...users.map((u) => u.id)) : 0;
 
   const [localUser, setLocalUser] = useState({
     id: users.length + 1,
@@ -44,7 +45,6 @@ const AddUser = () => {
             className="mb-3"
             type="text"
             placeholder="ID"
-            required
             defaultValue={localUser.id}
           />
           <FormControl
