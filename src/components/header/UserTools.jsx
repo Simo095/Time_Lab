@@ -17,6 +17,9 @@ const UserTools = ({ el }) => {
     <Container
       fluid
       className="m-0 p-0 d-flex justify-content-center align-items-center"
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
       <Container
         fluid
@@ -27,7 +30,10 @@ const UserTools = ({ el }) => {
           color="black"
           cursor={"pointer"}
           className=""
-          onClick={() => dispatch(handleDeleteUser(el))}
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(handleDeleteUser(el));
+          }}
         />
         <p className="m-0 p-0 fw-lighter fs-6">Elimina</p>
       </Container>
@@ -39,7 +45,10 @@ const UserTools = ({ el }) => {
           size={30}
           color="black"
           className=""
-          onClick={() => dispatch(handleAddReminder(el))}
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(handleAddReminder(el));
+          }}
         />
         <p className="m-0 p-0 fw-lighter fs-6">Prome</p>
       </Container>
@@ -51,7 +60,10 @@ const UserTools = ({ el }) => {
           size={30}
           color="black"
           className=""
-          onClick={() => dispatch(modalStaticUserChanger(el.id))}
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(modalStaticUserChanger(el.id));
+          }}
         />
         <p className="m-0 p-0 fw-lighter fs-6">Stats</p>
       </Container>

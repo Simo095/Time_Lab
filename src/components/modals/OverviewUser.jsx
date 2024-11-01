@@ -37,13 +37,13 @@ const OverviewUser = ({ el }) => {
             <thead>
               <tr>
                 <th>Mese</th>
-                <th>Ore teoriche</th>
-                <th>Ore lavorate</th>
-                <th>Ore di assenza</th>
-                <th>Ore di assenza giustificata</th>
-                <th>Ore di ritardo</th>
-                <th>Ore di ritardo giustificato</th>
-                <th>Ore assenza e ritardo giustificati</th>
+                <th>Teoriche</th>
+                <th>Lavorate</th>
+                <th>Assenza</th>
+                <th>Assenza giustificata</th>
+                <th>Ritardo</th>
+                <th>Ritardo giustificato</th>
+                <th>Assenza e ritardo giustificati</th>
               </tr>
             </thead>
             <tbody>
