@@ -80,23 +80,23 @@ const RangeTimeJustify = ({ event, el, i }) => {
           : orarioTeorico[1]
         : "",
     ];
-    const eveningLate = orarioTeorico[2]
-      ? [
-          orarioTeorico[2],
-          startTimeEvening && startTimeEvening !== ""
-            ? startTimeEvening > orarioTeorico[2]
-              ? startTimeEvening
-              : orarioTeorico[2]
-            : orarioTeorico[3],
-          orarioTeorico[3],
-          endTimeEvening && endTimeEvening !== ""
-            ? endTimeEvening < orarioTeorico[3]
-              ? endTimeEvening
-              : orarioTeorico[3]
-            : "",
-        ]
-      : [];
-    const arrayLate = morningLate.concat(eveningLate);
+    const eveningLate = orarioTeorico[2] && [
+      orarioTeorico[2],
+      startTimeEvening && startTimeEvening !== ""
+        ? startTimeEvening > orarioTeorico[2]
+          ? startTimeEvening
+          : orarioTeorico[2]
+        : orarioTeorico[3],
+      orarioTeorico[3],
+      endTimeEvening && endTimeEvening !== ""
+        ? endTimeEvening < orarioTeorico[3]
+          ? endTimeEvening
+          : orarioTeorico[3]
+        : "",
+    ];
+    const arrayLate = eveningLate
+      ? morningLate.concat(eveningLate)
+      : morningLate;
 
     dispatch(handleChangeTimeUser(i, el, arrayPresenceEffective, arrayLate));
   };
