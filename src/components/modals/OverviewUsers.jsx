@@ -65,7 +65,7 @@ const OverviewUsers = () => {
                       </td>
                       <td>
                         {(stats.totalAbsenceHours / 60).toFixed(2)}
-                        <br />{" "}
+                        <br />
                         {calculatePercentage(
                           stats.totalAbsenceHours,
                           stats.totalTheoreticalHours

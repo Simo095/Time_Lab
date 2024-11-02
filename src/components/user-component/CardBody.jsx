@@ -6,24 +6,11 @@ import { calculateAbsenceHours } from "../../asset/handler&method";
 import JustifyState from "./JustifyState";
 import AbsenceState from "./AsenceState";
 import Prome from "./Prome";
-import { useEffect, useState } from "react";
 
 const CardBody = ({ event, i, el }) => {
-  console.log("EVENT => ", event);
-  const [absenceHours, setAbsenceHours] = useState(0);
-  const [absenceMinutes, setabsenceMinutes] = useState(0);
-
-  useEffect(() => {
-    if (
-      event.orarioRitardo !== null &&
-      event.orarioRitardo !== undefined &&
-      event.orarioRitardo.length !== 0
-    ) {
-      const absenceDuration = calculateAbsenceHours(event?.orarioRitardo);
-      setAbsenceHours(absenceDuration.hours);
-      setabsenceMinutes(absenceDuration.minutes);
-    }
-  }, [event]);
+  const absenceDuration = calculateAbsenceHours(event?.orarioRitardo);
+  const absenceHours = absenceDuration.hours;
+  const absenceMinutes = absenceDuration.minutes;
 
   return (
     <Container fluid className="m-0 p-0">

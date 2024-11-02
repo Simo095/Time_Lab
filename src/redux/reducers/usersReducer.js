@@ -104,6 +104,7 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         handleModalStaticUsers: action.payload,
       };
+
     default:
       return state;
   }
