@@ -14,9 +14,15 @@ const CardBody = ({ event, i, el }) => {
   const [absenceMinutes, setabsenceMinutes] = useState(0);
 
   useEffect(() => {
-    const absenceDuration = calculateAbsenceHours(event?.orarioRitardo);
-    setAbsenceHours(absenceDuration.hours);
-    setabsenceMinutes(absenceDuration.minutes);
+    if (
+      event.orarioRitardo !== null &&
+      event.orarioRitardo !== undefined &&
+      event.orarioRitardo.length !== 0
+    ) {
+      const absenceDuration = calculateAbsenceHours(event?.orarioRitardo);
+      setAbsenceHours(absenceDuration.hours);
+      setabsenceMinutes(absenceDuration.minutes);
+    }
   }, [event]);
 
   return (
