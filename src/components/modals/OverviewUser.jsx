@@ -54,7 +54,11 @@ const OverviewUser = ({ el }) => {
                   <td>{(stats.totalWorkedTime / 60).toFixed(2)}</td>
                   <td>{(stats.totalAbsenceTime / 60).toFixed(2)}</td>
                   <td>{(stats.justifiedAbsenceTime / 60).toFixed(2)}</td>
-                  <td>{(stats.totalLateTime / 60).toFixed(2)}</td>
+                  <td>
+                    {Math.floor(stats.totalLateTime / 60) +
+                      "." +
+                      (stats.totalLateTime % 60)}
+                  </td>
                   <td>{(stats.justifiedLateTime / 60).toFixed(2)}</td>
                   <td>
                     {(

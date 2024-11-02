@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   FormCheck,
@@ -19,10 +19,10 @@ import { MdSave } from "react-icons/md";
 const RangeTimeJustify = ({ event, el, i }) => {
   const dispatch = useDispatch();
 
-  const [startTimeMornign, setStartTimeMorning] = useState(
+  const [startTimeMorning, setStartTimeMorning] = useState(
     event?.orarioLavorato[0]
   );
-  const [endTimeMornign, setEndTimeMorning] = useState(
+  const [endTimeMorning, setEndTimeMorning] = useState(
     event?.orarioLavorato[1]
   );
   const [startTimeEvening, setStartTimeEvening] = useState(
@@ -46,8 +46,8 @@ const RangeTimeJustify = ({ event, el, i }) => {
   };
 
   const [errorAbsenceMorning, setErrorAbsenceMorning] = useState(
-    (startTimeMornign === "" && endTimeMornign === "") ||
-      (startTimeMornign === undefined && endTimeMornign === undefined)
+    (startTimeMorning === "" && endTimeMorning === "") ||
+      (startTimeMorning === undefined && endTimeMorning === undefined)
       ? true
       : false
   );
@@ -60,46 +60,60 @@ const RangeTimeJustify = ({ event, el, i }) => {
 
   const calculateLate = () => {
     const orarioTeorico = event.orarioTeorico;
-    const arrayPresenceEffective = [
-      startTimeMornign,
-      endTimeMornign,
-      startTimeEvening,
-      endTimeEvening,
-    ];
+    const arrayPresenceEffective =
+      startTimeEvening === undefined
+        ? [startTimeMorning, endTimeMorning]
+        : [startTimeMorning, endTimeMorning, startTimeEvening, endTimeEvening];
     const morningLate = [
       orarioTeorico[0],
-      startTimeMornign && startTimeMornign !== ""
-        ? startTimeMornign > orarioTeorico[0]
-          ? startTimeMornign
+      startTimeMorning && startTimeMorning !== ""
+        ? startTimeMorning > orarioTeorico[0]
+          ? startTimeMorning
           : orarioTeorico[0]
         : orarioTeorico[1],
-      orarioTeorico[1],
-      endTimeMornign && endTimeMornign !== ""
-        ? endTimeMornign < orarioTeorico[1]
-          ? endTimeMornign
+      endTimeMorning && endTimeMorning !== ""
+        ? endTimeMorning < orarioTeorico[1]
+          ? endTimeMorning
           : orarioTeorico[1]
         : "",
+      orarioTeorico[1],
     ];
-    const eveningLate = orarioTeorico[2] && [
+    const eveningLate = orarioTeorico[2] !== undefined && [
       orarioTeorico[2],
       startTimeEvening && startTimeEvening !== ""
         ? startTimeEvening > orarioTeorico[2]
           ? startTimeEvening
           : orarioTeorico[2]
         : orarioTeorico[3],
-      orarioTeorico[3],
+
       endTimeEvening && endTimeEvening !== ""
         ? endTimeEvening < orarioTeorico[3]
           ? endTimeEvening
           : orarioTeorico[3]
         : "",
+      orarioTeorico[3],
     ];
     const arrayLate = eveningLate
       ? morningLate.concat(eveningLate)
       : morningLate;
-
     dispatch(handleChangeTimeUser(i, el, arrayPresenceEffective, arrayLate));
   };
+
+  useEffect(() => {
+    console.log("LOOOOOOOOPx");
+    if (
+      startTimeMorning === undefined ||
+      endTimeMorning === undefined ||
+      startTimeEvening === undefined ||
+      endTimeEvening === undefined
+    ) {
+      setStartTimeMorning(event?.orarioLavorato[0]);
+      setEndTimeMorning(event?.orarioLavorato[1]);
+      setStartTimeEvening(event?.orarioLavorato[2]);
+      setEndTimeEvening(event?.orarioLavorato[3]);
+    }
+  }, [event]);
+
   return (
     <Container fluid className="m-0 p-0">
       <Container className="m-0 p-0 my-1 d-flex justify-content-evenly gap-3">
@@ -151,13 +165,13 @@ const RangeTimeJustify = ({ event, el, i }) => {
           <FormControl
             size="sm"
             type="time"
-            value={startTimeMornign}
+            value={startTimeMorning}
             onChange={handleStartTimeMorningChange}
           />
           <FormControl
             size="sm"
             type="time"
-            value={endTimeMornign}
+            value={endTimeMorning}
             onChange={handleEndTimeMorningChange}
           />
         </Container>

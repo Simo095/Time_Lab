@@ -397,7 +397,8 @@ export const calculateMonthlyStatistics = (schedule) => {
         const workedTime = calculateTotalMinutes(entry.orarioLavorato);
         groupedByMonth[month].totalWorkedTime += workedTime;
         if (entry.ritardo) {
-          const lateTime = calculateTotalMinutes(entry.orarioRitardo);
+          const lateTime = calculateAbsenceHours(entry.orarioRitardo);
+          //calculateAbsenceHours(entry.orarioRitardo); torna un oggetto!!! devi modificare per fare funzionare! sia qui che in quello del singolo!
           groupedByMonth[month].totalLateTime += lateTime;
           if (entry.giustificato) {
             groupedByMonth[month].justifiedLateTime += lateTime;
@@ -492,38 +493,51 @@ export const getDayForEvent = (dateString) => {
     console.log(error);
   }
 };
-export const calculateAbsenceHours = (
-  startTimeM,
-  endTimeM,
-  startTimeE,
-  endTimeE
-) => {
-  if ((!startTimeM || !endTimeM) && (!startTimeE || !endTimeE)) {
-    return 0;
-  } else if (!startTimeE || !endTimeE) {
-    const startParts = startTimeM.split(":");
-    const endParts = endTimeM.split(":");
-    const startMinutes = parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
-    const endMinutes = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
-    return Math.max(endMinutes - startMinutes, 0);
-  } else {
-    const startPartsM = startTimeM.split(":");
-    const endPartsM = endTimeM.split(":");
-    const startPartsE = startTimeE.split(":");
-    const endPartsE = endTimeE.split(":");
-    const startMinutes =
-      parseInt(startPartsM[0]) * 60 +
-      parseInt(startPartsM[1]) +
-      parseInt(startPartsE[0]) * 60 +
-      parseInt(startPartsE[1]);
-    const endMinutes =
-      parseInt(endPartsM[0]) * 60 +
-      parseInt(endPartsM[1]) +
-      parseInt(endPartsE[0]) * 60 +
-      parseInt(endPartsE[1]);
-    return Math.max(endMinutes - startMinutes, 0);
-  }
-};
+// export const calculateAbsenceHours = (
+//   firstStartTimeM,
+//   firstEndTimeM,
+//   secondStartTimeM,
+//   secondEndTimeM,
+//   firstStartTimeE,
+//   firstEndTimeE,
+//   secondStartTimeE,
+//   secondEndTimeE
+// ) => {
+
+//   if (
+//     (!firstStartTimeM || !firstEndTimeM) &&
+//     (!firstStartTimeE || !firstEndTimeE)
+//   ) {
+//     console.log("Nessun parametro valido");
+//     return 0;
+//   } else if (!firstStartTimeE || !firstEndTimeE) {
+//     console.log("else if");
+//     const startParts = firstStartTimeM.split(":");
+//     const endParts = firstEndTimeM.split(":");
+//     const startMinutes = parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
+//     const endMinutes = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
+//     return Math.max(endMinutes - startMinutes, 0);
+//   } else {
+//     console.log("else ");
+//     const startPartsM = firstStartTimeM.split(":");
+//     const endPartsM = firstEndTimeM.split(":");
+//     const startPartsE = firstStartTimeE.split(":");
+//     const endPartsE = firstEndTimeE.split(":");
+
+//     const startMinutes =
+//       parseInt(startPartsM[0]) * 60 +
+//       parseInt(startPartsM[1]) +
+//       parseInt(startPartsE[0]) * 60 +
+//       parseInt(startPartsE[1]);
+//     const endMinutes =
+//       parseInt(endPartsM[0]) * 60 +
+//       parseInt(endPartsM[1]) +
+//       parseInt(endPartsE[0]) * 60 +
+//       parseInt(endPartsE[1]);
+//     console.log(startMinutes, endMinutes);
+//     return Math.max(startMinutes - endMinutes, 0);
+//   }
+// };
 // export const calculateMonthlyStatisticsForAllUser = (users) => {
 //   const statsByMonth = {};
 //   users.forEach((user) => {
@@ -582,6 +596,80 @@ export const calculateAbsenceHours = (
 
 //   return statsByMonth;
 // };
+
+export const calculateAbsenceHours = (timeArray) => {
+  console.log("timeArray", timeArray);
+  if (timeArray === undefined) return;
+  // Funzione per calcolare i minuti tra due orari
+  const calculateIntervalMinutes = (startTime, endTime) => {
+    const [startHours, startMinutes] = startTime.split(":").map(Number);
+    const [endHours, endMinutes] = endTime.split(":").map(Number);
+    const startTotalMinutes = startHours * 60 + startMinutes;
+    const endTotalMinutes = endHours * 60 + endMinutes;
+
+    // Se l'orario di fine è minore dell'orario di inizio, calcola 0
+    return endTotalMinutes > startTotalMinutes
+      ? endTotalMinutes - startTotalMinutes
+      : 0;
+  };
+
+  let totalAbsenceMinutes = 0;
+
+  // Calcolo mattina
+  if (timeArray.length >= 4) {
+    const [firstStartTimeM, firstEndTimeM, secondStartTimeM, secondEndTimeM] =
+      timeArray.slice(0, 4);
+    if (firstStartTimeM && firstEndTimeM) {
+      totalAbsenceMinutes += calculateIntervalMinutes(
+        firstStartTimeM,
+        firstEndTimeM
+      );
+      console.log("if (timeArray.length >= 4) => ", totalAbsenceMinutes);
+    }
+    if (secondStartTimeM && secondEndTimeM) {
+      totalAbsenceMinutes += calculateIntervalMinutes(
+        secondStartTimeM,
+        secondEndTimeM
+      );
+      console.log(
+        "if (secondStartTimeM && secondEndTimeM)  => ",
+        totalAbsenceMinutes
+      );
+    }
+  }
+
+  // Calcolo pomeriggio
+  if (timeArray.length === 8) {
+    const [firstStartTimeE, firstEndTimeE, secondStartTimeE, secondEndTimeE] =
+      timeArray.slice(4, 8);
+    if (firstStartTimeE && firstEndTimeE) {
+      totalAbsenceMinutes += calculateIntervalMinutes(
+        firstStartTimeE,
+        firstEndTimeE
+      );
+      console.log(
+        "if (firstStartTimeE && firstEndTimeE) => ",
+        totalAbsenceMinutes
+      );
+    }
+    if (secondStartTimeE && secondEndTimeE) {
+      totalAbsenceMinutes += calculateIntervalMinutes(
+        secondStartTimeE,
+        secondEndTimeE
+      );
+      console.log(
+        "if (secondStartTimeE && secondEndTimeE) => ",
+        totalAbsenceMinutes
+      );
+    }
+  }
+
+  // Converte il totale in ore e minuti
+  const hours = Math.floor(totalAbsenceMinutes / 60);
+  const minutes = totalAbsenceMinutes % 60;
+
+  return { hours, minutes };
+};
 
 export const calculateMonthlyStatisticsForAllUser = (users) => {
   const statsByMonth = {};
