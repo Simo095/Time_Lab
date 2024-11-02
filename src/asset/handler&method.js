@@ -399,9 +399,11 @@ export const calculateMonthlyStatistics = (schedule) => {
         if (entry.ritardo) {
           const lateTime = calculateAbsenceHours(entry.orarioRitardo);
           //calculateAbsenceHours(entry.orarioRitardo); torna un oggetto!!! devi modificare per fare funzionare! sia qui che in quello del singolo!
-          groupedByMonth[month].totalLateTime += lateTime;
+          groupedByMonth[month].totalLateTime +=
+            lateTime.hours * 60 + lateTime.minutes;
           if (entry.giustificato) {
-            groupedByMonth[month].justifiedLateTime += lateTime;
+            groupedByMonth[month].justifiedLateTime +=
+              lateTime.hours * 60 + lateTime.minutes;
           }
         }
       } else {

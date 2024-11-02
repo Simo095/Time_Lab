@@ -62,7 +62,9 @@ export const getFileAndAddOldElements = () => {
         const req = await fetch(`${url}`);
         if (req.ok) {
           const oldData = await req.json();
-          dispatch(addUsersOnStore([...oldData]));
+          const oldDataSort = oldData.sort();
+          console.log("oldData => ", oldData);
+          dispatch(addUsersOnStore([...oldDataSort]));
         }
       }
     } catch (error) {
