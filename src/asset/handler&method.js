@@ -515,10 +515,11 @@ export const calculateAbsenceHours = (timeArray) => {
     }
   }
 
-  const hours = Math.floor(totalAbsenceMinutes / 60);
-  const minutes = totalAbsenceMinutes % 60;
+  // const hours = Math.floor(totalAbsenceMinutes / 60);
+  // const minutes = totalAbsenceMinutes % 60;
 
-  return { hours, minutes };
+  // return { hours, minutes };
+  return totalAbsenceMinutes;
 };
 
 export const calculateMonthlyStatisticsForAllUser = (users) => {
