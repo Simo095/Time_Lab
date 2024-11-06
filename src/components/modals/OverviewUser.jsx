@@ -4,6 +4,7 @@ import { modalStaticUserChanger } from "../../redux/actions/usersAction";
 import {
   calculateMonthlyStatistics,
   calculateTotals,
+  formatHoursAndMinutes,
 } from "../../asset/handler&method";
 
 const OverviewUser = ({ el }) => {
@@ -12,7 +13,7 @@ const OverviewUser = ({ el }) => {
     useSelector((state) => state.users.handleModalStaticUserId) === el.id;
   const monthlyStats = calculateMonthlyStatistics(el.schedule);
   const totalStats = calculateTotals(monthlyStats);
-
+  console.log(el.nome, " ", monthlyStats);
   return (
     <Modal
       show={show}
@@ -50,17 +51,17 @@ const OverviewUser = ({ el }) => {
               {Object.entries(monthlyStats).map(([month, stats]) => (
                 <tr key={month}>
                   <td>{month}</td>
-                  <td>{(stats.totalTheoreticalTime / 60).toFixed(2)}</td>
-                  <td>{(stats.totalWorkedTime / 60).toFixed(2)}</td>
-                  <td>{(stats.totalAbsenceTime / 60).toFixed(2)}</td>
-                  <td>{(stats.justifiedAbsenceTime / 60).toFixed(2)}</td>
-                  <td>{(stats.totalLateTime / 60).toFixed(2)}</td>
-                  <td>{(stats.justifiedLateTime / 60).toFixed(2)}</td>
+
+                  <td>{formatHoursAndMinutes(stats.totalTheoreticalTime)}</td>
+                  <td>{formatHoursAndMinutes(stats.totalWorkedTime)}</td>
+                  <td>{formatHoursAndMinutes(stats.totalAbsenceTime)}</td>
+                  <td>{formatHoursAndMinutes(stats.justifiedAbsenceTime)}</td>
+                  <td>{formatHoursAndMinutes(stats.totalLateTime)}</td>
+                  <td>{formatHoursAndMinutes(stats.justifiedLateTime)}</td>
                   <td>
-                    {(
-                      (stats.justifiedLateTime + stats.justifiedAbsenceTime) /
-                      60
-                    ).toFixed(2)}
+                    {formatHoursAndMinutes(
+                      stats.justifiedLateTime + stats.justifiedAbsenceTime
+                    )}
                   </td>
                 </tr>
               ))}
