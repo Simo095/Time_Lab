@@ -10,7 +10,7 @@ const persistConfig = {
   whitelist: [""],
   transforms: [
     encryptTransform({
-      secretKey: "mia-chiave34.23-0421234",
+      secretKey: "miIa-chiave34.23-0 421234&%( ",
     }),
   ],
 };

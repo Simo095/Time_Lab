@@ -1,13 +1,16 @@
-import { Button, Container, Modal, Tab, Table, Tabs } from "react-bootstrap";
+import { Container, Modal, Tab, Table, Tabs } from "react-bootstrap";
+import { BsCloudDownload } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { modalStaticUsersChanger } from "../../redux/actions/usersAction";
 import { calculateMonthlyStatistics } from "../../asset/handler&method";
+
 import * as XLSX from "xlsx";
 
 const OverviewUsers = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.usersList);
   const show = useSelector((state) => state.users.handleModalStaticUsers);
+
   const userStatistics = users
     .sort((a, b) => b.totaleAssenze - a.totaleAssenze)
     .reduce((acc, user) => {
@@ -60,13 +63,21 @@ const OverviewUsers = () => {
       }}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Percentuali per Mese</Modal.Title>
+        <Container
+          fluid
+          className="m-0 p-0 d-flex justify-content-between align-items-center me-5"
+        >
+          <Modal.Title>Percentuali per Mese</Modal.Title>
+          <BsCloudDownload
+            color="success"
+            size={30}
+            onClick={exportToExcel}
+            cursor={"pointer"}
+          />
+        </Container>
       </Modal.Header>
       <Modal.Body>
         <Container>
-          <Button variant="success" onClick={exportToExcel} className="mb-3">
-            Esporta in Excel
-          </Button>
           <Tabs defaultActiveKey="0" id="monthly-stats-tabs" className="mb-3">
             {Object.keys(
               userStatistics[Object.keys(userStatistics)[0]] || {}

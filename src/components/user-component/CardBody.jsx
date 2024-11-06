@@ -1,8 +1,8 @@
 import { Container } from "react-bootstrap";
+import { calculateAbsenceHours } from "../../asset/handler&method";
 import RangeTimeJustify from "./RangeTimeJustify";
 import AbsenceNote from "./AbsenceNote";
 import LateState from "./LateState";
-import { calculateAbsenceHours } from "../../asset/handler&method";
 import JustifyState from "./JustifyState";
 import AbsenceState from "./AsenceState";
 import Prome from "./Prome";

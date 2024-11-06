@@ -17,7 +17,6 @@ import {
 
 const HeaderBar = ({ setPw }) => {
   const dispatch = useDispatch();
-
   const users = useSelector((state) => state.users.usersList);
 
   return (

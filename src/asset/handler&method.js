@@ -451,17 +451,6 @@ export const calculateTotalMinutes = (timeArray) => {
   }
   return totalMinutes;
 };
-
-export const getDayForEvent = (dateString) => {
-  try {
-    const [day, month, year] = dateString.split("/").map(Number);
-    const date = new Date(year, month - 1, day);
-    return date.getDay();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const calculateIntervalMinutes = (startTime, endTime) => {
   const [startHours, startMinutes] = startTime.split(":").map(Number);
   const [endHours, endMinutes] = endTime.split(":").map(Number);
@@ -472,6 +461,16 @@ export const calculateIntervalMinutes = (startTime, endTime) => {
     ? endTotalMinutes - startTotalMinutes
     : 0;
 };
+export const getDayForEvent = (dateString) => {
+  try {
+    const [day, month, year] = dateString.split("/").map(Number);
+    const date = new Date(year, month - 1, day);
+    return date.getDay();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const calculateAbsenceHours = (timeArray) => {
   if (timeArray === undefined) return;
   let totalAbsenceMinutes = 0;
@@ -508,84 +507,5 @@ export const calculateAbsenceHours = (timeArray) => {
       );
     }
   }
-
-  // const hours = Math.floor(totalAbsenceMinutes / 60);
-  // const minutes = totalAbsenceMinutes % 60;
-  // return { hours, minutes };
   return totalAbsenceMinutes;
 };
-
-export const calculateMonthlyStatisticsForAllUser = (users) => {
-  const statsByMonth = {};
-  const allMonths = [];
-
-  users.forEach((user) => {
-    const monthlyStatPerUser = calculateMonthlyStatistics(user.schedule);
-    Object.keys(monthlyStatPerUser).forEach((month) => {
-      if (!allMonths.includes(month)) {
-        allMonths.push(month);
-      }
-    });
-  });
-
-  allMonths.forEach((month) => {
-    statsByMonth[month] = {
-      totalTheoreticalHours: 0,
-      totalWorkedHours: 0,
-      totalAbsenceHours: 0,
-      totalLateHours: 0,
-      totalJustifiedAbsenceHours: 0,
-      totalJustifiedLateHours: 0,
-    };
-  });
-
-  users.forEach((user) => {
-    const monthlyStatPerUser = calculateMonthlyStatistics(user.schedule);
-    for (const month of allMonths) {
-      const totalTeoricoInMinutes =
-        (monthlyStatPerUser[month]?.totalTheoreticalTime || 0) * 60;
-
-      const totalPresenzeInMinutes =
-        (monthlyStatPerUser[month]?.totalWorkedTime || 0) * 60;
-
-      const totalAssenzeInMinutes =
-        (monthlyStatPerUser[month]?.totalAbsenceTime || 0) * 60;
-
-      const totalRitardiInMinutes =
-        (monthlyStatPerUser[month]?.totalLateTime || 0) * 60;
-
-      const totalAssenzeGiustificateInMinutes =
-        (monthlyStatPerUser[month]?.justifiedAbsenceTime || 0) * 60;
-
-      const totalRitardiGiustificateInMinutes =
-        (monthlyStatPerUser[month]?.justifiedLateTime || 0) * 60;
-
-      statsByMonth[month].totalTheoreticalHours += convertToHours(
-        totalTeoricoInMinutes
-      );
-      statsByMonth[month].totalWorkedHours += convertToHours(
-        totalPresenzeInMinutes
-      );
-      statsByMonth[month].totalAbsenceHours += convertToHours(
-        totalAssenzeInMinutes
-      );
-      statsByMonth[month].totalLateHours += convertToHours(
-        totalRitardiInMinutes
-      );
-      statsByMonth[month].totalJustifiedAbsenceHours += convertToHours(
-        totalAssenzeGiustificateInMinutes
-      );
-      statsByMonth[month].totalJustifiedLateHours += convertToHours(
-        totalRitardiGiustificateInMinutes
-      );
-    }
-  });
-
-  return statsByMonth;
-};
-
-export const convertToHours = (totalMinutes) =>
-  totalMinutes ? totalMinutes / 60 : 0;
-
-export const calculatePercentage = (part, total) =>
-  total > 0 ? ((part / total) * 100).toFixed(2) : 0;

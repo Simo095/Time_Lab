@@ -49,28 +49,47 @@ const OverviewUser = ({ el }) => {
               {Object.entries(monthlyStats).map(([month, stats]) => (
                 <tr key={month}>
                   <td>{month}</td>
-                  <td>{formatHoursAndMinutes(stats.totalTheoreticalTime)}</td>
-                  <td>{`${formatHoursAndMinutes(
-                    stats.totalWorkedTime
-                  )} ${formatHoursFromMinutes(stats.totalWorkedTime)} (${
-                    stats.presentPercentage
-                  }%)`}</td>
-                  <td>{`${formatHoursAndMinutes(
-                    stats.totalAbsenceTime
-                  )}  ${formatHoursFromMinutes(stats.totalAbsenceTime)} (${
-                    stats.absentPercentage
-                  }%)`}</td>
-                  <td>{formatHoursAndMinutes(stats.justifiedAbsenceTime)}</td>
-                  <td>{`${formatHoursAndMinutes(
-                    stats.totalLateTime
-                  )} ${formatHoursFromMinutes(stats.totalLateTime)} (${
-                    stats.latePercentage
-                  }%)`}</td>
-                  <td>{formatHoursAndMinutes(stats.justifiedLateTime)}</td>
                   <td>
-                    {`${formatHoursAndMinutes(
+                    {formatHoursAndMinutes(stats.totalTheoreticalTime)}
+                    <br />
+                    {formatHoursFromMinutes(stats.totalTheoreticalTime)} h
+                  </td>
+                  <td>
+                    {formatHoursAndMinutes(stats.totalWorkedTime)} <br />
+                    {formatHoursFromMinutes(stats.totalWorkedTime)} h <br />
+                    {`${stats.presentPercentage}%`}
+                  </td>
+                  <td>
+                    {formatHoursAndMinutes(stats.totalAbsenceTime)}
+                    <br />
+                    {formatHoursFromMinutes(stats.totalAbsenceTime)} h<br />
+                    {`${stats.absentPercentage}%`}
+                  </td>
+                  <td>
+                    {formatHoursAndMinutes(stats.justifiedAbsenceTime)}
+                    <br />
+                    {formatHoursFromMinutes(stats.justifiedAbsenceTime)} h<br />
+                  </td>
+                  <td>
+                    {formatHoursAndMinutes(stats.totalLateTime)} <br />
+                    {formatHoursFromMinutes(stats.totalLateTime)} h<br />
+                    {`${stats.latePercentage}%`}
+                  </td>
+                  <td>
+                    {formatHoursAndMinutes(stats.justifiedLateTime)}
+                    <br />
+                    {formatHoursFromMinutes(stats.justifiedAbsenceTime)} h
+                  </td>
+                  <td>
+                    {formatHoursAndMinutes(
                       stats.justifiedLateTime + stats.justifiedAbsenceTime
-                    )}(${stats.totalJustify}%)`}
+                    )}
+                    <br />
+                    {formatHoursFromMinutes(
+                      stats.justifiedLateTime + stats.justifiedAbsenceTime
+                    )}
+                    h<br />
+                    {`${stats.totalJustify}%`}
                   </td>
                 </tr>
               ))}

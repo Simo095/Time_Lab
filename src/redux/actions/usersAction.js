@@ -65,7 +65,6 @@ export const getFileAndAddOldElements = () => {
           const oldDataSort = oldData.sort(
             (a, b) => b.totaleAssenze - a.totaleAssenze
           );
-          console.log("oldData => ", oldData);
           dispatch(addUsersOnStore([...oldDataSort]));
         }
       }
@@ -91,8 +90,7 @@ export const saveListUsersOnVercel = (elements) => {
 
       const result = await response.json();
       if (response.ok) {
-        console.log(result);
-        console.log("File salvato correttamente:", result.url);
+        window.confirm(`File salvato correttamente: ${result.data.url}`);
         return true;
       } else {
         console.error("Errore nel salvataggio:", result.error);
