@@ -1,15 +1,24 @@
-import { Container, Modal, Tab, Table, Tabs } from "react-bootstrap";
+import {
+  Container,
+  FormSelect,
+  Modal,
+  Tab,
+  Table,
+  Tabs,
+} from "react-bootstrap";
 import { BsCloudDownload } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { modalStaticUsersChanger } from "../../redux/actions/usersAction";
 import { calculateMonthlyStatistics } from "../../asset/handler&method";
 
 import * as XLSX from "xlsx";
+import { useState } from "react";
 
 const OverviewUsers = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.usersList);
   const show = useSelector((state) => state.users.handleModalStaticUsers);
+  const [selectedMonth, setSelectedMonth] = useState("");
 
   const userStatistics = users
     .sort((a, b) => b.totaleAssenze - a.totaleAssenze)
@@ -20,34 +29,34 @@ const OverviewUsers = () => {
 
   const exportToExcel = () => {
     const workbook = XLSX.utils.book_new();
-    Object.keys(userStatistics[Object.keys(userStatistics)[0]] || {}).forEach(
-      (month) => {
-        const data = Object.keys(userStatistics)
-          .sort(
-            (a, b) =>
-              (userStatistics[b][month]?.absentPercentage || 0) -
-              (userStatistics[a][month]?.absentPercentage || 0)
-          )
-          .map((userId) => ({
-            Utente:
-              users.find((user) => user.id.toString() === userId.toString())
-                ?.nome || "Anonimo",
-            "Presenza (%)":
-              userStatistics[userId][month]?.presentPercentage || "0",
-            "Assenza (%)":
-              userStatistics[userId][month]?.absentPercentage || "0",
-            "Ritardo (%)": userStatistics[userId][month]?.latePercentage || "0",
-            "Giustificato (%)":
-              userStatistics[userId][month]?.totalJustify || "0",
-          }));
+    if (selectedMonth) {
+      const data = Object.keys(userStatistics)
+        .sort(
+          (a, b) =>
+            (userStatistics[b][selectedMonth]?.absentPercentage || 0) -
+            (userStatistics[a][selectedMonth]?.absentPercentage || 0)
+        )
+        .map((userId) => ({
+          Utente:
+            users.find((user) => user.id.toString() === userId.toString())
+              ?.nome || "Anonimo",
+          "Presenza (%)":
+            userStatistics[userId][selectedMonth]?.presentPercentage || "0",
+          "Assenza (%)":
+            userStatistics[userId][selectedMonth]?.absentPercentage || "0",
+          "Ritardo (%)":
+            userStatistics[userId][selectedMonth]?.latePercentage || "0",
+          "Giustificato (%)":
+            userStatistics[userId][selectedMonth]?.totalJustify || "0",
+        }));
 
-        const worksheet = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(workbook, worksheet, month);
-      }
-    );
-    XLSX.writeFile(workbook, "Statistiche Utenti.xlsx");
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      XLSX.utils.book_append_sheet(workbook, worksheet, selectedMonth);
+      XLSX.writeFile(workbook, `Statistiche ${selectedMonth}.xlsx`);
+    } else {
+      alert("Seleziona un mese da esportare.");
+    }
   };
-
   return (
     <Modal
       show={show}
@@ -68,6 +77,21 @@ const OverviewUsers = () => {
           className="m-0 p-0 d-flex justify-content-between align-items-center me-5"
         >
           <Modal.Title>Percentuali per Mese</Modal.Title>
+          <FormSelect
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            className="w-50"
+            aria-label="Seleziona il mese"
+          >
+            <option value="">Seleziona Mese</option>
+            {Object.keys(
+              userStatistics[Object.keys(userStatistics)[0]] || {}
+            ).map((month) => (
+              <option key={month} value={month}>
+                {month}
+              </option>
+            ))}
+          </FormSelect>
           <BsCloudDownload
             color="success"
             size={30}

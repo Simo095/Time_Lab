@@ -1,3 +1,4 @@
+/* SCROLLBAR */
 *::-webkit-scrollbar {
   width: 0px;
   background-color: transparent;
@@ -17,12 +18,7 @@
   display: block;
   background-color: transparent !important;
 }
-
-.delete-memo {
-  color: red;
-  font-size: 20px !important;
-}
-
+/* CALENDAR */
 .event-card {
   background-color: rgb(255, 255, 255);
   border-radius: 8px;
@@ -34,21 +30,7 @@
   width: 321px !important;
   min-width: 321px !important;
 }
-.container-calendarDetails {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-@media (max-width: 702px) {
-  .container-calendarDetails {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .calendarDetails {
-    position: absolute;
-  }
-}
+
 .event-card:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -61,11 +43,34 @@
   background-color: #40c3ff !important;
   color: rgb(0, 0, 0);
 }
+
+.delete-memo {
+  color: red;
+  font-size: 20px !important;
+}
+
+.container-calendarDetails {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
 .react-calendar__tile--active {
   background-color: #40c3ff !important;
   color: rgb(0, 0, 0);
 }
 
+@media (max-width: 702px) {
+  .container-calendarDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .calendarDetails {
+    position: absolute;
+  }
+}
+/* PASSWORD INPUT */
 .group {
   display: flex;
   line-height: 30px;
