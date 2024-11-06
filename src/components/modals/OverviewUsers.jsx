@@ -48,6 +48,9 @@ const OverviewUsers = () => {
             userStatistics[userId][selectedMonth]?.latePercentage || "0",
           "Giustificato (%)":
             userStatistics[userId][selectedMonth]?.totalJustify || "0",
+          "Totale (%)":
+            userStatistics[userId][selectedMonth]?.totalJustify +
+              userStatistics[userId][selectedMonth]?.presentPercentage || "0",
         }));
 
       const worksheet = XLSX.utils.json_to_sheet(data);
