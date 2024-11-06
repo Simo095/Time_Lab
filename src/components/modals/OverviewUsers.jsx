@@ -1,15 +1,49 @@
-import { Container, Modal, Table } from "react-bootstrap";
+import { Button, Container, Modal, Tab, Table, Tabs } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { modalStaticUsersChanger } from "../../redux/actions/usersAction";
-import {
-  calculateMonthlyStatisticsForAllUser,
-  calculatePercentage,
-} from "../../asset/handler&method";
+import { calculateMonthlyStatistics } from "../../asset/handler&method";
+import * as XLSX from "xlsx";
 
 const OverviewUsers = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.usersList);
   const show = useSelector((state) => state.users.handleModalStaticUsers);
+  const userStatistics = users
+    .sort((a, b) => b.totaleAssenze - a.totaleAssenze)
+    .reduce((acc, user) => {
+      acc[user.id] = calculateMonthlyStatistics(user.schedule);
+      return acc;
+    }, {});
+
+  const exportToExcel = () => {
+    const workbook = XLSX.utils.book_new();
+    Object.keys(userStatistics[Object.keys(userStatistics)[0]] || {}).forEach(
+      (month) => {
+        const data = Object.keys(userStatistics)
+          .sort(
+            (a, b) =>
+              (userStatistics[b][month]?.absentPercentage || 0) -
+              (userStatistics[a][month]?.absentPercentage || 0)
+          )
+          .map((userId) => ({
+            Utente:
+              users.find((user) => user.id.toString() === userId.toString())
+                ?.nome || "Anonimo",
+            "Presenza (%)":
+              userStatistics[userId][month]?.presentPercentage || "0",
+            "Assenza (%)":
+              userStatistics[userId][month]?.absentPercentage || "0",
+            "Ritardo (%)": userStatistics[userId][month]?.latePercentage || "0",
+            "Giustificato (%)":
+              userStatistics[userId][month]?.totalJustify || "0",
+          }));
+
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(workbook, worksheet, month);
+      }
+    );
+    XLSX.writeFile(workbook, "Statistiche Utenti.xlsx");
+  };
 
   return (
     <Modal
@@ -26,79 +60,68 @@ const OverviewUsers = () => {
       }}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Statistiche di Tutti</Modal.Title>
+        <Modal.Title>Percentuali per Mese</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
-          <h5>Tabella riepilogativa totale:</h5>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Mese</th>
-                <th>Ore teoriche</th>
-                <th>Ore lavorate</th>
-                <th>Ore di assenza</th>
-                <th>Ore di assenza giustificata</th>
-                <th>Ore di ritardo</th>
-                <th>Ore di ritardo giustificato</th>
-                <th>% assenza e ritardo giustificato</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(calculateMonthlyStatisticsForAllUser(users)).map(
-                ([month, stats]) => {
-                  const tot = calculatePercentage(
-                    stats.totalLateHours + stats.totalAbsenceHours,
-                    stats.totalTheoreticalHours
-                  );
-                  return (
-                    <tr key={month}>
-                      <td>{month}</td>
-                      <td>{(stats.totalTheoreticalHours / 60).toFixed(2)}</td>
-                      <td>
-                        {(stats.totalWorkedHours / 60).toFixed(2)} <br />{" "}
-                        {calculatePercentage(
-                          stats.totalWorkedHours,
-                          stats.totalTheoreticalHours
-                        )}
-                        %
-                      </td>
-                      <td>
-                        {(stats.totalAbsenceHours / 60).toFixed(2)}
-                        <br />
-                        {calculatePercentage(
-                          stats.totalAbsenceHours,
-                          stats.totalTheoreticalHours
-                        )}
-                        %
-                      </td>
-                      <td>
-                        {(stats.totalJustifiedAbsenceHours / 60).toFixed(2)}
-                      </td>
-                      <td>{(stats.totalLateHours / 60).toFixed(2)}</td>
-                      <td>
-                        {(stats.totalJustifiedLateHours / 60).toFixed(2)}
-                        <br />
-                        {calculatePercentage(
-                          stats.totalLateHours,
-                          stats.totalTheoreticalHours
-                        )}
-                        %
-                      </td>
-                      <td>
-                        {calculatePercentage(
-                          stats.totalJustifiedAbsenceHours +
-                            stats.totalJustifiedLateHours,
-                          stats.totalTheoreticalHours
-                        )}
-                        % di {tot}%
-                      </td>
+          <Button variant="success" onClick={exportToExcel} className="mb-3">
+            Esporta in Excel
+          </Button>
+          <Tabs defaultActiveKey="0" id="monthly-stats-tabs" className="mb-3">
+            {Object.keys(
+              userStatistics[Object.keys(userStatistics)[0]] || {}
+            ).map((month, index) => (
+              <Tab eventKey={index} title={month} key={month}>
+                <Table striped bordered hover responsive>
+                  <thead>
+                    <tr>
+                      <th>Utente</th>
+                      <th>Presenza (%)</th>
+                      <th>Assenza (%)</th>
+                      <th>Ritardo (%)</th>
+                      <th>Giustificato (%)</th>
                     </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </Table>
+                  </thead>
+                  <tbody>
+                    {Object.keys(userStatistics)
+                      .sort(
+                        (a, b) =>
+                          (userStatistics[b][month]?.absentPercentage || 0) -
+                          (userStatistics[a][month]?.absentPercentage || 0)
+                      )
+                      .map((userId) => (
+                        <tr key={userId}>
+                          <td>
+                            {users.find(
+                              (user) => user.id.toString() === userId.toString()
+                            )?.nome || "Anonimo"}
+                          </td>
+                          <td>
+                            {userStatistics[userId][month]?.presentPercentage ||
+                              "0"}
+                            %
+                          </td>
+                          <td>
+                            {userStatistics[userId][month]?.absentPercentage ||
+                              "0"}
+                            %
+                          </td>
+                          <td>
+                            {userStatistics[userId][month]?.latePercentage ||
+                              "0"}
+                            %
+                          </td>
+                          <td>
+                            {userStatistics[userId][month]?.totalJustify || "0"}
+                            %
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </Table>
+              </Tab>
+            ))}
+          </Tabs>
         </Container>
       </Modal.Body>
     </Modal>

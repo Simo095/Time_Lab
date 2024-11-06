@@ -216,7 +216,6 @@ export const handleChangeTimeUser = (
 export const handleDeleteTimeUser = (eventIndex, el) => {
   return async (dispatch) => {
     try {
-      console.log(el);
       const updatedUser = {
         ...el,
         schedule: el.schedule.map((ev, idx) =>
@@ -342,12 +341,11 @@ export const generateYearSchedule = () => {
     console.log(error);
   }
 };
-
 export const calculateMonthlyStatistics = (schedule) => {
   const today = new Date();
   const groupedByMonth = {};
-  if (schedule === undefined || schedule === null || schedule.length === 0)
-    return;
+  if (!schedule || schedule.length === 0) return groupedByMonth;
+
   schedule.forEach((entry) => {
     const entryDate = new Date(entry.giorno.split("/").reverse().join("-"));
     if (entryDate <= today) {
@@ -366,27 +364,26 @@ export const calculateMonthlyStatistics = (schedule) => {
           justifiedLateTime: 0,
         };
       }
+
       const theoreticalTime = calculateTotalMinutes(entry.orarioTeorico);
-      groupedByMonth[month].totalTheoreticalTime =
-        groupedByMonth[month].totalTheoreticalTime + theoreticalTime;
+      groupedByMonth[month].totalTheoreticalTime += theoreticalTime;
 
       if (!entry.assente) {
         const workedTime = calculateTotalMinutes(entry.orarioLavorato);
-        groupedByMonth[month].totalWorkedTime =
-          workedTime + groupedByMonth[month].totalWorkedTime;
+        groupedByMonth[month].totalWorkedTime += workedTime;
+
         if (entry.ritardo) {
           const lateTime = calculateAbsenceHours(entry.orarioRitardo);
-          groupedByMonth[month].totalLateTime =
-            groupedByMonth[month].totalLateTime + lateTime;
+          groupedByMonth[month].totalLateTime += lateTime;
 
           if (entry.giustificato) {
-            groupedByMonth[month].justifiedLateTime =
-              groupedByMonth[month].justifiedLateTime + lateTime;
+            groupedByMonth[month].justifiedLateTime += lateTime;
           }
         }
       } else {
         const absenceTime = theoreticalTime;
         groupedByMonth[month].totalAbsenceTime += absenceTime;
+
         if (entry.giustificato) {
           groupedByMonth[month].justifiedAbsenceTime += absenceTime;
         }
@@ -394,12 +391,48 @@ export const calculateMonthlyStatistics = (schedule) => {
     }
   });
 
+  Object.keys(groupedByMonth).forEach((month) => {
+    const monthStats = groupedByMonth[month];
+    const totalTheoreticalTime = monthStats.totalTheoreticalTime;
+
+    monthStats.presentPercentage =
+      totalTheoreticalTime > 0
+        ? ((monthStats.totalWorkedTime * 100) / totalTheoreticalTime).toFixed(2)
+        : 0;
+
+    monthStats.absentPercentage =
+      totalTheoreticalTime > 0
+        ? ((monthStats.totalAbsenceTime * 100) / totalTheoreticalTime).toFixed(
+            2
+          )
+        : 0;
+
+    monthStats.latePercentage =
+      totalTheoreticalTime > 0
+        ? ((monthStats.totalLateTime * 100) / totalTheoreticalTime).toFixed(2)
+        : 0;
+
+    monthStats.totalJustify =
+      totalTheoreticalTime > 0
+        ? (
+            ((monthStats.justifiedAbsenceTime + monthStats.justifiedLateTime) *
+              100) /
+            totalTheoreticalTime
+          ).toFixed(2)
+        : 0;
+  });
+
   return groupedByMonth;
 };
+
 export const formatHoursAndMinutes = (totalMinutes) => {
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
   return `${hours}h ${minutes}m`;
+};
+export const formatHoursFromMinutes = (totalMinutes) => {
+  const hours = totalMinutes / 60;
+  return hours.toFixed(2);
 };
 
 export const calculateTotalMinutes = (timeArray) => {
@@ -417,57 +450,6 @@ export const calculateTotalMinutes = (timeArray) => {
     }
   }
   return totalMinutes;
-};
-
-export const calculateTotals = (monthlyStats) => {
-  let totalTheoreticalTime = 0,
-    presentDays = 0,
-    absentDays = 0,
-    lateDays = 0,
-    absentDaysJustify = 0,
-    lateDaysJustify = 0,
-    justifiedDays = 0;
-
-  Object.values(monthlyStats).forEach((monthStats) => {
-    totalTheoreticalTime += monthStats.totalTheoreticalTime;
-    presentDays += monthStats.totalWorkedTime;
-    absentDays += monthStats.totalAbsenceTime;
-    lateDays += monthStats.totalLateTime;
-    absentDaysJustify += monthStats.justifiedAbsenceTime;
-    lateDaysJustify += monthStats.justifiedLateTime;
-    justifiedDays +=
-      monthStats.justifiedLateTime + monthStats.justifiedAbsenceTime;
-  });
-
-  const presentPercentage =
-    totalTheoreticalTime > 0
-      ? ((presentDays / totalTheoreticalTime) * 100).toFixed(2)
-      : 0;
-  const absentPercentage =
-    totalTheoreticalTime > 0
-      ? ((absentDays / totalTheoreticalTime) * 100).toFixed(2)
-      : 0;
-  const latePercentage =
-    totalTheoreticalTime > 0
-      ? ((lateDays / totalTheoreticalTime) * 100).toFixed(2)
-      : 0;
-  const justifiedPercentage =
-    totalTheoreticalTime > 0
-      ? ((justifiedDays / totalTheoreticalTime) * 100).toFixed(2)
-      : 0;
-
-  return {
-    totalTheoreticalTime,
-    presentDays,
-    absentDays,
-    latePercentage,
-    justifiedDays,
-    presentPercentage,
-    absentPercentage,
-    justifiedPercentage,
-    absentDaysJustify,
-    lateDaysJustify,
-  };
 };
 
 export const getDayForEvent = (dateString) => {
@@ -493,7 +475,7 @@ export const calculateIntervalMinutes = (startTime, endTime) => {
 export const calculateAbsenceHours = (timeArray) => {
   if (timeArray === undefined) return;
   let totalAbsenceMinutes = 0;
-  console.log("timeArray => " + timeArray);
+
   if (timeArray.length >= 4) {
     const [firstStartTimeM, firstEndTimeM, secondStartTimeM, secondEndTimeM] =
       timeArray.slice(0, 4);
@@ -501,9 +483,6 @@ export const calculateAbsenceHours = (timeArray) => {
       totalAbsenceMinutes += calculateIntervalMinutes(
         firstStartTimeM,
         firstEndTimeM
-      );
-      console.log(
-        " if (firstStartTimeM && firstEndTimeM) => " + totalAbsenceMinutes
       );
     }
     if (secondStartTimeM && secondEndTimeM) {

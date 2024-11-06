@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { modalStaticUserChanger } from "../../redux/actions/usersAction";
 import {
   calculateMonthlyStatistics,
-  calculateTotals,
   formatHoursAndMinutes,
+  formatHoursFromMinutes,
 } from "../../asset/handler&method";
 
 const OverviewUser = ({ el }) => {
@@ -12,8 +12,6 @@ const OverviewUser = ({ el }) => {
   const show =
     useSelector((state) => state.users.handleModalStaticUserId) === el.id;
   const monthlyStats = calculateMonthlyStatistics(el.schedule);
-  const totalStats = calculateTotals(monthlyStats);
-  console.log(el.nome, " ", monthlyStats);
   return (
     <Modal
       show={show}
@@ -51,30 +49,31 @@ const OverviewUser = ({ el }) => {
               {Object.entries(monthlyStats).map(([month, stats]) => (
                 <tr key={month}>
                   <td>{month}</td>
-
                   <td>{formatHoursAndMinutes(stats.totalTheoreticalTime)}</td>
-                  <td>{formatHoursAndMinutes(stats.totalWorkedTime)}</td>
-                  <td>{formatHoursAndMinutes(stats.totalAbsenceTime)}</td>
+                  <td>{`${formatHoursAndMinutes(
+                    stats.totalWorkedTime
+                  )} ${formatHoursFromMinutes(stats.totalWorkedTime)} (${
+                    stats.presentPercentage
+                  }%)`}</td>
+                  <td>{`${formatHoursAndMinutes(
+                    stats.totalAbsenceTime
+                  )}  ${formatHoursFromMinutes(stats.totalAbsenceTime)} (${
+                    stats.absentPercentage
+                  }%)`}</td>
                   <td>{formatHoursAndMinutes(stats.justifiedAbsenceTime)}</td>
-                  <td>{formatHoursAndMinutes(stats.totalLateTime)}</td>
+                  <td>{`${formatHoursAndMinutes(
+                    stats.totalLateTime
+                  )} ${formatHoursFromMinutes(stats.totalLateTime)} (${
+                    stats.latePercentage
+                  }%)`}</td>
                   <td>{formatHoursAndMinutes(stats.justifiedLateTime)}</td>
                   <td>
-                    {formatHoursAndMinutes(
+                    {`${formatHoursAndMinutes(
                       stats.justifiedLateTime + stats.justifiedAbsenceTime
-                    )}
+                    )}(${stats.totalJustify}%)`}
                   </td>
                 </tr>
               ))}
-              <tr>
-                <td></td>
-                <td></td>
-                <td>{totalStats.presentPercentage}%</td>
-                <td>{totalStats.absentPercentage}%</td>
-                <td></td>
-                <td>{totalStats.latePercentage}%</td>
-                <td></td>
-                <td>{totalStats.justifiedPercentage}%</td>
-              </tr>
             </tbody>
           </Table>
         </Container>
