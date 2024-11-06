@@ -7,7 +7,6 @@ import {
   FormLabel,
 } from "react-bootstrap";
 import { CiTrash } from "react-icons/ci";
-
 import { useDispatch } from "react-redux";
 import {
   handleChangePresenceUser,
@@ -100,7 +99,6 @@ const RangeTimeJustify = ({ event, el, i }) => {
   };
 
   useEffect(() => {
-    console.log("LOOOOOOOOPx");
     if (
       startTimeMorning === undefined ||
       endTimeMorning === undefined ||
@@ -112,6 +110,7 @@ const RangeTimeJustify = ({ event, el, i }) => {
       setStartTimeEvening(event?.orarioLavorato[2]);
       setEndTimeEvening(event?.orarioLavorato[3]);
     }
+    // eslint-disable-next-line
   }, [event]);
 
   return (
