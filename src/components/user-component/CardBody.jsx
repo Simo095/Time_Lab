@@ -1,5 +1,8 @@
 import { Container } from "react-bootstrap";
-import { calculateAbsenceHours } from "../../asset/handler&method";
+import {
+  calculateAbsenceHours,
+  formatHoursAndMinutes,
+} from "../../asset/handler&method";
 import RangeTimeJustify from "./RangeTimeJustify";
 import AbsenceNote from "./AbsenceNote";
 import LateState from "./LateState";
@@ -9,8 +12,6 @@ import Prome from "./Prome";
 
 const CardBody = ({ event, i, el }) => {
   const absenceDuration = calculateAbsenceHours(event?.orarioRitardo);
-  const absenceHours = absenceDuration.hours;
-  const absenceMinutes = absenceDuration.minutes;
 
   return (
     <Container fluid className="m-0 p-0">
@@ -47,20 +48,15 @@ const CardBody = ({ event, i, el }) => {
               <span
                 className="m-0 p-0 fw-lighter"
                 style={{
-                  color:
-                    absenceHours === 0 && absenceMinutes === 0
-                      ? "red"
-                      : "black",
+                  color: absenceDuration === 0 ? "red" : "black",
                   fontSize: "0.9em",
                 }}
               >
-                ({absenceHours}h {absenceMinutes}m)
+                ({formatHoursAndMinutes(absenceDuration)})
               </span>
               <p style={{ fontSize: "0.9em" }} className="fw-lighter m-0 p-0 ">
                 <span style={{ color: "red" }}>
-                  {absenceHours === 0 && absenceMinutes === 0
-                    ? "Ricorda di salvare i dati "
-                    : ""}
+                  {absenceDuration === 0 ? "Ricorda di salvare i dati " : ""}
                 </span>
               </p>
               <RangeTimeJustify event={event} el={el} i={i} />

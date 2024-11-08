@@ -99,18 +99,10 @@ const RangeTimeJustify = ({ event, el, i }) => {
   };
 
   useEffect(() => {
-    if (
-      startTimeMorning === undefined ||
-      endTimeMorning === undefined ||
-      startTimeEvening === undefined ||
-      endTimeEvening === undefined
-    ) {
-      setStartTimeMorning(event?.orarioLavorato[0]);
-      setEndTimeMorning(event?.orarioLavorato[1]);
-      setStartTimeEvening(event?.orarioLavorato[2]);
-      setEndTimeEvening(event?.orarioLavorato[3]);
-    }
-    // eslint-disable-next-line
+    setStartTimeMorning(event?.orarioLavorato[0]);
+    setEndTimeMorning(event?.orarioLavorato[1]);
+    setStartTimeEvening(event?.orarioLavorato[2]);
+    setEndTimeEvening(event?.orarioLavorato[3]);
   }, [event]);
 
   return (

@@ -49,8 +49,12 @@ const OverviewUsers = () => {
           "Giustificato (%)":
             userStatistics[userId][selectedMonth]?.totalJustify || "0",
           "Totale (%)":
-            userStatistics[userId][selectedMonth]?.totalJustify +
-              userStatistics[userId][selectedMonth]?.presentPercentage || "0",
+            (
+              parseFloat(userStatistics[userId][selectedMonth]?.totalJustify) +
+              parseFloat(
+                userStatistics[userId][selectedMonth]?.presentPercentage
+              )
+            ).toFixed(2) || "0",
         }));
 
       const worksheet = XLSX.utils.json_to_sheet(data);
@@ -113,11 +117,15 @@ const OverviewUsers = () => {
                 <Table striped bordered hover responsive>
                   <thead>
                     <tr>
-                      <th>Utente</th>
+                      <th>Nome</th>
                       <th>Presenza (%)</th>
                       <th>Assenza (%)</th>
                       <th>Ritardo (%)</th>
                       <th>Giustificato (%)</th>
+                      <th>
+                        Presenza + <br />
+                        Giustificato (%)
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -151,6 +159,17 @@ const OverviewUsers = () => {
                           </td>
                           <td>
                             {userStatistics[userId][month]?.totalJustify || "0"}
+                            %
+                          </td>
+                          <td>
+                            {(
+                              parseFloat(
+                                userStatistics[userId][month]?.presentPercentage
+                              ) +
+                              parseFloat(
+                                userStatistics[userId][month]?.totalJustify
+                              )
+                            ).toFixed(2) || "0"}
                             %
                           </td>
                         </tr>
