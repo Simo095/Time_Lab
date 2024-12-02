@@ -6,10 +6,10 @@ import {
 } from "../redux/actions/usersAction";
 
 //HANDLER
-export const handleSaveUser = (localUser, setLocalUser, users, newUser) => {
+export const handleSaveUser = (localUser, setLocalUser, users, startDate) => {
   return async (dispatch) => {
     try {
-      const schedule = generateYearSchedule();
+      const schedule = generateYearSchedule(startDate);
 
       const {
         totaleAssenze,
@@ -299,11 +299,11 @@ const calculateUserStats = (schedule) => {
   };
 };
 
-export const generateYearSchedule = () => {
+export const generateYearSchedule = (date) => {
   try {
     const schedule = [];
-    const currentYear = new Date().getFullYear();
-    for (let month = new Date().getMonth(); month < 12; month++) {
+    const currentYear = new Date(date).getFullYear();
+    for (let month = new Date(date).getMonth(); month < 12; month++) {
       const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
 
       for (let day = 1; day <= daysInMonth; day++) {

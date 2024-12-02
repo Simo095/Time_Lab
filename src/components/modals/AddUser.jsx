@@ -11,8 +11,8 @@ const AddUser = () => {
 
   const show = useSelector((state) => state.users.handleModalAddUsers);
   const users = useSelector((state) => state.users.usersList);
-  const newUser = useSelector((state) => state.users.newUser);
 
+  const [localUserStartDate, setLocalUserStartDate] = useState();
   const [localUser, setLocalUser] = useState({
     id: users.length + 1,
     nome: "",
@@ -26,6 +26,9 @@ const AddUser = () => {
 
   const handleLocalUserChange = (key, value) => {
     setLocalUser((prev) => ({ ...prev, [key]: value }));
+  };
+  const handleLocalUserStartDateChange = (value) => {
+    setLocalUserStartDate(value);
   };
 
   return (
@@ -52,10 +55,17 @@ const AddUser = () => {
             defaultValue={localUser.id}
           />
           <FormControl
+            className="mb-3"
             type="text"
             placeholder="Nome"
             value={localUser.nome}
             onChange={(e) => handleLocalUserChange("nome", e.target.value)}
+          />
+          <FormControl
+            type="date"
+            placeholder="Data di inizio"
+            value={localUserStartDate}
+            onChange={(e) => handleLocalUserStartDateChange(e.target.value)}
           />
         </FormGroup>
       </Modal.Body>
@@ -70,7 +80,9 @@ const AddUser = () => {
         <IoPersonAdd
           size={30}
           onClick={() => {
-            dispatch(handleSaveUser(localUser, setLocalUser, users, newUser));
+            dispatch(
+              handleSaveUser(localUser, setLocalUser, users, localUserStartDate)
+            );
             dispatch(modalAddUserChanger(false));
           }}
         />
