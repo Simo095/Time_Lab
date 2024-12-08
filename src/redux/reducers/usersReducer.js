@@ -4,6 +4,9 @@ import {
   DELETE_REMINDER,
   DELETE_USER,
   ERROR_FETCH_LIST_USERS,
+  FILTER_ABSENCE_LATE_INJUST_USER,
+  FILTER_ABSENCE_LATE_JUST_USER,
+  FILTER_ID_ASC_USER,
   LOADING_LIST_USERS,
   MODAL_ADD_USER,
   MODAL_STATIC_USER,
@@ -13,6 +16,7 @@ import {
 
 const initialState = {
   usersList: [],
+  sortedType: "id",
   newUser: {
     id: 1,
     nome: "",
@@ -36,7 +40,7 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         usersList: action.payload,
-        newUser: { id: state.usersList.length + 1, nome: "" },
+        // newUser: { id: state.usersList.length + 1, nome: "" },
       };
     case DELETE_USER:
       return {
@@ -103,6 +107,21 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         handleModalStaticUsers: action.payload,
+      };
+    case FILTER_ABSENCE_LATE_JUST_USER:
+      return {
+        ...state,
+        sortedType: action.payload,
+      };
+    case FILTER_ABSENCE_LATE_INJUST_USER:
+      return {
+        ...state,
+        sortedType: action.payload,
+      };
+    case FILTER_ID_ASC_USER:
+      return {
+        ...state,
+        sortedType: action.payload,
       };
 
     default:

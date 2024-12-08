@@ -8,6 +8,10 @@ export const MODAL_STATIC_USERS = "MODAL_STATIC_USERS";
 export const ADD_REMINDER = "ADD_REMINDER";
 export const DELETE_REMINDER = "DELETE_REMINDER";
 export const DELETE_USER = "DELETE_USER";
+export const FILTER_ABSENCE_LATE_JUST_USER = "FILTER_ABSENCE_LATE_JUST_USER";
+export const FILTER_ABSENCE_LATE_INJUST_USER =
+  "FILTER_ABSENCE_LATE_INJUST_USER";
+export const FILTER_ID_ASC_USER = "FILTER_ID_ASC_USER";
 
 export const addUsersOnStore = (usersList) => ({
   type: ADD_LIST_USERS,
@@ -49,6 +53,18 @@ export const modalStaticUsersChanger = (condition) => ({
   type: MODAL_STATIC_USERS,
   payload: condition,
 });
+export const filterUsersAbsenceLateJust = (users) => ({
+  type: FILTER_ABSENCE_LATE_JUST_USER,
+  payload: users,
+});
+export const filterUsersAbsenceLateInjust = (users) => ({
+  type: FILTER_ABSENCE_LATE_INJUST_USER,
+  payload: users,
+});
+export const filterUsersIdAsc = (users) => ({
+  type: FILTER_ID_ASC_USER,
+  payload: users,
+});
 
 export const getFileAndAddOldElements = () => {
   return async (dispatch) => {
@@ -62,10 +78,8 @@ export const getFileAndAddOldElements = () => {
         const req = await fetch(`${url}`);
         if (req.ok) {
           const oldData = await req.json();
-          const oldDataSort = oldData.sort(
-            (a, b) => b.totaleAssenze - a.totaleAssenze
-          );
-          dispatch(addUsersOnStore([...oldDataSort]));
+          //const oldDataSort = oldData.sort((a, b) => a.id - b.id).reverse();
+          dispatch(addUsersOnStore([...oldData]));
         }
       }
     } catch (error) {

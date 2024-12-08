@@ -14,7 +14,7 @@ const AddUser = () => {
 
   const [localUserStartDate, setLocalUserStartDate] = useState();
   const [localUser, setLocalUser] = useState({
-    id: users.length + 1,
+    id: users.reduce((a, c) => (c.id > a ? c.id : a), 0) + 1,
     nome: "",
     totaleAssenze: 0,
     totalePresenze: 0,

@@ -34,8 +34,12 @@ export const handleSaveUser = (localUser, setLocalUser, users, startDate) => {
       const updatedUsersList = [...users, completeUser];
       dispatch(addUsersOnStore(updatedUsersList));
 
+      const lastId = updatedUsersList.reduce(
+        (a, c) => (c.id > a ? c.id : a),
+        0
+      );
       setLocalUser({
-        id: updatedUsersList.length + 1,
+        id: lastId + 1,
         nome: "",
         totaleAssenze: 0,
         totalePresenze: 0,

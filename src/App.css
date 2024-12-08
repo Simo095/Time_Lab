@@ -112,3 +112,9 @@ input:hover {
   width: 1rem;
   height: 1rem;
 }
+/* BUTTON DROPDOWN */
+
+.btn-after::after {
+  content: "";
+  color: #0d0c22;
+}

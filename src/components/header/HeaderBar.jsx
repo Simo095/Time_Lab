@@ -1,5 +1,6 @@
 import {
   Container,
+  Dropdown,
   Nav,
   Navbar,
   OverlayTrigger,
@@ -7,9 +8,12 @@ import {
 } from "react-bootstrap";
 import { GiSave } from "react-icons/gi";
 import { IoPersonAdd } from "react-icons/io5";
-import { MdMenuBook, MdOutlineLogout } from "react-icons/md";
+import { MdFilterListAlt, MdMenuBook, MdOutlineLogout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addUsersOnStore,
+  filterUsersAbsenceLateInjust,
+  filterUsersIdAsc,
   modalAddUserChanger,
   modalStaticUsersChanger,
   saveListUsersOnVercel,
@@ -66,6 +70,45 @@ const HeaderBar = ({ setPw }) => {
                 />
               </Nav.Item>
             </OverlayTrigger>
+
+            <Nav.Item>
+              <Dropdown>
+                <Dropdown.Toggle className="m-0 p-0 bg-transparent border-0 btn-after">
+                  <MdFilterListAlt color="black" size={30} />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu
+                  className="text-center"
+                  style={{ zIndex: "9999" }}
+                >
+                  <Dropdown.Item
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(filterUsersAbsenceLateInjust("abs+lat injust"));
+                    }}
+                  >
+                    Assenze e ritardi ingiustificati
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(filterUsersIdAsc("idAsc"));
+                    }}
+                  >
+                    Id Crescente
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(filterUsersAbsenceLateInjust("abs+lat just"));
+                    }}
+                  >
+                    Assenze e ritardi giustificati
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Nav.Item>
+
             <OverlayTrigger
               placement="bottom"
               delay={{ show: 100, hide: 200 }}
