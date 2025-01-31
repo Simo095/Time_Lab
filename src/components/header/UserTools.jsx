@@ -1,17 +1,30 @@
 import { Container } from "react-bootstrap";
 import { TiUserDelete } from "react-icons/ti";
 import { useDispatch } from "react-redux";
-import { modalStaticUserChanger } from "../../redux/actions/usersAction";
+import {
+  modalStaticUserChanger,
+  updateUserSchedule,
+} from "../../redux/actions/usersAction";
 import { MdOutlineAutoAwesomeMotion } from "react-icons/md";
 import { PiBookBookmarkLight } from "react-icons/pi";
 import OverviewUser from "../modals/OverviewUser";
 import {
+  generateYearScheduleNewYear,
   handleAddReminder,
   handleDeleteUser,
 } from "../../asset/handler&method";
+import { FaPlus } from "react-icons/fa";
 
 const UserTools = ({ el }) => {
   const dispatch = useDispatch();
+  const extendUserSchedule = (user) => {
+    const newSchedule = generateYearScheduleNewYear("01/01/2025", 2025);
+    const updatedUser = {
+      ...user,
+      schedule: [...user.schedule, ...newSchedule],
+    };
+    dispatch(updateUserSchedule(updatedUser));
+  };
 
   return (
     <Container
@@ -51,6 +64,21 @@ const UserTools = ({ el }) => {
           }}
         />
         <p className="m-0 p-0 fw-lighter fs-6">Prome</p>
+      </Container>
+      <Container
+        fluid
+        className="m-0 p-0 d-flex flex-column justify-content-center align-items-center"
+      >
+        <FaPlus
+          size={30}
+          color="black"
+          className=""
+          onClick={(e) => {
+            e.stopPropagation();
+            extendUserSchedule(el);
+          }}
+        />
+        <p className="m-0 p-0 fw-lighter fs-6">Agg. 2025</p>
       </Container>
       <Container
         fluid
