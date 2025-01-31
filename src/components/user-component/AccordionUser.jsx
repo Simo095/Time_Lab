@@ -152,7 +152,12 @@ const AccordionUser = () => {
                 </Accordion.Body>
               </Accordion.Item>
             ))}
-      {/* {users.map((el, i) => (
+    </Accordion>
+  );
+};
+export default AccordionUser;
+{
+  /* {users.map((el, i) => (
         <Accordion.Item eventKey={i} key={el.id}>
           <AccordionHeader el={el} />
           <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
@@ -180,8 +185,5 @@ const AccordionUser = () => {
             </Container>
           </Accordion.Body>
         </Accordion.Item>
-      ))} */}
-    </Accordion>
-  );
-};
-export default AccordionUser;
+      ))} */
+}

@@ -40,7 +40,6 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         usersList: action.payload,
-        // newUser: { id: state.usersList.length + 1, nome: "" },
       };
     case DELETE_USER:
       return {

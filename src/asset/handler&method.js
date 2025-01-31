@@ -345,6 +345,46 @@ export const generateYearSchedule = (date) => {
     console.log(error);
   }
 };
+
+export const generateYearScheduleNewYear = (startDate, endYear) => {
+  try {
+    const schedule = [];
+    const start = new Date(startDate);
+    const currentYear = start.getFullYear();
+    const targetYear = endYear || currentYear;
+
+    for (let year = currentYear; year <= targetYear; year++) {
+      for (let month = 0; month < 12; month++) {
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const date = new Date(year, month, day);
+          const dayOfWeek = date.getDay();
+
+          if (dayOfWeek === 0 || dayOfWeek === 6) continue;
+
+          schedule.push({
+            giorno: date.toLocaleDateString("it-IT"),
+            orarioTeorico:
+              dayOfWeek === 2 || dayOfWeek === 4
+                ? ["08:30", "12:30", "14:30", "16:00"]
+                : ["08:30", "12:30"],
+            orarioLavorato: [],
+            orarioRitardo: [],
+            assente: false,
+            giustificato: false,
+            ritardo: false,
+            note: "",
+          });
+        }
+      }
+    }
+    return schedule;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const calculateMonthlyStatistics = (schedule) => {
   const today = new Date();
   const groupedByMonth = {};
