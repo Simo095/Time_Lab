@@ -71,14 +71,17 @@ const UserTools = ({ el }) => {
       >
         <FaPlus
           size={30}
-          color="black"
+          color=""
           className=""
-          onClick={(e) => {
-            e.stopPropagation();
-            extendUserSchedule(el);
-          }}
+          // onClick={(e) => {
+          //   e.stopPropagation();
+          //   extendUserSchedule(el);
+          // }}
         />
-        <p className="m-0 p-0 fw-lighter fs-6">Agg. 2025</p>
+        <p className="m-0 p-0 fw-lighter fs-6">Agg. Anno</p>
+        <p className="m-0 p-0 fw-lighter" style={{ fontSize: "0.6em" }}>
+          Disabled
+        </p>
       </Container>
       <Container
         fluid
