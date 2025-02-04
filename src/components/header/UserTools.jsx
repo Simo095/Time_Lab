@@ -98,10 +98,10 @@ const UserTools = ({ el }) => {
           size={30}
           color=""
           className=""
-          // onClick={(e) => {
-          //   e.stopPropagation();
-          //   extendUserSchedule(el);
-          // }}
+          onClick={(e) => {
+            e.stopPropagation();
+            extendUserSchedule(el);
+          }}
         />
         <p className="m-0 p-0 fw-lighter fs-6">Agg. Anno</p>
         <p className="m-0 p-0 fw-lighter" style={{ fontSize: "0.6em" }}>

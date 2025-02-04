@@ -369,7 +369,10 @@ export const generateYearScheduleNewYear = (startDate, endYear) => {
               dayOfWeek === 2 || dayOfWeek === 4
                 ? ["08:30", "12:30", "14:30", "16:00"]
                 : ["08:30", "12:30"],
-            orarioLavorato: [],
+            orarioLavorato:
+              dayOfWeek === 2 || dayOfWeek === 4
+                ? ["08:30", "12:30", "14:30", "16:00"]
+                : ["08:30", "12:30"],
             orarioRitardo: [],
             assente: false,
             giustificato: false,
