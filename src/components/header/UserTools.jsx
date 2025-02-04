@@ -17,12 +17,36 @@ import { FaPlus } from "react-icons/fa";
 
 const UserTools = ({ el }) => {
   const dispatch = useDispatch();
+  // const extendUserSchedule = (user) => {
+  //   const newSchedule = generateYearScheduleNewYear("01/01/2025", 2025);
+  //   const updatedUser = {
+  //     ...user,
+  //     schedule: [...user.schedule, ...newSchedule],
+  //   };
+  //   dispatch(updateUserSchedule(updatedUser));
+  // };
   const extendUserSchedule = (user) => {
     const newSchedule = generateYearScheduleNewYear("01/01/2025", 2025);
+    const updatedSchedule = [...user.schedule, ...newSchedule];
+    const {
+      totaleAssenze,
+      totalePresenze,
+      totaleRitardi,
+      totaleRitardiAssenzeGiustificati,
+      totaleAssenzeGiustificati,
+      totaleRitardiGiustificati,
+    } = calculateUserStats(updatedSchedule);
     const updatedUser = {
       ...user,
-      schedule: [...user.schedule, ...newSchedule],
+      schedule: updatedSchedule,
+      totaleAssenze,
+      totalePresenze,
+      totaleRitardi,
+      totaleRitardiAssenzeGiustificati,
+      totaleAssenzeGiustificati,
+      totaleRitardiGiustificati,
     };
+
     dispatch(updateUserSchedule(updatedUser));
   };
 
@@ -73,10 +97,10 @@ const UserTools = ({ el }) => {
           size={30}
           color=""
           className=""
-          // onClick={(e) => {
-          //   e.stopPropagation();
-          //   extendUserSchedule(el);
-          // }}
+          onClick={(e) => {
+            e.stopPropagation();
+            extendUserSchedule(el);
+          }}
         />
         <p className="m-0 p-0 fw-lighter fs-6">Agg. Anno</p>
         <p className="m-0 p-0 fw-lighter" style={{ fontSize: "0.6em" }}>

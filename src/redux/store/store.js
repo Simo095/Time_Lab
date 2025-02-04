@@ -7,7 +7,6 @@ import usersReducer from "../reducers/usersReducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: [""],
   transforms: [
     encryptTransform({
       secretKey: "miIa-chiave34.23-0 421234&%( ",
