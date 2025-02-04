@@ -263,7 +263,7 @@ export const handleAddReminder = (el) => {
 };
 
 //METHODS
-const calculateUserStats = (schedule) => {
+export const calculateUserStats = (schedule) => {
   let totaleAssenze = 0;
   let totalePresenze = 0;
   let totaleRitardi = 0;
