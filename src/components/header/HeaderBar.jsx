@@ -18,6 +18,7 @@ import {
   modalStaticUsersChanger,
   saveListUsersOnVercel,
 } from "../../redux/actions/usersAction";
+import { logoutUser } from "../../redux/reducers/authSlice";
 
 const HeaderBar = ({ setPw }) => {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const HeaderBar = ({ setPw }) => {
                   dispatch(modalAddUserChanger(true));
                 }}
               >
-                <IoPersonAdd size={30} />
+                <IoPersonAdd style={{ cursor: "pointer" }} size={30} />
               </Nav.Item>
             </OverlayTrigger>
             <OverlayTrigger
@@ -53,7 +54,7 @@ const HeaderBar = ({ setPw }) => {
                   dispatch(saveListUsersOnVercel(users));
                 }}
               >
-                <GiSave size={30} />
+                <GiSave style={{ cursor: "pointer" }} size={30} />
               </Nav.Item>
             </OverlayTrigger>
             <OverlayTrigger
@@ -63,6 +64,7 @@ const HeaderBar = ({ setPw }) => {
             >
               <Nav.Item>
                 <MdMenuBook
+                  style={{ cursor: "pointer" }}
                   onClick={() => {
                     dispatch(modalStaticUsersChanger(true));
                   }}
@@ -115,7 +117,13 @@ const HeaderBar = ({ setPw }) => {
               overlay={<Tooltip id="history-time">Esci</Tooltip>}
             >
               <Nav.Item>
-                <MdOutlineLogout onClick={() => setPw("")} size={30} />
+                <MdOutlineLogout
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    dispatch(logoutUser());
+                  }}
+                  size={30}
+                />
               </Nav.Item>
             </OverlayTrigger>
           </Nav>

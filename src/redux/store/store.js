@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 import usersReducer from "../reducers/usersReducer";
+import authReducer from "../reducers/authSlice";
 
 const persistConfig = {
   key: "root",
@@ -15,6 +16,7 @@ const persistConfig = {
 };
 const mainReducers = combineReducers({
   users: usersReducer,
+  auth: authReducer,
 });
 const persistedReducer = persistReducer(persistConfig, mainReducers);
 export const store = configureStore({
