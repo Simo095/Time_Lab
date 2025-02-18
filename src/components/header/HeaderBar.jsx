@@ -11,7 +11,6 @@ import { IoPersonAdd } from "react-icons/io5";
 import { MdFilterListAlt, MdMenuBook, MdOutlineLogout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addUsersOnStore,
   filterUsersAbsenceLateInjust,
   filterUsersIdAsc,
   modalAddUserChanger,
@@ -20,7 +19,7 @@ import {
 } from "../../redux/actions/usersAction";
 import { logoutUser } from "../../redux/reducers/authSlice";
 
-const HeaderBar = ({ setPw }) => {
+const HeaderBar = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.usersList);
 
