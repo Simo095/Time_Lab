@@ -1,6 +1,6 @@
 # Applicazione per gestione assenze per un laboratorio
 
-Employees Manager è un'applicazione web sviluppata con React che permette la gestione delle assenze di un laboratorio.
+Time Lab è un'applicazione web sviluppata con React che permette la gestione delle assenze di un laboratorio.
 L'app semplifica il monitoraggio e la registrazione delle assenze dei dipendenti, fornendo un'interfaccia user-friendly per gestire facilmente i dati.
 
 # Funzionalità principali
