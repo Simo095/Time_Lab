@@ -21,21 +21,21 @@ const App = () => {
     dispatch(getFileAndAddOldElements());
   }, [dispatch]);
   return (
-    <AuthProvider>
-      <Container fluid className="App m-0 p-0">
-        {session ? (
-          <>
-            <HeaderBar />
-            <HeaderDate />
-            <AccordionUser />
-            <AddUser />
-            <OverviewUsers />
-          </>
-        ) : (
-          <Login />
-        )}
-      </Container>
-    </AuthProvider>
+    // <AuthProvider>
+    //   <Container fluid className="App m-0 p-0">
+    //     {session ? (
+    <>
+      <HeaderBar />
+      <HeaderDate />
+      <AccordionUser />
+      <AddUser />
+      <OverviewUsers />
+    </>
+    // ) : (
+    //   <Login />
+    // )}
+    //   </Container>
+    // </AuthProvider>
   );
 };
 
