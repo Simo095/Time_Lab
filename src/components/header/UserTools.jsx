@@ -3,14 +3,14 @@ import { TiUserDelete } from "react-icons/ti";
 import { useDispatch } from "react-redux";
 import {
   modalStaticUserChanger,
-  updateUserSchedule,
+  // updateUserSchedule,
 } from "../../redux/actions/usersAction";
 import { MdOutlineAutoAwesomeMotion } from "react-icons/md";
 import { PiBookBookmarkLight } from "react-icons/pi";
 import OverviewUser from "../modals/OverviewUser";
 import {
-  generateYearScheduleNewYear,
-  calculateUserStats,
+  // generateYearScheduleNewYear,
+  // calculateUserStats,
   handleAddReminder,
   handleDeleteUser,
 } from "../../asset/handler&method";
@@ -18,30 +18,30 @@ import { FaPlus } from "react-icons/fa";
 
 const UserTools = ({ el }) => {
   const dispatch = useDispatch();
-  const extendUserSchedule = (user) => {
-    const newSchedule = generateYearScheduleNewYear("01/01/2025", 2025);
-    const updatedSchedule = [...user.schedule, ...newSchedule];
-    const {
-      totaleAssenze,
-      totalePresenze,
-      totaleRitardi,
-      totaleRitardiAssenzeGiustificati,
-      totaleAssenzeGiustificati,
-      totaleRitardiGiustificati,
-    } = calculateUserStats(updatedSchedule);
-    const updatedUser = {
-      ...user,
-      schedule: updatedSchedule,
-      totaleAssenze,
-      totalePresenze,
-      totaleRitardi,
-      totaleRitardiAssenzeGiustificati,
-      totaleAssenzeGiustificati,
-      totaleRitardiGiustificati,
-    };
+  // const extendUserSchedule = (user) => {
+  //   const newSchedule = generateYearScheduleNewYear("01/01/2025", 2025);
+  //   const updatedSchedule = [...user.schedule, ...newSchedule];
+  //   const {
+  //     totaleAssenze,
+  //     totalePresenze,
+  //     totaleRitardi,
+  //     totaleRitardiAssenzeGiustificati,
+  //     totaleAssenzeGiustificati,
+  //     totaleRitardiGiustificati,
+  //   } = calculateUserStats(updatedSchedule);
+  //   const updatedUser = {
+  //     ...user,
+  //     schedule: updatedSchedule,
+  //     totaleAssenze,
+  //     totalePresenze,
+  //     totaleRitardi,
+  //     totaleRitardiAssenzeGiustificati,
+  //     totaleAssenzeGiustificati,
+  //     totaleRitardiGiustificati,
+  //   };
 
-    dispatch(updateUserSchedule(updatedUser));
-  };
+  //   dispatch(updateUserSchedule(updatedUser));
+  // };
 
   return (
     <Container
