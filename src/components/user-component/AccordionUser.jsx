@@ -46,118 +46,130 @@ const AccordionUser = () => {
               </Accordion.Item>
             ))
         : sortedType === "abs+lat just"
-        ? [...users]
-            .sort((a, b) => [
-              a.totaleAssenzeGiustificati +
-                a.totaleRitardiGiustificati -
-                (b.totaleAssenzeGiustificati + b.totaleRitardiGiustificati),
-            ])
-            .map((el, i) => (
-              <Accordion.Item eventKey={i} key={el.id}>
-                <AccordionHeader el={el} />
-                <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
-                  <Container fluid className="container-calendarDetails">
-                    <Calendar
-                      className={"h-25 event-container position-relative"}
-                      onClickDay={(date) => {
-                        setSelectedDate(date);
-                      }}
-                      tileClassName={({ date }) =>
-                        selectedDate &&
-                        date.toDateString() === selectedDate.toDateString()
-                          ? "selected"
-                          : ""
-                      }
-                      tileContent={({ date, view }) => (
-                        <TileContentCalendar view={view} el={el} date={date} />
-                      )}
-                    />
-                    <DetailsDate
-                      selectedDate={selectedDate}
-                      el={el}
-                      setSelectedDate={setSelectedDate}
-                    />
-                  </Container>
-                </Accordion.Body>
-              </Accordion.Item>
-            ))
-        : sortedType === "abs+lat injust"
-        ? [...users]
-            .sort((a, b) => [
-              a.totaleAssenze -
+          ? [...users]
+              .sort((a, b) => [
                 a.totaleAssenzeGiustificati +
-                (a.totaleRitardi - a.totaleRitardiGiustificati) -
-                (b.totaleAssenze -
-                  b.totaleAssenzeGiustificati +
-                  b.totaleRitardi -
-                  b.totaleRitardiGiustificati),
-            ])
-            .map((el, i) => (
-              <Accordion.Item eventKey={i} key={el.id}>
-                <AccordionHeader el={el} />
-                <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
-                  <Container fluid className="container-calendarDetails">
-                    <Calendar
-                      className={"h-25 event-container position-relative"}
-                      onClickDay={(date) => {
-                        setSelectedDate(date);
-                      }}
-                      tileClassName={({ date }) =>
-                        selectedDate &&
-                        date.toDateString() === selectedDate.toDateString()
-                          ? "selected"
-                          : ""
-                      }
-                      tileContent={({ date, view }) => (
-                        <TileContentCalendar view={view} el={el} date={date} />
-                      )}
-                    />
-                    <DetailsDate
-                      selectedDate={selectedDate}
-                      el={el}
-                      setSelectedDate={setSelectedDate}
-                    />
-                  </Container>
-                </Accordion.Body>
-              </Accordion.Item>
-            ))
-        : [...users]
-            .sort((a, b) => b.id - a.id)
-            .map((el, i) => (
-              <Accordion.Item eventKey={i} key={el.id}>
-                <AccordionHeader el={el} />
-                <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
-                  <Container fluid className="container-calendarDetails">
-                    <Calendar
-                      className={"h-25 event-container position-relative"}
-                      onClickDay={(date) => {
-                        setSelectedDate(date);
-                      }}
-                      tileClassName={({ date }) =>
-                        selectedDate &&
-                        date.toDateString() === selectedDate.toDateString()
-                          ? "selected"
-                          : ""
-                      }
-                      tileContent={({ date, view }) => (
-                        <TileContentCalendar view={view} el={el} date={date} />
-                      )}
-                    />
-                    <DetailsDate
-                      selectedDate={selectedDate}
-                      el={el}
-                      setSelectedDate={setSelectedDate}
-                    />
-                  </Container>
-                </Accordion.Body>
-              </Accordion.Item>
-            ))}
+                  a.totaleRitardiGiustificati -
+                  (b.totaleAssenzeGiustificati + b.totaleRitardiGiustificati),
+              ])
+              .map((el, i) => (
+                <Accordion.Item eventKey={i} key={el.id}>
+                  <AccordionHeader el={el} />
+                  <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
+                    <Container fluid className="container-calendarDetails">
+                      <Calendar
+                        className={"h-25 event-container position-relative"}
+                        onClickDay={(date) => {
+                          setSelectedDate(date);
+                        }}
+                        tileClassName={({ date }) =>
+                          selectedDate &&
+                          date.toDateString() === selectedDate.toDateString()
+                            ? "selected"
+                            : ""
+                        }
+                        tileContent={({ date, view }) => (
+                          <TileContentCalendar
+                            view={view}
+                            el={el}
+                            date={date}
+                          />
+                        )}
+                      />
+                      <DetailsDate
+                        selectedDate={selectedDate}
+                        el={el}
+                        setSelectedDate={setSelectedDate}
+                      />
+                    </Container>
+                  </Accordion.Body>
+                </Accordion.Item>
+              ))
+          : sortedType === "abs+lat injust"
+            ? [...users]
+                .sort((a, b) => [
+                  a.totaleAssenze -
+                    a.totaleAssenzeGiustificati +
+                    (a.totaleRitardi - a.totaleRitardiGiustificati) -
+                    (b.totaleAssenze -
+                      b.totaleAssenzeGiustificati +
+                      b.totaleRitardi -
+                      b.totaleRitardiGiustificati),
+                ])
+                .map((el, i) => (
+                  <Accordion.Item eventKey={i} key={el.id}>
+                    <AccordionHeader el={el} />
+                    <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
+                      <Container fluid className="container-calendarDetails">
+                        <Calendar
+                          className={"h-25 event-container position-relative"}
+                          onClickDay={(date) => {
+                            setSelectedDate(date);
+                          }}
+                          tileClassName={({ date }) =>
+                            selectedDate &&
+                            date.toDateString() === selectedDate.toDateString()
+                              ? "selected"
+                              : ""
+                          }
+                          tileContent={({ date, view }) => (
+                            <TileContentCalendar
+                              view={view}
+                              el={el}
+                              date={date}
+                            />
+                          )}
+                        />
+                        <DetailsDate
+                          selectedDate={selectedDate}
+                          el={el}
+                          setSelectedDate={setSelectedDate}
+                        />
+                      </Container>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                ))
+            : [...users]
+                .sort((a, b) => b.id - a.id)
+                .map((el, i) => (
+                  <Accordion.Item eventKey={i} key={el.id}>
+                    <AccordionHeader el={el} />
+                    <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
+                      <Container fluid className="container-calendarDetails">
+                        <Calendar
+                          className={"h-25 event-container position-relative"}
+                          onClickDay={(date) => {
+                            setSelectedDate(date);
+                          }}
+                          tileClassName={({ date }) =>
+                            selectedDate &&
+                            date.toDateString() === selectedDate.toDateString()
+                              ? "selected"
+                              : ""
+                          }
+                          tileContent={({ date, view }) => (
+                            <TileContentCalendar
+                              view={view}
+                              el={el}
+                              date={date}
+                            />
+                          )}
+                        />
+                        <DetailsDate
+                          selectedDate={selectedDate}
+                          el={el}
+                          setSelectedDate={setSelectedDate}
+                        />
+                      </Container>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                ))}
     </Accordion>
   );
 };
 export default AccordionUser;
-{
-  /* {users.map((el, i) => (
+
+/* {users.map((el, i) => (
         <Accordion.Item eventKey={i} key={el.id}>
           <AccordionHeader el={el} />
           <Accordion.Body className="d-flex flex-column justify-content-center align-items-center gap-3">
@@ -186,4 +198,3 @@ export default AccordionUser;
           </Accordion.Body>
         </Accordion.Item>
       ))} */
-}
