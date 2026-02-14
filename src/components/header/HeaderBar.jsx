@@ -46,7 +46,12 @@ const HeaderBar = () => {
             <OverlayTrigger
               placement="bottom"
               delay={{ show: 100, hide: 200 }}
-              overlay={<Tooltip id="save">Salva le modifiche</Tooltip>}
+              overlay={
+                <Tooltip id="save">
+                  Salva le modifiche
+                  <p style={{ fontSize: "0.5em" }}>disabled</p>
+                </Tooltip>
+              }
             >
               <Nav.Item
                 onClick={() => {
