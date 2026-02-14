@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getFileAndAddOldElements } from "./redux/actions/usersAction";
+//import { getFileAndAddOldElements } from "./redux/actions/usersAction";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-calendar/dist/Calendar.css";
@@ -15,7 +15,7 @@ const App = () => {
   // const session = useSelector((state) => state.auth.session);
 
   useEffect(() => {
-    dispatch(getFileAndAddOldElements());
+    //dispatch(getFileAndAddOldElements());
   }, [dispatch]);
   return (
     // <AuthProvider>
