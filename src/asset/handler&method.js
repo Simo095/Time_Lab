@@ -36,7 +36,7 @@ export const handleSaveUser = (localUser, setLocalUser, users, startDate) => {
 
       const lastId = updatedUsersList.reduce(
         (a, c) => (c.id > a ? c.id : a),
-        0
+        0,
       );
       setLocalUser({
         id: lastId + 1,
@@ -58,7 +58,7 @@ export const handleDeleteUser = (el) => {
   return async (dispatch) => {
     try {
       const confirmed = window.confirm(
-        `Sei sicuro di voler eliminare l'utente ${el.nome}?`
+        `Sei sicuro di voler eliminare l'utente ${el.nome}?`,
       );
       if (confirmed) {
         dispatch(deleteUser(el.id));
@@ -73,7 +73,7 @@ export const handleChangePresenceUser = (index, user) => {
   return async (dispatch, getState) => {
     try {
       const updatedSchedule = user.schedule.map((day, i) =>
-        i === index ? { ...day, assente: !day.assente } : day
+        i === index ? { ...day, assente: !day.assente } : day,
       );
       const {
         totaleAssenze,
@@ -95,7 +95,7 @@ export const handleChangePresenceUser = (index, user) => {
       };
       const usersList = getState().users.usersList;
       const updatedUsersList = usersList.map((u) =>
-        u.id === user.id ? updatedUser : u
+        u.id === user.id ? updatedUser : u,
       );
       dispatch(addUsersOnStore(updatedUsersList));
     } catch (error) {
@@ -108,7 +108,7 @@ export const handleChangeJustifyUser = (index, user) => {
   return async (dispatch, getState) => {
     try {
       const updatedSchedule = user.schedule.map((day, i) =>
-        i === index ? { ...day, giustificato: !day.giustificato } : day
+        i === index ? { ...day, giustificato: !day.giustificato } : day,
       );
       const {
         totaleAssenze,
@@ -130,7 +130,7 @@ export const handleChangeJustifyUser = (index, user) => {
       };
       const usersList = getState().users.usersList;
       const updatedUsersList = usersList.map((u) =>
-        u.id === user.id ? updatedUser : u
+        u.id === user.id ? updatedUser : u,
       );
       dispatch(addUsersOnStore(updatedUsersList));
     } catch (error) {
@@ -144,7 +144,7 @@ export const handleChangeNoteUser = (eventIndex, comment, el) => {
       const updatedUser = {
         ...el,
         schedule: el.schedule.map((ev, idx) =>
-          idx === eventIndex ? { ...ev, note: comment } : ev
+          idx === eventIndex ? { ...ev, note: comment } : ev,
         ),
       };
       dispatch(updateUserSchedule(updatedUser));
@@ -158,7 +158,7 @@ export const handleChangeLateUser = (index, user) => {
   return async (dispatch, getState) => {
     try {
       const updatedSchedule = user.schedule.map((day, i) =>
-        i === index ? { ...day, ritardo: !day.ritardo } : day
+        i === index ? { ...day, ritardo: !day.ritardo } : day,
       );
       const {
         totaleAssenze,
@@ -180,7 +180,7 @@ export const handleChangeLateUser = (index, user) => {
       };
       const usersList = getState().users.usersList;
       const updatedUsersList = usersList.map((u) =>
-        u.id === user.id ? updatedUser : u
+        u.id === user.id ? updatedUser : u,
       );
       dispatch(addUsersOnStore(updatedUsersList));
     } catch (error) {
@@ -193,7 +193,7 @@ export const handleChangeTimeUser = (
   eventIndex,
   el,
   arrayPresenceEffective,
-  arrayLate
+  arrayLate,
 ) => {
   return async (dispatch) => {
     try {
@@ -206,7 +206,7 @@ export const handleChangeTimeUser = (
                 orarioLavorato: arrayPresenceEffective,
                 orarioRitardo: arrayLate,
               }
-            : ev
+            : ev,
         ),
       };
 
@@ -229,7 +229,7 @@ export const handleDeleteTimeUser = (eventIndex, el) => {
                 orarioLavorato: [...ev.orarioTeorico],
                 orarioRitardo: [],
               }
-            : ev
+            : ev,
         ),
       };
 
@@ -253,7 +253,7 @@ export const handleAddReminder = (el) => {
       const formattedDate = today.toLocaleDateString("it-IT", options);
       if (reminder) {
         dispatch(
-          addReminder(el.id, formattedDate + " hai scritto:\n" + reminder)
+          addReminder(el.id, formattedDate + " hai scritto:\n" + reminder),
         );
       }
     } catch (error) {
@@ -303,49 +303,100 @@ export const calculateUserStats = (schedule) => {
   };
 };
 
+// export const generateYearSchedule = (date) => {
+//   try {
+//     const schedule = [];
+//     const currentYear = new Date(date).getFullYear();
+//     for (let month = new Date(date).getMonth(); month < 12; month++) {
+//       const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
+
+//       for (let day = 1; day <= daysInMonth; day++) {
+//         const date = new Date(currentYear, month, day);
+//         const dayOfWeek = date.getDay();
+//         if (dayOfWeek === 0 || dayOfWeek === 6) {
+//           continue;
+//         } else if (dayOfWeek === 2 || dayOfWeek === 4) {
+//           schedule.push({
+//             giorno: date.toLocaleDateString("it-IT"),
+//             orarioTeorico: ["08:30", "12:30", "14:30", "16:00"],
+//             orarioLavorato: ["08:30", "12:30", "14:30", "16:00"],
+//             orarioRitardo: [],
+//             assente: false,
+//             giustificato: true,
+//             ritardo: false,
+//             note: "",
+//           });
+//         } else {
+//           schedule.push({
+//             giorno: date.toLocaleDateString("it-IT"),
+//             orarioTeorico: ["08:30", "12:30"],
+//             orarioLavorato: ["08:30", "12:30"],
+//             orarioRitardo: [],
+//             assente: false,
+//             giustificato: true,
+//             ritardo: false,
+//             note: "",
+//           });
+//         }
+//       }
+//     }
+//     return schedule;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 export const generateYearSchedule = (date) => {
   try {
     const schedule = [];
-    const currentYear = new Date(date).getFullYear();
-    for (let month = new Date(date).getMonth(); month < 12; month++) {
+    const startDate = new Date(date + "T00:00:00");
+    const currentYear = startDate.getFullYear();
+    const startMonth = startDate.getMonth();
+    const startDay = startDate.getDate();
+
+    for (let month = startMonth; month < 12; month++) {
       const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
 
-      for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(currentYear, month, day);
-        const dayOfWeek = date.getDay();
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-          continue;
-        } else if (dayOfWeek === 2 || dayOfWeek === 4) {
+      for (
+        let day = month === startMonth ? startDay : 1;
+        day <= daysInMonth;
+        day++
+      ) {
+        const currentDate = new Date(currentYear, month, day);
+        const dayOfWeek = currentDate.getDay();
+
+        if (dayOfWeek === 0 || dayOfWeek === 6) continue;
+
+        const baseDay = {
+          giorno: currentDate.toLocaleDateString("it-IT"),
+          orarioRitardo: [],
+          assente: false,
+          giustificato: true,
+          ritardo: false,
+          note: "",
+        };
+
+        if (dayOfWeek === 2 || dayOfWeek === 4) {
           schedule.push({
-            giorno: date.toLocaleDateString("it-IT"),
+            ...baseDay,
             orarioTeorico: ["08:30", "12:30", "14:30", "16:00"],
             orarioLavorato: ["08:30", "12:30", "14:30", "16:00"],
-            orarioRitardo: [],
-            assente: false,
-            giustificato: true,
-            ritardo: false,
-            note: "",
           });
         } else {
           schedule.push({
-            giorno: date.toLocaleDateString("it-IT"),
+            ...baseDay,
             orarioTeorico: ["08:30", "12:30"],
             orarioLavorato: ["08:30", "12:30"],
-            orarioRitardo: [],
-            assente: false,
-            giustificato: true,
-            ritardo: false,
-            note: "",
           });
         }
       }
     }
+
     return schedule;
   } catch (error) {
     console.log(error);
   }
 };
-
 export const generateYearScheduleNewYear = (startDate, endYear) => {
   try {
     const schedule = [];
@@ -450,7 +501,7 @@ export const calculateMonthlyStatistics = (schedule) => {
     monthStats.absentPercentage =
       totalTheoreticalTime > 0
         ? ((monthStats.totalAbsenceTime * 100) / totalTheoreticalTime).toFixed(
-            2
+            2,
           )
         : 0;
 
@@ -528,13 +579,13 @@ export const calculateAbsenceHours = (timeArray) => {
     if (firstStartTimeM && firstEndTimeM) {
       totalAbsenceMinutes += calculateIntervalMinutes(
         firstStartTimeM,
-        firstEndTimeM
+        firstEndTimeM,
       );
     }
     if (secondStartTimeM && secondEndTimeM) {
       totalAbsenceMinutes += calculateIntervalMinutes(
         secondStartTimeM,
-        secondEndTimeM
+        secondEndTimeM,
       );
     }
   }
@@ -544,13 +595,13 @@ export const calculateAbsenceHours = (timeArray) => {
     if (firstStartTimeE && firstEndTimeE) {
       totalAbsenceMinutes += calculateIntervalMinutes(
         firstStartTimeE,
-        firstEndTimeE
+        firstEndTimeE,
       );
     }
     if (secondStartTimeE && secondEndTimeE) {
       totalAbsenceMinutes += calculateIntervalMinutes(
         secondStartTimeE,
-        secondEndTimeE
+        secondEndTimeE,
       );
     }
   }

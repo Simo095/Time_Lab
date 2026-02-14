@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FormControl, FormGroup, Modal } from "react-bootstrap";
+import {
+  FormControl,
+  FormGroup,
+  Modal,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import { IoIosCloseCircle } from "react-icons/io";
 import { IoPersonAdd } from "react-icons/io5";
 import { modalAddUserChanger } from "../../redux/actions/usersAction";
@@ -61,12 +67,18 @@ const AddUser = () => {
             value={localUser.nome}
             onChange={(e) => handleLocalUserChange("nome", e.target.value)}
           />
-          <FormControl
-            type="date"
-            placeholder="Data di inizio"
-            value={localUserStartDate}
-            onChange={(e) => handleLocalUserStartDateChange(e.target.value)}
-          />
+          <OverlayTrigger
+            placement="bottom"
+            delay={{ show: 100, hide: 200 }}
+            overlay={<Tooltip id="add-user">Data inizio calendario</Tooltip>}
+          >
+            <FormControl
+              type="date"
+              placeholder="Data di inizio"
+              value={localUserStartDate}
+              onChange={(e) => handleLocalUserStartDateChange(e.target.value)}
+            />
+          </OverlayTrigger>
         </FormGroup>
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-between">
@@ -81,7 +93,12 @@ const AddUser = () => {
           size={30}
           onClick={() => {
             dispatch(
-              handleSaveUser(localUser, setLocalUser, users, localUserStartDate)
+              handleSaveUser(
+                localUser,
+                setLocalUser,
+                users,
+                localUserStartDate,
+              ),
             );
             dispatch(modalAddUserChanger(false));
           }}
